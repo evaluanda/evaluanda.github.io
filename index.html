@@ -1,13 +1,98 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Redirigiendo...</title>
-    <script>
-        window.location.href = "https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec";
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EvaluAnda · Evaluar por criterios</title>
+<meta name="description" content="Cuaderno del profesorado para evaluar por criterios (LOMLOE) desde el navegador. Tus datos, en tu propio Drive y cifrados.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<style>
+  :root{
+    --bg:#f6f8f7; --fondo-tarjeta:#ffffff; --texto:#1a2321; --tenue:#5b6b66;
+    --acento:#1f9d76; --acento-txt:#ffffff; --borde:#e2e8e5; --sombra:0 10px 30px rgba(20,40,35,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f1512; --fondo-tarjeta:#161d1a; --texto:#e7efec; --tenue:#9db0aa;
+      --acento:#37c99b; --acento-txt:#08120e; --borde:#25302c; --sombra:0 12px 34px rgba(0,0,0,.4);
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--texto); line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .envoltorio{max-width:820px; margin:0 auto; padding:0 20px}
+  header.hero{text-align:center; padding:64px 20px 40px}
+  .hero img{width:96px; height:96px; border-radius:22px; box-shadow:var(--sombra)}
+  .hero h1{font-size:2.4rem; margin:18px 0 6px; letter-spacing:-.02em}
+  .hero p.lema{font-size:1.15rem; color:var(--tenue); margin:0 auto; max-width:34ch}
+  .acciones{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:28px}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:999px;
+    text-decoration:none; font-weight:600; border:1px solid var(--borde); color:var(--texto);
+    background:var(--fondo-tarjeta); transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover{transform:translateY(-1px); box-shadow:var(--sombra)}
+  .btn.primario{background:var(--acento); color:var(--acento-txt); border-color:transparent}
+  section{padding:22px 0}
+  .tarjetas{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:8px}
+  .tarjeta{background:var(--fondo-tarjeta); border:1px solid var(--borde); border-radius:16px; padding:20px}
+  .tarjeta h3{margin:0 0 6px; font-size:1.05rem}
+  .tarjeta p{margin:0; color:var(--tenue); font-size:.96rem}
+  h2{font-size:1.5rem; letter-spacing:-.01em; margin:8px 0 4px}
+  .destacado{
+    background:var(--fondo-tarjeta); border:1px solid var(--borde); border-left:4px solid var(--acento);
+    border-radius:14px; padding:18px 20px; margin:20px 0; color:var(--tenue);
+  }
+  .destacado b{color:var(--texto)}
+  footer{text-align:center; color:var(--tenue); font-size:.9rem; padding:40px 20px 56px}
+  footer a{color:var(--acento); text-decoration:none}
+</style>
 </head>
 <body>
-    <p>Si no eres redirigido automáticamente, <a href="https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">haz clic aquí</a>.</p>
+  <div class="envoltorio">
+    <header class="hero">
+      <img src="/icon-192.png" alt="EvaluAnda">
+      <h1>EvaluAnda</h1>
+      <p class="lema">El cuaderno del profesorado para <strong>evaluar por criterios</strong> (LOMLOE), desde el navegador.</p>
+      <div class="acciones">
+        <a class="btn primario" href="/guia-companeros.html">Guía de uso →</a>
+      </div>
+    </header>
+
+    <section>
+      <div class="tarjetas">
+        <div class="tarjeta">
+          <h3>Evalúa por criterios</h3>
+          <p>Clases, unidades y actividades con las notas de criterio calculadas al momento y listas para llevar a Séneca.</p>
+        </div>
+        <div class="tarjeta">
+          <h3>Tus datos, tuyos</h3>
+          <p>Todo vive en <b>tu propio Drive</b>, con los nombres del alumnado y las observaciones <b>cifrados</b>.</p>
+        </div>
+        <div class="tarjeta">
+          <h3>Sin instalar nada</h3>
+          <p>Solo entras con tu cuenta de <b>g.educaand.es</b>. Las mejoras llegan solas; no tienes que actualizar nada.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="destacado">
+        <b>EvaluAnda</b> es un proyecto creado por <b>maestroSeb</b> para el profesorado
+        andaluz (y adaptable a otras comunidades). Cada docente tiene su propio cuaderno
+        privado: nadie más ve tus notas.
+      </div>
+    </section>
+
+    <footer>
+      Hecho con cariño para el profesorado ·
+      <a href="https://github.com/maestroseb" target="_blank" rel="noopener">maestroSeb</a>
+    </footer>
+  </div>
 </body>
 </html>
