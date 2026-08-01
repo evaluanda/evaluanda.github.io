@@ -1,121 +1,154 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guía rápida · EvaluAnda</title>
 <meta name="description" content="Guía rápida para el profesorado: cómo evaluar por criterios con EvaluAnda.">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
   :root{
-    --bg:#f6f8f7; --fondo-tarjeta:#ffffff; --texto:#1a2321; --tenue:#5b6b66;
-    --acento:#1f9d76; --acento-txt:#ffffff; --borde:#e2e8e5; --sombra:0 10px 30px rgba(20,40,35,.08);
-    --codigo-bg:#eef3f1;
+    --acento:#5a67d8; --verde:#059669; --brand-azul:#5a67d8;
+    --tinta:#111827; --texto:#374151; --tenue:#6b7280;
+    --bg:#f9fafb; --panel:#ffffff; --borde:#e5e7eb; --borde-suave:#f0f1f4; --codigo:#eef1f8;
+    --sombra-1:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06);
+    --sombra-2:0 10px 25px -5px rgba(0,0,0,.12);
   }
-  @media (prefers-color-scheme: dark){
+  @media (prefers-color-scheme:dark){
     :root{
-      --bg:#0f1512; --fondo-tarjeta:#161d1a; --texto:#e7efec; --tenue:#9db0aa;
-      --acento:#37c99b; --acento-txt:#08120e; --borde:#25302c; --sombra:0 12px 34px rgba(0,0,0,.4);
-      --codigo-bg:#1d2622;
+      --acento:#818cf8; --verde:#34d399; --brand-azul:#818cf8;
+      --tinta:#f3f4f6; --texto:#cbd5e1; --tenue:#94a3b8;
+      --bg:#0d1117; --panel:#161b22; --borde:#262d38; --borde-suave:#1e252f; --codigo:#1e252f;
+      --sombra-1:0 4px 6px -1px rgba(0,0,0,.4); --sombra-2:0 12px 30px -5px rgba(0,0,0,.5);
     }
   }
   *{box-sizing:border-box}
   html,body{margin:0}
   body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg); color:var(--texto); line-height:1.65; -webkit-font-smoothing:antialiased;
+    font-family:'Outfit',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--texto); background:var(--bg); line-height:1.65; -webkit-font-smoothing:antialiased;
   }
-  .envoltorio{max-width:720px; margin:0 auto; padding:0 20px 64px}
-  .barra{display:flex; align-items:center; gap:12px; padding:22px 0; border-bottom:1px solid var(--borde)}
-  .barra img{width:40px; height:40px; border-radius:10px}
-  .barra a{margin-left:auto; color:var(--acento); text-decoration:none; font-weight:600; font-size:.95rem}
-  h1{font-size:2rem; letter-spacing:-.02em; margin:32px 0 4px}
-  .intro{color:var(--tenue); font-size:1.08rem; margin-top:0}
-  h2{font-size:1.35rem; letter-spacing:-.01em; margin:38px 0 8px; padding-top:8px}
-  h3{font-size:1.05rem; margin:24px 0 4px}
-  ul,ol{padding-left:22px}
-  li{margin:6px 0}
-  code{background:var(--codigo-bg); padding:2px 7px; border-radius:6px; font-size:.9em}
-  .destacado{
-    background:var(--fondo-tarjeta); border:1px solid var(--borde); border-left:4px solid var(--acento);
-    border-radius:14px; padding:16px 18px; margin:22px 0; color:var(--tenue);
-  }
-  .destacado b{color:var(--texto)}
-  .conceptos{list-style:none; padding:0; display:grid; gap:10px}
-  .conceptos li{background:var(--fondo-tarjeta); border:1px solid var(--borde); border-radius:12px; padding:12px 16px}
-  .conceptos b{color:var(--texto)}
-  footer{text-align:center; color:var(--tenue); font-size:.9rem; margin-top:48px}
-  footer a{color:var(--acento); text-decoration:none}
+  a{color:var(--acento); text-decoration:none}
+  .contenedor{max-width:760px; margin:0 auto; padding:0 24px}
+
+  header{position:sticky; top:0; z-index:50; background:var(--panel); border-bottom:1px solid var(--borde-suave); box-shadow:var(--sombra-1)}
+  .barra{display:flex; align-items:center; height:70px}
+  .marca{display:flex; align-items:center}
+  .logo-ico{width:32px; height:32px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(135deg,var(--acento),var(--verde)); box-shadow:var(--sombra-1)}
+  .logo-txt{font-weight:800; font-size:22px; letter-spacing:-.02em; margin-left:11px; background:linear-gradient(90deg,var(--acento),var(--verde)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .barra .volver{margin-left:auto; font-weight:600; font-size:.95rem}
+
+  .cabecera{padding:52px 0 8px}
+  h1{font-size:clamp(2rem,5vw,2.7rem); font-weight:800; letter-spacing:-.02em; color:var(--tinta); margin:0}
+  .intro{font-size:1.12rem; color:var(--tenue); margin-top:14px}
+  .intro strong{color:var(--texto)}
+  main{padding-bottom:64px}
+  h2{font-size:clamp(1.4rem,3.5vw,1.7rem); font-weight:800; color:var(--tinta); letter-spacing:-.01em; margin:44px 0 10px; display:flex; align-items:center; gap:12px}
+  h2 .num{flex:0 0 auto; width:32px; height:32px; border-radius:9px; font-size:1rem; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(135deg,var(--acento),var(--verde))}
+  h3{font-size:1.1rem; font-weight:700; color:var(--tinta); margin:26px 0 4px}
+  ul,ol{padding-left:24px} li{margin:7px 0}
+  strong,b{color:var(--tinta)}
+  code{background:var(--codigo); padding:2px 8px; border-radius:7px; font-size:.9em; color:var(--acento)}
+  .conceptos{list-style:none; padding:0; display:grid; gap:12px}
+  .conceptos li{background:var(--panel); border:1px solid var(--borde-suave); border-left:4px solid var(--acento); border-radius:12px; padding:14px 18px}
+  .faq{background:var(--panel); border:1px solid var(--borde-suave); border-radius:16px; padding:8px 22px; box-shadow:var(--sombra-1); margin-top:12px}
+  .faq details{padding:14px 0; border-bottom:1px solid var(--borde-suave)}
+  .faq details:last-child{border-bottom:none}
+  .faq summary{font-weight:700; color:var(--tinta); cursor:pointer; list-style:none}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:'+'; display:inline-block; width:1.2em; color:var(--acento); font-weight:800}
+  .faq details[open] summary::before{content:'–'}
+  .faq p{margin:10px 0 2px 1.2em; color:var(--texto)}
+
+  footer{background:var(--panel); border-top:1px solid var(--borde-suave)}
+  .pie{text-align:center; padding:28px 0; color:var(--tenue); font-size:.9rem}
 </style>
 </head>
 <body>
-  <div class="envoltorio">
-    <div class="barra">
-      <img src="/icon-192.png" alt="EvaluAnda">
-      <strong>EvaluAnda</strong>
-      <a href="/">← Inicio</a>
+  <header>
+    <div class="contenedor barra">
+      <a class="marca" href="/">
+        <span class="logo-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M6 18V12M12 18V6M18 18V10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="logo-txt">EvaluAnda</span>
+      </a>
+      <a class="volver" href="/">← Inicio</a>
     </div>
+  </header>
 
+  <div class="contenedor cabecera">
     <h1>Guía rápida para el profesorado</h1>
-    <p class="intro"><b>EvaluAnda</b> sirve para <b>evaluar por criterios</b> (estilo iDoceo)
-    desde el navegador, con tu cuenta de <b>g.educaand.es</b>. No tienes que instalar nada ni
-    hacer copias: solo entrar con tu enlace.</p>
+    <p class="intro"><strong>EvaluAnda</strong> sirve para <strong>evaluar por criterios</strong>
+    (estilo iDoceo) desde el navegador, con tu cuenta de <strong>g.educaand.es</strong>. No tienes
+    que instalar nada ni hacer copias: solo entrar con tu enlace.</p>
+  </div>
 
-    <h2>1. Entrar</h2>
+  <main class="contenedor">
+    <h2><span class="num">1</span> Entrar</h2>
     <ol>
       <li>Abre el enlace que te ha pasado tu compañero/a.</li>
-      <li>La primera vez, Google te pedirá <b>autorizar permisos</b> (para crear tu cuaderno
-      de notas en tu Drive). Acepta. Tus datos son <b>tuyos y privados</b>.</li>
+      <li>La primera vez, Google te pedirá <strong>autorizar permisos</strong> (para crear tu
+      cuaderno de notas en tu Drive). Acepta. Tus datos son <strong>tuyos y privados</strong>.</li>
     </ol>
 
     <h3>Llévala como una app (recomendado en el móvil)</h3>
     <p>Guarda el enlace en la pantalla de inicio y se abrirá como una app más:</p>
     <ul>
-      <li><b>iPhone / iPad</b>: abre el enlace en <b>Safari</b> → botón <b>Compartir</b> → <b>Añadir a pantalla de inicio</b>.</li>
-      <li><b>Android</b>: ábrelo en <b>Chrome</b> → menú <b>⋮</b> → <b>Añadir a pantalla de inicio</b>.</li>
-      <li><b>Ordenador</b>: en Chrome, menú <b>⋮</b> → <i>Guardar y compartir</i> → <b>Crear acceso directo</b> (marca «abrir en ventana nueva»).</li>
+      <li><strong>iPhone / iPad</strong>: abre el enlace en <strong>Safari</strong> → botón <strong>Compartir</strong> → <strong>Añadir a pantalla de inicio</strong>.</li>
+      <li><strong>Android</strong>: ábrelo en <strong>Chrome</strong> → menú <strong>⋮</strong> → <strong>Añadir a pantalla de inicio</strong>.</li>
+      <li><strong>Ordenador</strong>: en Chrome, menú <strong>⋮</strong> → <em>Guardar y compartir</em> → <strong>Crear acceso directo</strong> (marca «abrir en ventana nueva»).</li>
     </ul>
 
-    <h2>2. Conceptos</h2>
+    <h2><span class="num">2</span> Conceptos</h2>
     <ul class="conceptos">
-      <li><b>Grupo</b>: tu lista de alumnado (p. ej. «3º A»). Se crea <b>una vez</b> y se reutiliza en varias áreas.</li>
-      <li><b>Clase</b>: un grupo aplicado a un <b>área</b> (p. ej. «3º A · Lengua»). Aquí evalúas. Puedes ponerle un <b>color</b>.</li>
-      <li><b>Unidad</b>: dentro de una clase, agrupa actividades (p. ej. «Unidad 1»).</li>
-      <li><b>Actividad</b>: tiene un <b>nº de ítems</b> y se asocia a uno o varios <b>criterios</b>. En la rejilla marcas los ítems conseguidos por cada alumno.</li>
+      <li><strong>Grupo</strong>: tu lista de alumnado (p. ej. «3º A»). Se crea <strong>una vez</strong> y se reutiliza en varias áreas.</li>
+      <li><strong>Clase</strong>: un grupo aplicado a un <strong>área</strong> (p. ej. «3º A · Lengua»). Aquí evalúas. Puedes ponerle un <strong>color</strong>.</li>
+      <li><strong>Unidad</strong>: dentro de una clase, agrupa actividades (p. ej. «Unidad 1»).</li>
+      <li><strong>Actividad</strong>: tiene un <strong>nº de ítems</strong> y se asocia a uno o varios <strong>criterios</strong>. En la rejilla marcas los ítems conseguidos por cada alumno.</li>
     </ul>
 
-    <h2>3. Flujo básico</h2>
+    <h2><span class="num">3</span> Flujo básico</h2>
     <ol>
-      <li><b>Grupos → + Nuevo grupo</b>: nombre, curso y pega tu lista (una línea por alumno/a, desde Séneca o una hoja).</li>
-      <li><b>Clases → + Nueva clase</b>: elige el grupo, el área y un color.</li>
-      <li>Entra en la clase → <b>+ Nueva unidad</b>.</li>
-      <li>Dentro de la unidad → <b>+ Nueva actividad</b> (o <b>+ Varias</b>): nombre, nº de ítems y criterios. Los criterios aún <b>no evaluados</b> en la clase aparecen marcados.</li>
-      <li>Rellena la <b>rejilla</b> (ítems conseguidos). Las notas se calculan solas.
+      <li><strong>Grupos → + Nuevo grupo</strong>: nombre, curso y pega tu lista (una línea por alumno/a, desde Séneca o una hoja).</li>
+      <li><strong>Clases → + Nueva clase</strong>: elige el grupo, el área y un color.</li>
+      <li>Entra en la clase → <strong>+ Nueva unidad</strong>.</li>
+      <li>Dentro de la unidad → <strong>+ Nueva actividad</strong> (o <strong>+ Varias</strong>): nombre, nº de ítems y criterios. Los criterios aún <strong>no evaluados</strong> en la clase aparecen marcados.</li>
+      <li>Rellena la <strong>rejilla</strong> (ítems conseguidos). Las notas se calculan solas.
         <ul>
-          <li>Te mueves con las <b>flechas</b> del teclado y <b>Enter</b>.</li>
-          <li>Puedes <b>pegar</b> un bloque de notas desde una hoja.</li>
+          <li>Te mueves con las <strong>flechas</strong> del teclado y <strong>Enter</strong>.</li>
+          <li>Puedes <strong>pegar</strong> un bloque de notas desde una hoja.</li>
         </ul>
       </li>
-      <li><b>📊 Resumen</b>: nota global de cada criterio (agregando todas las unidades) y <b>nota final</b> de cada alumno/a.</li>
+      <li><strong>📊 Resumen</strong>: nota global de cada criterio (agregando todas las unidades) y <strong>nota final</strong> de cada alumno/a.</li>
     </ol>
 
-    <h2>4. Llevar las notas a Séneca</h2>
-    <p>En una unidad o en el Resumen, pulsa <b>📋 Copiar para Séneca</b>. Pega el resultado en
-    una hoja o, mejor, usa la extensión de Chrome <b>Autonotas Séneca</b> (de Dani García,
-    <i>@elprofedelabata</i>) para volcarlas directamente en la actividad criterial de Séneca.
-    La <b>ⓘ</b> junto al botón lo explica.</p>
+    <h2><span class="num">4</span> Llevar las notas a Séneca</h2>
+    <p>En una unidad o en el Resumen, pulsa <strong>📋 Copiar para Séneca</strong>. Pega el
+    resultado en una hoja o, mejor, usa la extensión de Chrome <strong>Autonotas Séneca</strong>
+    (de Dani García, <em>@elprofedelabata</em>) para volcarlas directamente en la actividad
+    criterial de Séneca. La <strong>ⓘ</strong> junto al botón lo explica.</p>
 
-    <h2>5. Dudas frecuentes</h2>
-    <div class="destacado">
-      <p style="margin:0 0 10px"><b>¿Pierdo datos si edito la lista de alumnado?</b><br>No: a quien no cambia de nombre se le conservan las notas.</p>
-      <p style="margin:0 0 10px"><b>¿Se actualiza la app?</b><br>Sí, sola. Solo usas el enlace; las mejoras llegan sin que hagas nada.</p>
-      <p style="margin:0"><b>¿Quién ve mis notas?</b><br>Solo tú. Cada profe tiene su propio cuaderno privado.</p>
+    <h2><span class="num">5</span> Dudas frecuentes</h2>
+    <div class="faq">
+      <details open>
+        <summary>¿Pierdo datos si edito la lista de alumnado?</summary>
+        <p>No: a quien no cambia de nombre se le conservan las notas.</p>
+      </details>
+      <details>
+        <summary>¿Se actualiza la app?</summary>
+        <p>Sí, sola. Solo usas el enlace; las mejoras llegan sin que hagas nada.</p>
+      </details>
+      <details>
+        <summary>¿Quién ve mis notas?</summary>
+        <p>Solo tú. Cada profe tiene su propio cuaderno privado.</p>
+      </details>
     </div>
+  </main>
 
-    <footer>
+  <footer>
+    <div class="contenedor pie">
       <a href="/">EvaluAnda</a> · para el profesorado andaluz
-    </footer>
-  </div>
+    </div>
+  </footer>
 </body>
 </html>
