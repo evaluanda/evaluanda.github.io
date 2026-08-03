@@ -47,7 +47,21 @@
   .btn-cta{display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:11px; color:#fff; font-weight:700; box-shadow:var(--sombra-1); transition:transform .2s ease, box-shadow .2s ease}
   .btn-cta:hover{transform:translateY(-2px); box-shadow:var(--sombra-2)}
   .oculto-movil{display:inline}
-  @media (max-width:640px){ .oculto-movil{display:none} .logo-txt{font-size:22px} }
+  @media (max-width:640px){
+    .oculto-movil{display:none}
+    .barra{height:64px}
+    .contenedor{padding:0 16px}
+    .logo-txt{font-size:20px; margin-left:10px}
+    .btn-cta{padding:9px 15px; font-size:.9rem; white-space:nowrap}
+    .marca{min-width:0}
+  }
+  .cta-short{display:none}
+  @media (max-width:360px){
+    .btn-cta{padding:8px 12px; font-size:.82rem}
+    .logo-txt{font-size:18px}
+    .cta-full{display:none}
+    .cta-short{display:inline}
+  }
 
   /* HERO */
   main{flex:1 0 auto; display:flex; align-items:center}
@@ -120,7 +134,7 @@
       <nav class="enlaces">
         <a class="txt oculto-movil" href="/guia-companeros.html">Guía de uso</a>
         <a class="btn-cta grad-bg" href="https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">
-          Acceder a la App
+          <span class="cta-full">Acceder a la App</span><span class="cta-short">Acceder</span>
           <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
       </nav>
