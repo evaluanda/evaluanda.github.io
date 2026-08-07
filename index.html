@@ -39,6 +39,11 @@
     --bg:#f9fafb; --panel:#ffffff; --borde:#e5e7eb; --borde-suave:#f0f1f4;
     --sombra-1:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06);
     --sombra-2:0 10px 25px -5px rgba(0,0,0,.12);
+    --sombra-marco:0 24px 60px -18px rgba(30,41,59,.28), 0 8px 22px -12px rgba(30,41,59,.18);
+    --glass:rgba(255,255,255,.72);
+    /* Curvas de easing con carácter (no las por defecto del navegador) */
+    --ease-out:cubic-bezier(.23,1,.32,1);
+    --ease-in-out:cubic-bezier(.77,0,.175,1);
   }
   @media (prefers-color-scheme:dark){
     :root{
@@ -46,6 +51,8 @@
       --tinta:#f3f4f6; --texto:#cbd5e1; --tenue:#94a3b8;
       --bg:#0d1117; --panel:#161b22; --borde:#262d38; --borde-suave:#1e252f;
       --sombra-1:0 4px 6px -1px rgba(0,0,0,.4); --sombra-2:0 12px 30px -5px rgba(0,0,0,.5);
+      --sombra-marco:0 30px 70px -20px rgba(0,0,0,.7), 0 10px 26px -14px rgba(0,0,0,.55);
+      --glass:rgba(22,27,34,.72);
     }
   }
   *{box-sizing:border-box}
@@ -60,17 +67,23 @@
   .grad-txt{background:linear-gradient(90deg,var(--acento) 0%,var(--verde) 100%); -webkit-background-clip:text; background-clip:text; color:transparent}
   .grad-bg{background:linear-gradient(135deg,var(--acento) 0%,var(--verde) 100%)}
 
-  /* HEADER */
-  header{position:sticky; top:0; z-index:50; background:var(--panel); border-bottom:1px solid var(--borde-suave); box-shadow:var(--sombra-1)}
-  .barra{display:flex; justify-content:space-between; align-items:center; height:74px}
+  /* HEADER — chrome translúcido (material que flota sobre el contenido) */
+  header{position:sticky; top:0; z-index:50; background:var(--glass);
+    -webkit-backdrop-filter:blur(14px) saturate(180%); backdrop-filter:blur(14px) saturate(180%);
+    border-bottom:1px solid var(--borde-suave)}
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    header{background:var(--panel)}
+  }
+  .barra{display:flex; justify-content:space-between; align-items:center; height:72px}
   .marca{display:flex; align-items:center; cursor:pointer}
   .logo-ico{width:34px; height:34px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(135deg,var(--acento),var(--verde)); box-shadow:var(--sombra-1)}
   .logo-txt{font-weight:800; font-size:26px; letter-spacing:-.02em; margin-left:12px; background:linear-gradient(90deg,var(--acento) 0%,var(--verde) 100%); -webkit-background-clip:text; background-clip:text; color:transparent}
   nav.enlaces{display:flex; align-items:center; gap:22px}
-  nav.enlaces a.txt{color:var(--texto); font-weight:600; font-size:.95rem}
+  nav.enlaces a.txt{color:var(--texto); font-weight:600; font-size:.95rem; transition:color .16s var(--ease-out)}
   nav.enlaces a.txt:hover{color:var(--acento)}
-  .btn-cta{display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:11px; color:#fff; font-weight:700; box-shadow:var(--sombra-1); transition:transform .2s ease, box-shadow .2s ease}
-  .btn-cta:hover{transform:translateY(-2px); box-shadow:var(--sombra-2)}
+  .btn-cta{display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:11px; color:#fff; font-weight:700; box-shadow:var(--sombra-1); transition:transform .18s var(--ease-out), box-shadow .2s var(--ease-out)}
+  @media (hover:hover) and (pointer:fine){ .btn-cta:hover{transform:translateY(-2px); box-shadow:var(--sombra-2)} }
+  .btn-cta:active{transform:scale(.97)}
   .oculto-movil{display:inline}
   @media (max-width:640px){
     .oculto-movil{display:none}
@@ -79,6 +92,10 @@
     .logo-txt{font-size:20px; margin-left:10px}
     .btn-cta{padding:9px 15px; font-size:.9rem; white-space:nowrap}
     .marca{min-width:0}
+    .hero{padding:44px 0 16px}
+    .hero .acciones .btn-grande{flex:1 1 auto}
+    .showcase{margin-top:38px}
+    .marco{border-radius:14px}
   }
   .cta-short{display:none}
   @media (max-width:360px){
@@ -89,17 +106,42 @@
   }
 
   /* HERO */
-  main{flex:1 0 auto; display:flex; align-items:center}
-  .hero{text-align:center; padding:80px 0 72px}
-  .hero h1{font-size:clamp(2.3rem,6vw,4rem); line-height:1.08; font-weight:800; letter-spacing:-.02em; color:var(--tinta); margin:0}
-  .hero h1 .l2{display:block; margin-top:10px; padding-bottom:6px}
-  .hero p.lema{max-width:44ch; margin:26px auto 0; font-size:clamp(1rem,2.5vw,1.25rem); color:var(--tenue)}
-  .hero .acciones{display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:38px}
-  .btn-grande{display:inline-flex; align-items:center; justify-content:center; padding:15px 32px; border-radius:14px; font-weight:800; font-size:1.05rem; transition:transform .25s ease, box-shadow .25s ease}
+  main{flex:1 0 auto}
+  .hero{text-align:center; padding:72px 0 24px; position:relative}
+  /* Resplandor de marca muy sutil detrás del titular (no un degradado plano genérico) */
+  .hero::before{content:""; position:absolute; inset:-10% 0 auto 50%; transform:translateX(-50%);
+    width:min(760px,90%); height:420px; z-index:-1; pointer-events:none;
+    background:radial-gradient(60% 60% at 50% 40%, color-mix(in srgb,var(--acento) 22%,transparent), transparent 70%);
+    filter:blur(20px); opacity:.7}
+  .eyebrow{display:inline-flex; align-items:center; gap:9px; padding:7px 15px 7px 12px; border-radius:999px;
+    background:var(--panel); border:1px solid var(--borde); box-shadow:var(--sombra-1);
+    font-size:.85rem; font-weight:600; color:var(--texto)}
+  .eyebrow .dot{width:8px; height:8px; border-radius:50%; background:var(--verde); box-shadow:0 0 0 3px color-mix(in srgb,var(--verde) 22%,transparent)}
+  .hero h1{font-size:clamp(2.3rem,6vw,4rem); line-height:1.06; font-weight:800; letter-spacing:-.03em; color:var(--tinta); margin:22px 0 0}
+  .hero h1 .l2{display:block; margin-top:8px; padding-bottom:6px}
+  .hero p.lema{max-width:46ch; margin:22px auto 0; font-size:clamp(1.02rem,2.5vw,1.22rem); color:var(--tenue)}
+  .hero .acciones{display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:34px}
+  .btn-grande{display:inline-flex; align-items:center; justify-content:center; gap:9px; padding:15px 30px; border-radius:14px; font-weight:800; font-size:1.05rem; transition:transform .2s var(--ease-out), box-shadow .25s var(--ease-out), border-color .2s var(--ease-out), color .2s var(--ease-out)}
   .btn-grande.primario{color:#fff; box-shadow:var(--sombra-2)}
-  .btn-grande.primario:hover{transform:translateY(-3px)}
   .btn-grande.secundario{color:var(--texto); background:var(--panel); border:1px solid var(--borde)}
-  .btn-grande.secundario:hover{color:var(--tinta); border-color:var(--acento)}
+  @media (hover:hover) and (pointer:fine){
+    .btn-grande.primario:hover{transform:translateY(-3px)}
+    .btn-grande.secundario:hover{color:var(--tinta); border-color:var(--acento); transform:translateY(-3px)}
+  }
+  .btn-grande:active{transform:scale(.97)}
+  /* Señales de confianza bajo los CTA */
+  .confianza{display:flex; flex-wrap:wrap; gap:8px 22px; justify-content:center; margin-top:26px; color:var(--tenue); font-size:.92rem}
+  .confianza span{display:inline-flex; align-items:center; gap:7px}
+  .confianza svg{color:var(--verde); flex:none}
+
+  /* SHOWCASE — el producto en primer plano */
+  .showcase{position:relative; max-width:1000px; margin:52px auto 0; padding:0 4px}
+  .showcase::before{content:""; position:absolute; inset:12% 6% -6% 6%; z-index:-1; pointer-events:none;
+    background:linear-gradient(135deg, color-mix(in srgb,var(--acento) 55%,transparent), color-mix(in srgb,var(--verde) 55%,transparent));
+    filter:blur(46px); opacity:.32; border-radius:40px}
+  .marco{border-radius:18px; overflow:hidden; border:1px solid var(--borde);
+    background:var(--panel); box-shadow:var(--sombra-marco); line-height:0}
+  .marco img{display:block; width:100%; height:auto}
 
   /* SECCIONES */
   section.bloque{padding:72px 0}
@@ -107,8 +149,8 @@
   .titular .sup{font-size:.85rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--verde)}
   .titular h2{font-size:clamp(1.7rem,4vw,2.4rem); font-weight:800; letter-spacing:-.01em; color:var(--tinta); margin:10px 0 0}
   .rejilla{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:28px}
-  .card{background:var(--panel); border:1px solid var(--borde-suave); border-radius:18px; padding:28px; transition:box-shadow .3s ease, transform .3s ease}
-  .card:hover{box-shadow:var(--sombra-2); transform:translateY(-3px)}
+  .card{background:var(--panel); border:1px solid var(--borde-suave); border-radius:18px; padding:28px; transition:box-shadow .3s var(--ease-out), transform .3s var(--ease-out), border-color .3s var(--ease-out)}
+  @media (hover:hover) and (pointer:fine){ .card:hover{box-shadow:var(--sombra-2); transform:translateY(-4px); border-color:var(--borde)} }
   .card .ico{width:48px; height:48px; border-radius:13px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px}
   .ico.indigo{background:color-mix(in srgb,var(--acento) 16%,transparent); color:var(--acento)}
   .ico.verde{background:color-mix(in srgb,var(--verde) 16%,transparent); color:var(--verde)}
@@ -127,9 +169,12 @@
   .dev p{font-size:1.1rem; color:var(--texto); margin:0 auto 30px; max-width:60ch}
   .apoyo{display:flex; flex-wrap:wrap; gap:16px; justify-content:center; align-items:center}
   .btn-kofi{display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border-radius:13px; font-weight:800; color:#fff; background:#72a4f2; box-shadow:var(--sombra-1); transition:transform .2s ease}
-  .btn-kofi:hover{transform:scale(1.05)}
-  .btn-x{display:inline-flex; align-items:center; gap:9px; padding:14px 24px; border-radius:13px; font-weight:700; color:var(--texto); background:var(--panel); border:1px solid var(--borde)}
-  .btn-x:hover{color:var(--tinta); border-color:var(--acento)}
+  .btn-kofi{transition:transform .2s var(--ease-out)}
+  @media (hover:hover) and (pointer:fine){ .btn-kofi:hover{transform:translateY(-2px)} }
+  .btn-kofi:active{transform:scale(.97)}
+  .btn-x{display:inline-flex; align-items:center; gap:9px; padding:14px 24px; border-radius:13px; font-weight:700; color:var(--texto); background:var(--panel); border:1px solid var(--borde); transition:transform .2s var(--ease-out), color .2s var(--ease-out), border-color .2s var(--ease-out)}
+  @media (hover:hover) and (pointer:fine){ .btn-x:hover{color:var(--tinta); border-color:var(--acento); transform:translateY(-2px)} }
+  .btn-x:active{transform:scale(.97)}
 
   /* FOOTER */
   footer{flex-shrink:0; background:var(--panel); border-top:1px solid var(--borde-suave)}
@@ -140,8 +185,8 @@
   .pie a:hover{text-decoration:underline}
   @media (min-width:768px){ .pie{flex-direction:row} }
 
-  .fade{animation:subir .8s ease-out forwards; opacity:0; transform:translateY(20px)}
-  .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}
+  .fade{animation:subir .7s var(--ease-out) forwards; opacity:0; transform:translateY(16px)}
+  .d1{animation-delay:.07s}.d2{animation-delay:.14s}.d3{animation-delay:.21s}.d4{animation-delay:.28s}
   @keyframes subir{to{opacity:1; transform:translateY(0)}}
   @media (prefers-reduced-motion:reduce){ .fade{animation:none; opacity:1; transform:none} }
 </style>
@@ -168,18 +213,37 @@
 
   <main>
     <div class="contenedor hero">
-      <h1 class="fade">
+      <div class="eyebrow fade">
+        <span class="dot"></span>
+        Gratis · con tu cuenta <strong>@g.educaand.es</strong>
+      </div>
+      <h1 class="fade d1">
         <span>Gestión y evaluación</span>
         <span class="l2 grad-txt">para docentes andaluces</span>
       </h1>
-      <p class="lema fade d1">
-        EvaluAnda es la herramienta para <strong>evaluar por criterios</strong> (LOMLOE) y
-        optimizar tu tiempo. Registra el progreso de tu alumnado de forma segura, accediendo
-        con tu cuenta corporativa <strong>@g.educaand.es</strong>.
+      <p class="lema fade d2">
+        La herramienta para <strong>evaluar por criterios</strong> (LOMLOE) y optimizar tu tiempo.
+        Registra el progreso de tu alumnado de forma segura, en el ordenador y en el móvil.
       </p>
-      <div class="acciones fade d2">
-        <a class="btn-grande primario grad-bg" href="https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">Entrar en EvaluAnda</a>
-        <a class="btn-grande secundario" href="/guia-companeros.html">Guía de uso →</a>
+      <div class="acciones fade d3">
+        <a class="btn-grande primario grad-bg" href="https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">
+          Entrar en EvaluAnda
+          <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+        <a class="btn-grande secundario" href="/guia-companeros.html">Guía de uso</a>
+      </div>
+      <div class="confianza fade d3">
+        <span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Sin instalar nada</span>
+        <span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Datos cifrados en tu Drive</span>
+        <span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Currículo LOMLOE ya cargado</span>
+      </div>
+
+      <div class="showcase fade d4">
+        <div class="marco">
+          <img src="/app-preview.jpg" width="2180" height="1334"
+               alt="Interfaz de EvaluAnda: cuaderno de notas por criterios en el ordenador y listado de clases en el móvil"
+               fetchpriority="high" decoding="async">
+        </div>
       </div>
     </div>
   </main>
@@ -221,7 +285,7 @@
       <div class="dev fade">
         <img class="avatar" src="https://raw.githubusercontent.com/maestroseb/firmaemail/refs/heads/main/logoseb2.JPG" alt="maestroSeb">
         <h2>Desarrollado por <a href="https://x.com/maestro_seb" target="_blank" rel="noopener noreferrer">maestroSeb</a></h2>
-        <p>EvaluAnda es una herramienta creada para facilitar y automatizar el trabajo diario del profesorado andaluz.<!-- Si te resulta útil y te ahorra tiempo, ¡puedes apoyar el proyecto invitándome a un café! --></p>
+        <p>EvaluAnda es una herramienta gratuita creada para facilitar y automatizar el trabajo diario del profesorado andaluz.<!-- Si te resulta útil y te ahorra tiempo, ¡puedes apoyar el proyecto invitándome a un café! --></p>
         <div class="apoyo">
           <!-- DONACIÓN OCULTA TEMPORALMENTE: descomentar para volver a mostrar el botón de Ko-fi
           <a class="btn-kofi" href="https://ko-fi.com/M4M4186OE8" target="_blank" rel="noopener noreferrer">
