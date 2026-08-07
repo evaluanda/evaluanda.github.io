@@ -245,9 +245,12 @@
 
       <div class="showcase reveal">
         <div class="marco">
-          <img src="/app-preview.jpg" width="2180" height="1334"
-               alt="Interfaz de EvaluAnda: cuaderno de notas por criterios en el ordenador y listado de clases en el móvil"
-               fetchpriority="high" decoding="async">
+          <picture>
+            <source media="(max-width:640px)" srcset="/app-preview-mobile.jpg">
+            <img src="/app-preview.jpg" width="2180" height="1334"
+                 alt="Interfaz de EvaluAnda: cuaderno de notas por criterios en el ordenador y listado de clases en el móvil"
+                 fetchpriority="high" decoding="async">
+          </picture>
         </div>
       </div>
     </div>
