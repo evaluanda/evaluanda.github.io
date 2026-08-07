@@ -88,17 +88,18 @@
   @media (max-width:640px){
     .oculto-movil{display:none}
     .barra{height:64px}
-    .contenedor{padding:0 16px}
+    .contenedor{padding:0 22px}
     .logo-txt{font-size:20px; margin-left:10px}
     .btn-cta{padding:9px 15px; font-size:.9rem; white-space:nowrap}
     .marca{min-width:0}
-    .hero{padding:44px 0 16px}
+    .hero{padding-top:44px; padding-bottom:16px}
     .hero .acciones .btn-grande{flex:1 1 auto}
-    .showcase{margin-top:38px}
+    .showcase{margin-top:38px; padding:0}
     .marco{border-radius:14px}
   }
   .cta-short{display:none}
   @media (max-width:360px){
+    .contenedor{padding:0 18px}
     .btn-cta{padding:8px 12px; font-size:.82rem}
     .logo-txt{font-size:18px}
     .cta-full{display:none}
@@ -107,7 +108,7 @@
 
   /* HERO */
   main{flex:1 0 auto}
-  .hero{text-align:center; padding:72px 0 24px; position:relative}
+  .hero{text-align:center; padding-top:72px; padding-bottom:24px; position:relative}
   /* Resplandor de marca muy sutil detrás del titular (no un degradado plano genérico) */
   .hero::before{content:""; position:absolute; inset:-10% 0 auto 50%; transform:translateX(-50%);
     width:min(760px,90%); height:420px; z-index:-1; pointer-events:none;
