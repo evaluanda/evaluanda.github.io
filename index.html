@@ -142,6 +142,11 @@
   .marco{border-radius:18px; overflow:hidden; border:1px solid var(--borde);
     background:var(--panel); box-shadow:var(--sombra-marco); line-height:0}
   .marco img{display:block; width:100%; height:auto}
+  /* Reveal al entrar en viewport (solo transform/opacity) */
+  .reveal{opacity:0; transform:translateY(30px) scale(.98); will-change:transform,opacity;
+    transition:opacity .8s var(--ease-out), transform .9s var(--ease-out)}
+  .reveal.visible{opacity:1; transform:none; will-change:auto}
+  @media (prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none; transition:none} }
 
   /* SECCIONES */
   section.bloque{padding:72px 0}
@@ -238,7 +243,7 @@
         <span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Currículo LOMLOE ya cargado</span>
       </div>
 
-      <div class="showcase fade d4">
+      <div class="showcase reveal">
         <div class="marco">
           <img src="/app-preview.jpg" width="2180" height="1334"
                alt="Interfaz de EvaluAnda: cuaderno de notas por criterios en el ordenador y listado de clases en el móvil"
@@ -313,6 +318,22 @@
       <p>&copy; <span id="anio"></span> EvaluAnda · Un proyecto de <a href="https://x.com/maestro_seb" target="_blank" rel="noopener noreferrer">maestroSeb</a></p>
     </div>
   </footer>
-  <script>document.getElementById('anio').textContent=new Date().getFullYear();</script>
+  <script>
+    document.getElementById('anio').textContent=new Date().getFullYear();
+    (function(){
+      var elementos=document.querySelectorAll('.reveal');
+      var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      if(reduce||!('IntersectionObserver'in window)){
+        elementos.forEach(function(el){el.classList.add('visible');});
+        return;
+      }
+      var io=new IntersectionObserver(function(entradas){
+        entradas.forEach(function(e){
+          if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+      },{threshold:.15, rootMargin:'0px 0px -80px 0px'});
+      elementos.forEach(function(el){io.observe(el);});
+    })();
+  </script>
 </body>
 </html>
