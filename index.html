@@ -243,9 +243,8 @@
   .dev h2 a:hover{color:var(--verde)}
   .dev p{font-size:1.1rem; color:var(--texto); margin:0 auto 30px; max-width:60ch}
   .apoyo{display:flex; flex-wrap:wrap; gap:16px; justify-content:center; align-items:center}
-  .btn-kofi{display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border-radius:13px; font-weight:800; color:#fff; background:#72a4f2; box-shadow:var(--sombra-1); transition:transform .2s ease}
-  .btn-kofi{transition:transform .2s var(--ease-out)}
-  @media (hover:hover) and (pointer:fine){ .btn-kofi:hover{transform:translateY(-2px)} }
+  .btn-kofi{display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border-radius:13px; font-weight:800; color:#fff; background:#72a4f2; box-shadow:var(--sombra-1); transition:transform .2s var(--ease-out), box-shadow .25s var(--ease-out)}
+  @media (hover:hover) and (pointer:fine){ .btn-kofi:hover{transform:translateY(-2px); box-shadow:var(--sombra-2)} }
   .btn-kofi:active{transform:scale(.97)}
   .btn-x{display:inline-flex; align-items:center; gap:9px; padding:14px 24px; border-radius:13px; font-weight:700; color:var(--texto); background:var(--panel); border:1px solid var(--borde); transition:transform .2s var(--ease-out), color .2s var(--ease-out), border-color .2s var(--ease-out)}
   @media (hover:hover) and (pointer:fine){ .btn-x:hover{color:var(--tinta); border-color:var(--acento); transform:translateY(-2px)} }
@@ -380,7 +379,7 @@
         <p>EvaluAnda es una herramienta gratuita creada para facilitar y automatizar el trabajo diario del profesorado andaluz.<!-- Si te resulta útil y te ahorra tiempo, ¡puedes apoyar el proyecto invitándome a un café! --></p>
         <div class="apoyo">
           <a class="btn-kofi" href="https://ko-fi.com/M4M4186OE8" target="_blank" rel="noopener noreferrer">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2 5h16a4 4 0 0 1 0 8h-1.1A6 6 0 0 1 11 18H7a5 5 0 0 1-5-5V5zm16 6a2 2 0 0 0 0-4h-1v4h1zM5 20h12v2H5v-2z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
             Apóyame en Ko-fi
           </a>
           <a class="btn-x" href="https://x.com/maestro_seb" target="_blank" rel="noopener noreferrer">
