@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conectar con una IA · EvaluAnda</title>
+<meta name="description" content="Cómo conectar EvaluAnda con Claude, Codex u otra IA compatible con MCP para planificar conversando.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://evaluanda.github.io/conectar-ia.html">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root{
+    --acento:#5a67d8; --verde:#059669; --brand-azul:#5a67d8;
+    --tinta:#111827; --texto:#374151; --tenue:#6b7280;
+    --bg:#f9fafb; --panel:#ffffff; --borde:#e5e7eb; --borde-suave:#f0f1f4; --codigo:#eef1f8;
+    --sombra-1:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06);
+    --sombra-2:0 10px 25px -5px rgba(0,0,0,.12);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --acento:#818cf8; --verde:#34d399; --brand-azul:#818cf8;
+      --tinta:#f3f4f6; --texto:#cbd5e1; --tenue:#94a3b8;
+      --bg:#0d1117; --panel:#161b22; --borde:#262d38; --borde-suave:#1e252f; --codigo:#1e252f;
+      --sombra-1:0 4px 6px -1px rgba(0,0,0,.4); --sombra-2:0 12px 30px -5px rgba(0,0,0,.5);
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:'Outfit',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--texto); background:var(--bg); line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--acento); text-decoration:none}
+  .contenedor{max-width:760px; margin:0 auto; padding:0 24px}
+
+  header{position:sticky; top:0; z-index:50; background:var(--panel); border-bottom:1px solid var(--borde-suave); box-shadow:var(--sombra-1)}
+  .barra{display:flex; align-items:center; height:70px}
+  .marca{display:flex; align-items:center}
+  .logo-ico{width:32px; height:32px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(135deg,var(--acento),var(--verde)); box-shadow:var(--sombra-1)}
+  .logo-txt{font-weight:800; font-size:22px; letter-spacing:-.02em; margin-left:11px; background:linear-gradient(90deg,var(--acento),var(--verde)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .barra .volver{margin-left:auto; font-weight:600; font-size:.95rem}
+
+  .cabecera{padding:52px 0 8px}
+  h1{font-size:clamp(2rem,5vw,2.7rem); font-weight:800; letter-spacing:-.02em; color:var(--tinta); margin:0}
+  .intro{font-size:1.12rem; color:var(--tenue); margin-top:14px}
+  .intro strong{color:var(--texto)}
+  main{padding-bottom:64px}
+  h2{font-size:clamp(1.4rem,3.5vw,1.7rem); font-weight:800; color:var(--tinta); letter-spacing:-.01em; margin:44px 0 10px; display:flex; align-items:center; gap:12px}
+  h2 .num{flex:0 0 auto; width:32px; height:32px; border-radius:9px; font-size:1rem; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(135deg,var(--acento),var(--verde))}
+  h3{font-size:1.1rem; font-weight:700; color:var(--tinta); margin:26px 0 4px}
+  ul,ol{padding-left:24px} li{margin:7px 0}
+  strong,b{color:var(--tinta)}
+  code{background:var(--codigo); padding:2px 8px; border-radius:7px; font-size:.9em; color:var(--acento)}
+  .conceptos{list-style:none; padding:0; display:grid; gap:12px}
+  .conceptos li{background:var(--panel); border:1px solid var(--borde-suave); border-left:4px solid var(--acento); border-radius:12px; padding:14px 18px}
+  .faq{background:var(--panel); border:1px solid var(--borde-suave); border-radius:16px; padding:8px 22px; box-shadow:var(--sombra-1); margin-top:12px}
+  .faq details{padding:14px 0; border-bottom:1px solid var(--borde-suave)}
+  .faq details:last-child{border-bottom:none}
+  .faq summary{font-weight:700; color:var(--tinta); cursor:pointer; list-style:none}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:'+'; display:inline-block; width:1.2em; color:var(--acento); font-weight:800}
+  .faq details[open] summary::before{content:'–'}
+  .faq p{margin:10px 0 2px 1.2em; color:var(--texto)}
+
+  pre{background:var(--codigo); padding:14px 16px; border-radius:12px; overflow-x:auto; font-size:.85rem; line-height:1.5; color:var(--tinta)}
+  pre code{background:none; padding:0; color:inherit}
+  .nota{background:var(--panel); border:1px solid var(--borde-suave); border-left:4px solid var(--verde); border-radius:12px; padding:12px 18px; margin:14px 0}
+  table{border-collapse:collapse; width:100%; margin:10px 0; font-size:.95rem}
+  th,td{border:1px solid var(--borde); padding:8px 10px; text-align:left; vertical-align:top}
+  th{background:var(--panel); color:var(--tinta)}
+  footer{background:var(--panel); border-top:1px solid var(--borde-suave)}
+  .pie{text-align:center; padding:28px 0; color:var(--tenue); font-size:.9rem}
+</style>
+</head>
+<body>
+  <header>
+    <div class="contenedor barra">
+      <a class="marca" href="/">
+        <span class="logo-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M6 18V12M12 18V6M18 18V10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="logo-txt">EvaluAnda</span>
+      </a>
+      <a class="volver" href="/">← Inicio</a>
+    </div>
+  </header>
+
+    <div class="contenedor cabecera">
+    <h1>Conectar EvaluAnda con una IA</h1>
+    <p class="intro">Planifica <strong>conversando</strong>: pídele a tu IA que revise una unidad, que
+    proponga sesiones, que mueva tus tareas al lunes… y ella lee y escribe en <strong>tu</strong>
+    cuaderno. Vale con <strong>Claude</strong>, <strong>Codex</strong> o cualquier IA compatible con
+    <strong>MCP</strong> (el estándar para conectar herramientas a una IA).</p>
+  </div>
+
+  <main class="contenedor">
+    <div class="nota"><strong>Cada profe monta la suya.</strong> La conexión es personal: tu IA solo ve
+    <em>tu</em> planificación y <em>tus</em> tareas. <strong>Nunca ve a tu alumnado ni sus notas</strong>:
+    no existe ninguna herramienta que los exponga. Y <strong>no puede borrar</strong>: crea y edita;
+    borrar se hace desde la app.</div>
+
+    <h3>Cómo funciona</h3>
+<pre><code>Tu IA (en tu ordenador)
+   │  MCP por stdio — nada publicado en internet
+   ▼
+servidor Node (en tu ordenador)
+   │  HTTPS + token secreto
+   ▼
+Apps Script «EvaluAnda — API» (se ejecuta como TÚ)
+   ▼
+tu cuaderno, en tu Drive</code></pre>
+
+    <h3>Necesitas</h3>
+    <ul>
+      <li>Un ordenador con <strong>Node 20 o superior</strong> (compruébalo con <code>node --version</code>).</li>
+      <li>Una IA de escritorio que admita MCP: <strong>Claude Desktop</strong> (plan de pago), <strong>Codex</strong>, etc.</li>
+      <li>Haber entrado alguna vez en EvaluAnda (para que exista tu cuaderno).</li>
+    </ul>
+
+    <h2><span class="num">1</span> Copia tus dos datos desde EvaluAnda</h2>
+    <p>En la app: <strong>Ajustes › Conector de IA (MCP)</strong>.</p>
+    <ul>
+      <li><strong>Copiar id del cuaderno</strong> → lo usarás como <code>CUADERNO_ID</code>.</li>
+      <li><strong>Copiar clave de cifrado</strong> → lo usarás como <code>CIF_KEY</code>. Es lo que permite a
+      la IA leer y escribir el <em>texto</em> de tus tareas (va cifrado porque puede nombrar alumnado).
+      <strong>Es privada</strong>: pégala solo en tu propio proyecto. Si no quieres que la IA toque el texto
+      de tus tareas, no la pongas (seguirá viendo fechas, clases y estado).</li>
+    </ul>
+
+    <h2><span class="num">2</span> Crea tu API en Apps Script (10 min)</h2>
+    <ol>
+      <li>Entra en <a href="https://script.google.com" target="_blank" rel="noopener">script.google.com</a> con tu
+      cuenta de g.educaand.es → <strong>Nuevo proyecto</strong>. Llámalo «EvaluAnda — API».</li>
+      <li>Pega el código de <a href="https://github.com/maestroseb/evaluacion/tree/main/docs/mcp/apps-script/Api.gs" target="_blank" rel="noopener"><code>Api.gs</code></a>
+      (sustituye todo lo que haya).</li>
+      <li><strong>Inventa un token</strong>: una cadena larga y aleatoria (32 caracteres o más). Guárdala.</li>
+      <li>⚙ <strong>Configuración del proyecto › Propiedades de la secuencia de comandos</strong> → añade:
+        <table>
+          <tr><th>Propiedad</th><th>Valor</th></tr>
+          <tr><td><code>API_TOKEN</code></td><td>el token que te has inventado</td></tr>
+          <tr><td><code>CUADERNO_ID</code></td><td>el id copiado en el paso 1</td></tr>
+          <tr><td><code>CIF_KEY</code></td><td>(opcional) la clave copiada en el paso 1</td></tr>
+        </table>
+      </li>
+      <li><strong>Implementar › Nueva implementación › Aplicación web</strong>, con <em>Ejecutar como</em>:
+      <strong>Yo</strong> y <em>Quién tiene acceso</em>: <strong>Cualquier usuario</strong>. Autoriza y
+      <strong>copia la URL</strong> que acaba en <code>/exec</code>.</li>
+    </ol>
+    <p>«Cualquier usuario» suena abierto, pero sin tu token no se puede hacer nada. Comprobación: abre esa URL
+    en el navegador; debe decir «El despliegue funciona».</p>
+
+    <h2><span class="num">3</span> Instala el servidor en tu ordenador (5 min)</h2>
+    <ol>
+      <li>Descarga la carpeta <a href="https://github.com/maestroseb/evaluacion/tree/main/docs/mcp/servidor" target="_blank" rel="noopener"><code>servidor</code></a>
+      (por ejemplo en <code>~/evaluanda-mcp</code>).</li>
+      <li>En una terminal, dentro de esa carpeta: <code>npm install</code></li>
+      <li>Para probarlo, copia <code>config.ejemplo.json</code> a <code>config.json</code>, pon tu URL y tu token,
+      y ejecuta <code>npm run comprobar</code>. Debe salir «✓ Conexión correcta».</li>
+    </ol>
+
+    <h2><span class="num">4</span> Conéctalo a tu IA (3 min)</h2>
+    <p>En todos los casos la ruta a <code>index.js</code> debe ser <strong>absoluta</strong>. Después,
+    reinicia la aplicación de la IA.</p>
+
+    <h3>Claude Desktop</h3>
+    <p>Edita <code>claude_desktop_config.json</code> (Mac: <code>~/Library/Application Support/Claude/</code>;
+    Windows: <code>%APPDATA%\Claude\</code>):</p>
+<pre><code>{
+  "mcpServers": {
+    "evaluanda": {
+      "command": "node",
+      "args": ["/Users/TU-USUARIO/evaluanda-mcp/index.js"],
+      "env": {
+        "EVALUANDA_URL": "https://script.google.com/macros/s/…/exec",
+        "EVALUANDA_TOKEN": "tu-token"
+      }
+    }
+  }
+}</code></pre>
+
+    <h3>Codex</h3>
+    <p>Añade a <code>~/.codex/config.toml</code>:</p>
+<pre><code>[mcp_servers.evaluanda]
+command = "node"
+args = ["/Users/TU-USUARIO/evaluanda-mcp/index.js"]
+env = { EVALUANDA_URL = "https://script.google.com/macros/s/…/exec", EVALUANDA_TOKEN = "tu-token" }</code></pre>
+
+    <h3>Otra IA</h3>
+    <p>Cualquier cliente MCP que lance servidores por <strong>stdio</strong> vale: el comando es
+    <code>node /ruta/a/index.js</code> con las variables <code>EVALUANDA_URL</code> y <code>EVALUANDA_TOKEN</code>.</p>
+
+    <p><strong>Primera prueba</strong>: «comprueba la conexión con EvaluAnda». Debe responder con el nombre
+    de tu cuaderno.</p>
+
+    <h2><span class="num">5</span> Qué le puedes pedir</h2>
+    <ul class="conceptos">
+      <li><strong>Sesiones</strong>: «Mira mi unidad de ecosistemas de 5º. ¿Está muy cargada?» · «Añade una
+      sesión de repaso antes del examen con los criterios que ya trabaja la unidad».</li>
+      <li><strong>Tareas</strong>: «Apúntame corregir los exámenes de 5ºA para el viernes, en esa clase» ·
+      «Pasa al lunes las tareas pendientes de esta semana» · «Liga la tarea del orden del día a la reunión
+      de ciclo del jueves».</li>
+    </ul>
+    <p>Consejo: pídele que te <strong>enseñe lo que va a hacer antes de hacerlo</strong>; escribe en tu
+    cuaderno de verdad. Las descripciones admiten formato (negrita, listas, enlaces).</p>
+
+    <h2><span class="num">6</span> Dudas frecuentes</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Puede ver a mi alumnado o mis notas?</summary>
+        <p>No. Ni el servidor ni la API tienen ninguna forma de leerlos.</p>
+      </details>
+      <details>
+        <summary>¿Y si alguien consigue mi token?</summary>
+        <p>Podría leer y editar tu planificación (y el texto de tus tareas si pusiste <code>CIF_KEY</code>).
+        Guárdalo como una contraseña. Si se filtra, cambia <code>API_TOKEN</code> en las propiedades del
+        script y en la configuración de tu IA.</p>
+      </details>
+      <details>
+        <summary>Hay una versión nueva: ¿cómo actualizo?</summary>
+        <p>Vuelve a pegar <code>Api.gs</code> y publícalo en la <strong>misma</strong> implementación
+        (<em>Implementar › Gestionar implementaciones › ✏️ › Versión: nueva</em>; así la URL no cambia), y
+        sustituye <code>index.js</code>. Reinicia la IA.</p>
+      </details>
+      <details>
+        <summary>Algo no funciona</summary>
+        <p>«La API no devolvió JSON»: la URL no acaba en <code>/exec</code> o el despliegue no es «Yo /
+        Cualquier usuario». «Token incorrecto»: no coincide con <code>API_TOKEN</code>. La IA no ve las
+        herramientas: la ruta no es absoluta o falta reiniciarla. <code>npm run comprobar</code> te dice
+        si el fallo está antes o después del servidor.</p>
+      </details>
+    </div>
+  </main>
+
+  <footer>
+    <div class="contenedor pie">
+      <a href="/">EvaluAnda</a> · para el profesorado andaluz
+    </div>
+  </footer>
+</body>
+</html>
