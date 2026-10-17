@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Conectar con una IA · EvaluAnda</title>
-<meta name="description" content="Cómo conectar EvaluAnda con Claude, Codex u otra IA compatible con MCP para planificar conversando.">
+<title>Conectar con una IA · Evaluanda</title>
+<meta name="description" content="Cómo conectar Evaluanda con Claude, Codex u otra IA compatible con MCP para planificar conversando.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://evaluanda.github.io/conectar-ia.html">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -40,8 +40,8 @@
   header{position:sticky; top:0; z-index:50; background:var(--panel); border-bottom:1px solid var(--borde-suave); box-shadow:var(--sombra-1)}
   .barra{display:flex; align-items:center; height:70px}
   .marca{display:flex; align-items:center}
-  .logo-ico{width:32px; height:32px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(135deg,var(--acento),var(--verde)); box-shadow:var(--sombra-1)}
-  .logo-txt{font-weight:800; font-size:22px; letter-spacing:-.02em; margin-left:11px; background:linear-gradient(90deg,var(--acento),var(--verde)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .logo-ico{width:32px; height:32px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:#14213d; box-shadow:var(--sombra-1)}
+  .logo-txt{font-weight:800; font-size:22px; letter-spacing:-.02em; margin-left:11px; color:var(--tinta)}
   .barra .volver{margin-left:auto; font-weight:600; font-size:.95rem}
 
   .cabecera{padding:52px 0 8px}
@@ -50,7 +50,7 @@
   .intro strong{color:var(--texto)}
   main{padding-bottom:64px}
   h2{font-size:clamp(1.4rem,3.5vw,1.7rem); font-weight:800; color:var(--tinta); letter-spacing:-.01em; margin:44px 0 10px; display:flex; align-items:center; gap:12px}
-  h2 .num{flex:0 0 auto; width:32px; height:32px; border-radius:9px; font-size:1rem; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(135deg,var(--acento),var(--verde))}
+  h2 .num{flex:0 0 auto; width:32px; height:32px; border-radius:9px; font-size:1rem; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:#14213d}
   h3{font-size:1.1rem; font-weight:700; color:var(--tinta); margin:26px 0 4px}
   ul,ol{padding-left:24px} li{margin:7px 0}
   strong,b{color:var(--tinta)}
@@ -80,15 +80,15 @@
   <header>
     <div class="contenedor barra">
       <a class="marca" href="/">
-        <span class="logo-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M6 18V12M12 18V6M18 18V10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="logo-txt">EvaluAnda</span>
+        <span class="logo-ico"><svg width="100%" height="100%" viewBox="0 0 100 100" aria-hidden="true"><rect x="20" y="26" width="34" height="10" rx="5" fill="#43c59e"/><rect x="20" y="45" width="24" height="10" rx="5" fill="#5c86f7"/><rect x="20" y="64" width="30" height="10" rx="5" fill="#f2a33a"/><rect x="18" y="26" width="10" height="48" rx="5" fill="#fff"/><path d="M60 49l8 21 15-40" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="logo-txt">Evaluanda</span>
       </a>
       <a class="volver" href="/">← Inicio</a>
     </div>
   </header>
 
     <div class="contenedor cabecera">
-    <h1>Conectar EvaluAnda con una IA</h1>
+    <h1>Conectar Evaluanda con una IA</h1>
     <p class="intro">Planifica <strong>conversando</strong>: pídele a tu IA que revise una unidad, que
     proponga sesiones, que mueva tus tareas al lunes… y ella lee y escribe en <strong>tu</strong>
     cuaderno. Vale con <strong>Claude</strong>, <strong>Codex</strong> o cualquier IA compatible con
@@ -108,7 +108,7 @@
 servidor Node (en tu ordenador)
    │  HTTPS + token secreto
    ▼
-Apps Script «EvaluAnda — API» (se ejecuta como TÚ)
+Apps Script «Evaluanda — API» (se ejecuta como TÚ)
    ▼
 tu cuaderno, en tu Drive</code></pre>
 
@@ -116,10 +116,10 @@ tu cuaderno, en tu Drive</code></pre>
     <ul>
       <li>Un ordenador con <strong>Node 20 o superior</strong> (compruébalo con <code>node --version</code>).</li>
       <li>Una IA de escritorio que admita MCP: <strong>Claude Desktop</strong> (plan de pago), <strong>Codex</strong>, etc.</li>
-      <li>Haber entrado alguna vez en EvaluAnda (para que exista tu cuaderno).</li>
+      <li>Haber entrado alguna vez en Evaluanda (para que exista tu cuaderno).</li>
     </ul>
 
-    <h2><span class="num">1</span> Copia tus dos datos desde EvaluAnda</h2>
+    <h2><span class="num">1</span> Copia tus dos datos desde Evaluanda</h2>
     <p>En la app: <strong>Ajustes › Conector de IA (MCP)</strong>.</p>
     <ul>
       <li><strong>Copiar id del cuaderno</strong> → lo usarás como <code>CUADERNO_ID</code>.</li>
@@ -132,7 +132,7 @@ tu cuaderno, en tu Drive</code></pre>
     <h2><span class="num">2</span> Crea tu API en Apps Script (10 min)</h2>
     <ol>
       <li>Entra en <a href="https://script.google.com" target="_blank" rel="noopener">script.google.com</a> con tu
-      cuenta de g.educaand.es → <strong>Nuevo proyecto</strong>. Llámalo «EvaluAnda — API».</li>
+      cuenta de g.educaand.es → <strong>Nuevo proyecto</strong>. Llámalo «Evaluanda — API».</li>
       <li>Pega el código de <a href="https://github.com/maestroseb/evaluacion/tree/main/docs/mcp/apps-script/Api.gs" target="_blank" rel="noopener"><code>Api.gs</code></a>
       (sustituye todo lo que haya).</li>
       <li><strong>Inventa un token</strong>: una cadena larga y aleatoria (32 caracteres o más). Guárdala.</li>
@@ -191,7 +191,7 @@ env = { EVALUANDA_URL = "https://script.google.com/macros/s/…/exec", EVALUANDA
     <p>Cualquier cliente MCP que lance servidores por <strong>stdio</strong> vale: el comando es
     <code>node /ruta/a/index.js</code> con las variables <code>EVALUANDA_URL</code> y <code>EVALUANDA_TOKEN</code>.</p>
 
-    <p><strong>Primera prueba</strong>: «comprueba la conexión con EvaluAnda». Debe responder con el nombre
+    <p><strong>Primera prueba</strong>: «comprueba la conexión con Evaluanda». Debe responder con el nombre
     de tu cuaderno.</p>
 
     <h2><span class="num">5</span> Qué le puedes pedir</h2>
@@ -235,7 +235,7 @@ env = { EVALUANDA_URL = "https://script.google.com/macros/s/…/exec", EVALUANDA
 
   <footer>
     <div class="contenedor pie">
-      <a href="/">EvaluAnda</a> · para el profesorado andaluz
+      <a href="/">Evaluanda</a> · para el profesorado andaluz
     </div>
   </footer>
 </body>
