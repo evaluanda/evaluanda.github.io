@@ -105,6 +105,7 @@
     --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
     --sans:'Outfit',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     --ease:cubic-bezier(.23,1,.32,1);
+    --noche:#0c1328;
   }
   @media (prefers-color-scheme:dark){
     :root{
@@ -125,8 +126,12 @@
   .etiqueta{font-size:.78rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--tenue)}
 
   /* HEADER */
-  header{position:sticky; top:0; z-index:50; background:color-mix(in srgb,var(--papel) 88%,transparent);
-    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-bottom:1px solid var(--regla)}
+  header{position:sticky; top:0; z-index:50; background:color-mix(in srgb,var(--noche) 92%,transparent);
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,.08)}
+  header .marca{color:#fff}
+  header nav.enlaces a.txt{color:#c9d0e2}
+  header nav.enlaces a.txt:hover{color:#fff}
+  header .btn{background:#fff; color:#14213d}
   .barra{display:flex; align-items:center; justify-content:space-between; gap:16px; height:64px}
   .marca{display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.2rem; letter-spacing:-.01em; color:var(--tinta)}
   .logo-ico{width:30px; height:30px; border-radius:8px; display:inline-flex; background:#14213d; box-shadow:0 0 0 1px var(--filo-logo); flex:none}
@@ -144,9 +149,35 @@
   .enlace-flecha:hover{border-color:var(--tinta)}
   @media (max-width:760px){ nav.enlaces a.solo-ancho{display:none} nav.enlaces{gap:16px} }
 
+  /* HERO — escenario marino con renglones de cuaderno; texto claro y la captura real */
+  main.escenario{background:var(--noche); color:#c9d0e2; overflow-x:clip;
+    background-image:linear-gradient(transparent calc(100% - 1px),rgba(255,255,255,.05) 0); background-size:100% 44px}
+  .escenario .etiqueta{color:#8f9bb8}
+  .escenario .hero h1{color:#fff}
+  .escenario .hero h1 em{color:var(--verde)}
+  .escenario .hero .entrada{color:#c9d0e2}
+  .escenario .btn{background:var(--verde); color:#0c1328}
+  .escenario .enlace-flecha{color:#fff; border-color:rgba(255,255,255,.35)}
+  .escenario .enlace-flecha:hover{border-color:#fff}
+  .escenario .datos{border-color:rgba(255,255,255,.1); color:#8f9bb8}
+  .escenario .btn-inst{background:rgba(255,255,255,.04); border-color:rgba(255,255,255,.14); color:#c9d0e2}
+  .escenario .btn-inst:hover{border-color:rgba(255,255,255,.5)}
+  .escenario .btn-inst strong{color:#fff}
+  .escenario .btn-inst small, .escenario .btn-inst > svg, .escenario .ios-nota{color:#8f9bb8}
+  .escenario .ios-nota strong{color:#fff}
+  .escenario .captura .marco{border-color:rgba(255,255,255,.1); box-shadow:0 40px 80px -30px rgba(0,0,0,.65)}
+  .escenario .captura figcaption{color:#8f9bb8}
+  /* Aviso «Copiado» que aparece sobre la captura: el último paso, llevar las notas a Séneca */
+  .aviso-copiado{position:absolute; right:24px; bottom:22px; display:inline-flex; align-items:center; gap:8px; padding:9px 14px; border-radius:10px;
+    background:#14213d; color:#fff; font-size:.85rem; font-weight:600; line-height:1.2; box-shadow:0 12px 30px -10px rgba(0,0,0,.5);
+    opacity:0; transform:translateY(8px); transition:opacity .45s var(--ease) 1s, transform .5s var(--ease) 1s}
+  .aviso-copiado svg{color:var(--verde)}
+  .captura.visible .aviso-copiado{opacity:1; transform:none}
+  html:not(.js) .aviso-copiado{opacity:1; transform:none}
+  @media (max-width:640px){ .aviso-copiado{display:none} }
   /* HERO — partido 5/7, alineado a la izquierda */
   .hero{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:56px; align-items:center; padding-top:72px; padding-bottom:88px}
-  .hero h1{font-family:var(--serif); font-weight:400; color:var(--tinta); font-size:clamp(2.9rem,6.2vw,5.2rem); line-height:.98; letter-spacing:-.02em; margin:18px 0 0}
+  .hero h1{font-family:var(--serif); font-weight:400; color:var(--tinta); font-size:clamp(2.9rem,5.6vw,4.7rem); line-height:.98; letter-spacing:-.02em; margin:18px 0 0}
   .hero h1 em{font-style:italic}
   .hero .entrada{margin:24px 0 0; max-width:42ch; font-size:1.12rem; color:var(--texto)}
   .hero .acciones{display:flex; flex-wrap:wrap; align-items:center; gap:22px; margin-top:32px}
@@ -278,7 +309,7 @@
   .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s var(--ease), transform .8s var(--ease)}
   .reveal.visible{opacity:1; transform:none}
   html:not(.js) .reveal{opacity:1; transform:none}
-  @media (prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none; transition:none} }
+  @media (prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none; transition:none} .aviso-copiado{transition:none} }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -300,12 +331,12 @@
     </div>
   </header>
 
-  <main>
+  <main class="escenario">
     <div class="contenedor hero">
       <div>
         <div class="etiqueta">Cuaderno del profesorado · LOMLOE · Andalucía</div>
-        <h1>Las notas de criterio, <em>hechas</em> antes de salir del aula.</h1>
-        <p class="entrada">Pones la nota de la actividad y Evaluanda calcula la de cada criterio, la de la unidad y la final, lista para copiar en Séneca. Desde el móvil en clase o el ordenador en casa.</p>
+        <h1>Tú pones la nota.<br><em>El resto</em> se calcula solo.</h1>
+        <p class="entrada">Cada nota de actividad actualiza al instante la de sus criterios, la de la unidad y la final. Cuando acabas, un clic y está lista para Séneca. En el móvil en clase o en el ordenador en casa.</p>
         <div class="acciones">
           <a class="btn grande" href="https://accounts.google.com/AccountChooser?continue=https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">
             Entrar con mi cuenta
@@ -347,6 +378,7 @@
                  fetchpriority="high" decoding="async">
           </picture>
         </div>
+        <span class="aviso-copiado" aria-hidden="true"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Copiado. Pégalo en Séneca</span>
         <figcaption>Cuaderno de una unidad: actividades a la izquierda, notas de criterio y nota final a la derecha.</figcaption>
       </figure>
     </div>
