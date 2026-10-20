@@ -90,324 +90,195 @@
   ]
 }
 </script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap">
 
 <style>
+  /* Dirección: cuaderno del profesorado. Papel, tinta marina, reglas finas
+     y las tres barras del logo como único color. Sin brillos ni degradados. */
   :root{
-    --acento:#3d63d6; --verde:#16855f; --naranja:#b86e0c; --marca:#14213d;
-    --tinta:#111827; --texto:#374151; --tenue:#6b7280;
-    --bg:#f9fafb; --panel:#ffffff; --borde:#e5e7eb; --borde-suave:#f0f1f4;
-    --filo-logo:transparent;
-    --sombra-1:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06);
-    --sombra-2:0 10px 25px -5px rgba(0,0,0,.12);
-    --sombra-marco:0 24px 60px -18px rgba(30,41,59,.28), 0 8px 22px -12px rgba(30,41,59,.18);
-    --glass:rgba(255,255,255,.72);
-    --rejilla-punto:rgba(17,24,39,.07);
-    /* Curvas de easing con carácter (no las por defecto del navegador) */
-    --ease-out:cubic-bezier(.23,1,.32,1);
+    --papel:#f7f5ef; --hoja:#fffefa; --tinta:#14213d; --texto:#3a4256; --tenue:#6b7285;
+    --regla:#e3dfd3; --regla-fuerte:#cfc9b8;
+    --acento:#2f5bd3; --verde:#43c59e; --azul:#5c86f7; --naranja:#f2a33a;
+    --btn:#14213d; --btn-txt:#fff; --filo-logo:transparent;
+    --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+    --sans:'Outfit',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --ease:cubic-bezier(.23,1,.32,1);
   }
   @media (prefers-color-scheme:dark){
     :root{
-      --acento:#7c9cff; --verde:#43c59e; --naranja:#f2a33a; --marca:#3d63d6;
-      --tinta:#f3f4f6; --texto:#cbd5e1; --tenue:#94a3b8;
-      --bg:#0d1117; --panel:#161b22; --borde:#262d38; --borde-suave:#1e252f;
-      --filo-logo:rgba(255,255,255,.16);
-      --sombra-1:0 4px 6px -1px rgba(0,0,0,.4); --sombra-2:0 12px 30px -5px rgba(0,0,0,.5);
-      --sombra-marco:0 30px 70px -20px rgba(0,0,0,.7), 0 10px 26px -14px rgba(0,0,0,.55);
-      --glass:rgba(22,27,34,.72);
-      --rejilla-punto:rgba(255,255,255,.06);
+      --papel:#0e1320; --hoja:#141a29; --tinta:#eef0f5; --texto:#c3c8d4; --tenue:#8b92a3;
+      --regla:#232a3b; --regla-fuerte:#323a4e;
+      --acento:#8aa6ff; --btn:#eef0f5; --btn-txt:#14213d; --filo-logo:rgba(255,255,255,.16);
     }
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth; scroll-padding-top:84px}
+  html{scroll-behavior:smooth; scroll-padding-top:80px}
   @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
   html,body{margin:0}
-  body{
-    font-family:'Outfit',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    color:var(--texto); background:var(--bg); line-height:1.6; -webkit-font-smoothing:antialiased;
-    display:flex; flex-direction:column; min-height:100vh;
-  }
-  a{text-decoration:none; color:inherit}
-  :focus-visible{outline:3px solid var(--acento); outline-offset:3px; border-radius:8px}
-  .contenedor{max-width:1120px; margin:0 auto; padding:0 24px; width:100%}
-  .bg-marca{background:var(--marca)}
-  /* Las tres barras del logo (verde, azul, naranja) como motivo de marca */
-  .resalte{background:linear-gradient(90deg,#43c59e 0 33.3%,#5c86f7 0 66.6%,#f2a33a 0) no-repeat 0 94%/100% .13em}
+  body{font-family:var(--sans); color:var(--texto); background:var(--papel); line-height:1.6; -webkit-font-smoothing:antialiased; font-size:17px}
+  a{color:inherit; text-decoration:none}
+  :focus-visible{outline:2px solid var(--acento); outline-offset:3px; border-radius:6px}
+  .contenedor{max-width:1180px; margin:0 auto; padding:0 28px}
+  @media (max-width:640px){ .contenedor{padding:0 18px} body{font-size:16px} }
+  .etiqueta{font-size:.78rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--tenue)}
 
-  /* HEADER — chrome translúcido (material que flota sobre el contenido) */
-  header{position:sticky; top:0; z-index:50; background:var(--glass);
-    -webkit-backdrop-filter:blur(14px) saturate(180%); backdrop-filter:blur(14px) saturate(180%);
-    border-bottom:1px solid var(--borde-suave)}
-  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    header{background:var(--panel)}
-  }
-  .barra{display:flex; justify-content:space-between; align-items:center; gap:16px; height:72px}
-  .marca{display:flex; align-items:center; min-width:0}
-  .logo-ico{width:34px; height:34px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:#14213d; box-shadow:var(--sombra-1), 0 0 0 1px var(--filo-logo); flex:none}
-  .logo-txt{font-weight:800; font-size:26px; letter-spacing:-.02em; margin-left:12px; color:var(--tinta)}
-  nav.enlaces{display:flex; align-items:center; gap:22px}
-  nav.enlaces a.txt{color:var(--texto); font-weight:600; font-size:.95rem; transition:color .16s var(--ease-out)}
-  nav.enlaces a.txt:hover{color:var(--acento)}
-  .btn-cta{display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:11px; color:#fff; font-weight:700; box-shadow:var(--sombra-1); transition:transform .18s var(--ease-out), box-shadow .2s var(--ease-out)}
-  @media (hover:hover) and (pointer:fine){ .btn-cta:hover{transform:translateY(-2px); box-shadow:var(--sombra-2)} }
-  .btn-cta:active{transform:scale(.97)}
-  .cta-short{display:none}
-  @media (max-width:860px){ nav.enlaces a.solo-ancho{display:none} }
-  @media (max-width:640px){
-    .barra{height:64px}
-    .contenedor{padding:0 20px}
-    .logo-txt{font-size:20px; margin-left:10px}
-    nav.enlaces{gap:14px}
-    nav.enlaces a.txt{font-size:.88rem}
-    .btn-cta{padding:9px 14px; font-size:.88rem; white-space:nowrap}
-  }
-  @media (max-width:400px){
-    .contenedor{padding:0 16px}
-    .logo-txt{font-size:18px}
-    .btn-cta{padding:8px 12px; font-size:.82rem}
-    .cta-full{display:none}
-    .cta-short{display:inline}
-  }
+  /* HEADER */
+  header{position:sticky; top:0; z-index:50; background:color-mix(in srgb,var(--papel) 88%,transparent);
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-bottom:1px solid var(--regla)}
+  .barra{display:flex; align-items:center; justify-content:space-between; gap:16px; height:64px}
+  .marca{display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.2rem; letter-spacing:-.01em; color:var(--tinta)}
+  .logo-ico{width:30px; height:30px; border-radius:8px; display:inline-flex; background:#14213d; box-shadow:0 0 0 1px var(--filo-logo); flex:none}
+  nav.enlaces{display:flex; align-items:center; gap:26px; font-size:.95rem}
+  nav.enlaces a.txt{color:var(--texto)}
+  nav.enlaces a.txt:hover{color:var(--tinta); text-decoration:underline; text-underline-offset:4px}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:999px; font-weight:600; background:var(--btn); color:var(--btn-txt);
+    transition:transform .15s var(--ease), opacity .15s}
+  .btn:hover{opacity:.9}
+  .btn:active{transform:scale(.97)}
+  .btn svg{transition:transform .2s var(--ease)}
+  .btn:hover svg{transform:translateX(3px)}
+  .btn.grande{padding:15px 26px; font-size:1.05rem}
+  .enlace-flecha{display:inline-flex; align-items:center; gap:6px; font-weight:600; color:var(--tinta); border-bottom:1px solid var(--regla-fuerte); padding-bottom:2px}
+  .enlace-flecha:hover{border-color:var(--tinta)}
+  @media (max-width:760px){ nav.enlaces a.solo-ancho{display:none} nav.enlaces{gap:16px} }
 
-  /* HERO */
-  main{flex:1 0 auto; overflow-x:clip}
-  .hero{text-align:center; padding-top:76px; padding-bottom:40px; position:relative; isolation:isolate}
-  /* Malla de puntos que se desvanece: textura de "cuaderno" detrás del titular */
-  .hero::before{content:""; position:absolute; inset:0 -50vw; z-index:-2; pointer-events:none;
-    background-image:radial-gradient(var(--rejilla-punto) 1.2px, transparent 1.2px); background-size:22px 22px;
-    -webkit-mask-image:radial-gradient(70% 55% at 50% 22%, #000 0%, transparent 75%);
-            mask-image:radial-gradient(70% 55% at 50% 22%, #000 0%, transparent 75%)}
-  .hero::after{content:""; position:absolute; top:-6%; left:50%; transform:translateX(-50%);
-    width:min(780px,92%); height:440px; z-index:-1; pointer-events:none;
-    background:radial-gradient(60% 60% at 50% 40%, color-mix(in srgb,var(--acento) 22%,transparent), transparent 70%);
-    filter:blur(24px); opacity:.75}
-  .eyebrow{display:inline-flex; align-items:center; gap:9px; padding:7px 15px 7px 12px; border-radius:999px;
-    background:var(--panel); border:1px solid var(--borde); box-shadow:var(--sombra-1);
-    font-size:.85rem; font-weight:600; color:var(--texto)}
-  .eyebrow .dot{width:8px; height:8px; border-radius:50%; background:var(--verde); box-shadow:0 0 0 3px color-mix(in srgb,var(--verde) 22%,transparent)}
-  .hero h1{font-size:clamp(2.4rem,6.4vw,4.4rem); line-height:1.04; font-weight:800; letter-spacing:-.035em; color:var(--tinta); margin:24px 0 0}
-  .hero h1 .l2{display:block; margin-top:6px; padding-bottom:6px}
-  .hero p.lema{max-width:48ch; margin:22px auto 0; font-size:clamp(1.04rem,2.5vw,1.24rem); color:var(--tenue)}
-  .hero p.lema strong{color:var(--tinta); font-weight:600}
-  .acciones{display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:34px}
-  .btn-grande{display:inline-flex; align-items:center; justify-content:center; gap:9px; padding:15px 30px; border-radius:14px; font-weight:800; font-size:1.05rem; transition:transform .2s var(--ease-out), box-shadow .25s var(--ease-out), border-color .2s var(--ease-out), color .2s var(--ease-out)}
-  .btn-grande.primario{color:#fff; box-shadow:var(--sombra-2)}
-  .btn-grande.secundario{color:var(--texto); background:var(--panel); border:1px solid var(--borde)}
-  .btn-grande svg{transition:transform .2s var(--ease-out)}
-  @media (hover:hover) and (pointer:fine){
-    .btn-grande.primario:hover{transform:translateY(-3px)}
-    .btn-grande.primario:hover svg{transform:translateX(3px)}
-    .btn-grande.secundario:hover{color:var(--tinta); border-color:var(--acento); transform:translateY(-3px)}
-  }
-  .btn-grande:active{transform:scale(.97)}
-  /* Señales de confianza bajo los CTA */
-  .confianza{display:flex; flex-wrap:wrap; gap:8px 22px; justify-content:center; margin-top:26px; color:var(--tenue); font-size:.92rem}
-  .confianza span{display:inline-flex; align-items:center; gap:7px}
-  .confianza svg{color:var(--verde); flex:none}
-
-  /* SHOWCASE — el producto en primer plano, con perspectiva y chips flotantes */
-  .showcase{position:relative; max-width:1000px; margin:60px auto 0; padding:0 4px; perspective:1800px}
-  .showcase::before{content:""; position:absolute; inset:12% 6% -6% 6%; z-index:-1; pointer-events:none;
-    background:linear-gradient(135deg, color-mix(in srgb,var(--acento) 55%,transparent), color-mix(in srgb,var(--verde) 55%,transparent));
-    filter:blur(46px); opacity:.34; border-radius:40px}
-  .marco{border-radius:18px; overflow:hidden; border:1px solid var(--borde);
-    background:var(--panel); box-shadow:var(--sombra-marco); line-height:0;
-    transform:rotateX(9deg) scale(.97); transform-origin:50% 100%;
-    transition:transform 1.1s var(--ease-out)}
-  .showcase.visible .marco{transform:rotateX(2deg) scale(1)}
-  .marco img{display:block; width:100%; height:auto}
-  .chip{position:absolute; z-index:2; display:inline-flex; align-items:center; gap:10px; padding:10px 14px 10px 10px;
-    border-radius:14px; background:var(--glass); border:1px solid var(--borde);
-    -webkit-backdrop-filter:blur(12px) saturate(180%); backdrop-filter:blur(12px) saturate(180%);
-    box-shadow:var(--sombra-2); text-align:left; line-height:1.2;
-    opacity:0; transform:translateY(14px); transition:opacity .7s var(--ease-out), transform .8s var(--ease-out)}
-  .showcase.visible .chip{opacity:1; transform:none}
-  .showcase.visible .chip.c2{transition-delay:.15s}
-  .showcase.visible .chip.c3{transition-delay:.3s}
-  .chip .ci{width:32px; height:32px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; flex:none}
-  .chip strong{display:block; color:var(--tinta); font-size:.92rem; font-weight:700}
-  .chip small{display:block; color:var(--tenue); font-size:.78rem}
-  .chip.c1{top:-22px; right:9%}
-  .chip.c2{top:46%; right:-38px}
-  .chip.c3{bottom:-24px; right:30%}
-  @media (max-width:1080px){ .chip.c2{right:-8px} }
-  @media (max-width:640px){
-    .hero{padding-top:44px; padding-bottom:24px}
-    .acciones .btn-grande{flex:1 1 auto}
-    .showcase{margin-top:40px; padding:0}
-    .marco{border-radius:14px}
-    .chip{display:none}
+  /* HERO — partido 5/7, alineado a la izquierda */
+  .hero{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:56px; align-items:center; padding-top:72px; padding-bottom:88px}
+  .hero h1{font-family:var(--serif); font-weight:400; color:var(--tinta); font-size:clamp(2.9rem,6.2vw,5.2rem); line-height:.98; letter-spacing:-.02em; margin:18px 0 0}
+  .hero h1 em{font-style:italic}
+  .hero .entrada{margin:24px 0 0; max-width:42ch; font-size:1.12rem; color:var(--texto)}
+  .hero .acciones{display:flex; flex-wrap:wrap; align-items:center; gap:22px; margin-top:32px}
+  .datos{display:flex; flex-wrap:wrap; gap:6px 18px; margin:34px 0 0; padding:16px 0 0; border-top:1px solid var(--regla); list-style:none; font-size:.9rem; color:var(--tenue)}
+  .datos li{display:inline-flex; align-items:center; gap:8px}
+  .datos i{width:14px; height:5px; border-radius:3px; display:inline-block}
+  .captura{position:relative; margin:0 -28px 0 0}
+  .captura .marco{border:1px solid var(--regla-fuerte); border-radius:14px; overflow:hidden; background:var(--hoja); line-height:0;
+    box-shadow:0 1px 0 var(--regla), 0 30px 60px -30px rgba(20,33,61,.35)}
+  .captura img{display:block; width:100%; height:auto}
+  .captura figcaption{margin-top:12px; font-size:.82rem; color:var(--tenue)}
+  @media (max-width:640px){ .captura figcaption{display:none} }
+  @media (max-width:960px){
+    .hero{grid-template-columns:1fr; gap:44px; padding-top:48px; padding-bottom:64px}
+    .captura{margin-right:0}
   }
 
-  /* Instalación en iOS a pantalla completa — visible solo en iPhone/iPad */
-  .ios-install{display:none; max-width:560px; margin:36px auto 0; text-align:center}
-  html.is-ios .ios-install{display:block}
-  .btn-ios{display:flex; align-items:center; gap:14px; text-align:left; padding:14px 18px; border-radius:16px;
-    background:var(--panel); border:1px solid var(--borde); box-shadow:var(--sombra-1);
-    transition:transform .2s var(--ease-out), box-shadow .25s var(--ease-out), border-color .2s var(--ease-out)}
-  @media (hover:hover) and (pointer:fine){ .btn-ios:hover{border-color:var(--acento); box-shadow:var(--sombra-2)} }
-  .btn-ios:active{transform:scale(.98)}
-  .ios-mark{flex:none; width:44px; height:44px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center;
-    color:#fff; background:linear-gradient(135deg,#1f2937,#111827)}
-  .ios-txt{flex:1; min-width:0}
-  .ios-txt strong{display:block; color:var(--tinta); font-weight:800; font-size:1rem; line-height:1.25}
-  .ios-txt small{display:block; color:var(--tenue); font-size:.86rem; margin-top:2px}
-  .ios-dl{flex:none; color:var(--acento)}
-  .ios-nota{max-width:50ch; margin:12px auto 0; font-size:.82rem; color:var(--tenue); line-height:1.5}
-  /* Instalación como app (Chrome/Edge en PC y Android) — solo si el navegador la ofrece */
-  .pwa-install{display:none; max-width:560px; margin:36px auto 0}
-  html.puede-instalar .pwa-install{display:block}
-  .pwa-install .btn-ios{width:100%; font:inherit; cursor:pointer}
-  .pwa-install .ios-mark{background:none}
-  .pwa-install .ios-mark img{width:44px; height:44px; border-radius:12px}
+  /* Instalación como app (iOS / Chrome) */
+  .instalar{display:none; margin-top:26px; max-width:460px}
+  html.is-ios .ios-install, html.puede-instalar .pwa-install{display:block}
+  .btn-inst{display:flex; align-items:center; gap:14px; width:100%; padding:12px 14px; border-radius:14px; text-align:left; font:inherit; cursor:pointer;
+    background:var(--hoja); border:1px solid var(--regla-fuerte); color:var(--texto); transition:border-color .2s}
+  .btn-inst:hover{border-color:var(--tinta)}
+  .btn-inst .ico{flex:none; width:40px; height:40px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; color:#fff; background:#14213d; overflow:hidden}
+  .btn-inst .ico img{width:40px; height:40px}
+  .btn-inst strong{display:block; color:var(--tinta); font-size:.98rem; line-height:1.25}
+  .btn-inst small{display:block; color:var(--tenue); font-size:.84rem}
+  .btn-inst > svg{margin-left:auto; flex:none; color:var(--tenue)}
+  .ios-nota{margin:10px 0 0; font-size:.8rem; color:var(--tenue); line-height:1.5}
 
   /* SECCIONES */
-  section.bloque{padding:96px 0}
-  .fondo-panel{background:var(--panel); border-top:1px solid var(--borde-suave); border-bottom:1px solid var(--borde-suave)}
-  .titular{text-align:center; max-width:640px; margin:0 auto 56px}
-  .titular .sup{font-size:.82rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--verde)}
-  .titular h2{font-size:clamp(1.8rem,4.2vw,2.6rem); line-height:1.12; font-weight:800; letter-spacing:-.025em; color:var(--tinta); margin:10px 0 0}
-  .titular p{margin:14px 0 0; color:var(--tenue); font-size:1.08rem}
-  @media (max-width:640px){ section.bloque{padding:68px 0} .titular{margin-bottom:40px} }
+  section{border-top:1px solid var(--regla)}
+  .seccion{padding:96px 0}
+  @media (max-width:640px){ .seccion{padding:64px 0} }
+  .cabecera{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:56px; margin-bottom:56px; align-items:end}
+  .cabecera h2{font-family:var(--serif); font-weight:400; color:var(--tinta); font-size:clamp(2.2rem,4.6vw,3.6rem); line-height:1; letter-spacing:-.015em; margin:12px 0 0}
+  .cabecera p{margin:0; max-width:52ch; color:var(--texto)}
+  @media (max-width:960px){ .cabecera{grid-template-columns:1fr; gap:16px; margin-bottom:40px} }
 
-  /* CÓMO FUNCIONA — tres pasos unidos por una línea */
-  .pasos{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:28px; position:relative; counter-reset:paso}
-  .pasos::before{content:""; position:absolute; top:27px; left:16%; right:16%; height:2px; z-index:0;
-    background:linear-gradient(90deg,#43c59e,#5c86f7,#f2a33a); opacity:.45}
-  .pasos li{position:relative; z-index:1; text-align:center; padding:0 8px}
-  .pasos .num{width:56px; height:56px; margin:0 auto 18px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-    font-weight:800; font-size:1.3rem; color:#14213d; box-shadow:0 0 0 7px var(--panel), var(--sombra-2)}
-  .pasos li:nth-child(1) .num{background:#43c59e}
-  .pasos li:nth-child(2) .num{background:#5c86f7}
-  .pasos li:nth-child(3) .num{background:#f2a33a}
-  .pasos h3{font-size:1.18rem; font-weight:800; color:var(--tinta); margin:0 0 6px}
-  .pasos p{margin:0 auto; color:var(--tenue); max-width:30ch}
+  /* ANTES / AHORA — el problema y la solución, en dos columnas de cuaderno */
+  .comparar{display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--regla-fuerte); border-radius:16px; overflow:hidden; background:var(--hoja)}
+  .comparar > div{padding:32px 34px}
+  .comparar > div + div{border-left:1px solid var(--regla-fuerte)}
+  .comparar h3{margin:0 0 18px; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tenue); font-weight:600}
+  .comparar ul{list-style:none; margin:0; padding:0}
+  .comparar li{padding:13px 0 13px 30px; border-top:1px solid var(--regla); position:relative}
+  .comparar li:first-child{border-top:0}
+  .comparar li::before{position:absolute; left:0; top:13px; font-weight:700}
+  .comparar .antes li{color:var(--tenue)}
+  .comparar .antes li::before{content:"—"; color:var(--regla-fuerte)}
+  .comparar .ahora li{color:var(--tinta)}
+  .comparar .ahora li::before{content:"✓"; color:var(--verde)}
   @media (max-width:760px){
-    .pasos{grid-template-columns:1fr; gap:30px}
-    .pasos::before{top:28px; bottom:28px; left:27px; right:auto; width:2px; height:auto; background:linear-gradient(180deg,#43c59e,#5c86f7,#f2a33a)}
-    .pasos li{display:grid; grid-template-columns:56px 1fr; column-gap:18px; text-align:left; padding:0}
-    .pasos .num{grid-row:span 2; margin:0}
-    .pasos p{margin:0}
+    .comparar{grid-template-columns:1fr}
+    .comparar > div{padding:24px 22px}
+    .comparar > div + div{border-left:0; border-top:1px solid var(--regla-fuerte)}
   }
 
-  /* FUNCIONES — rejilla tipo bento */
-  .bento{display:grid; grid-template-columns:repeat(6,1fr); gap:20px}
-  .card{position:relative; overflow:hidden; grid-column:span 2; background:var(--bg); border:1px solid var(--borde-suave); border-radius:20px; padding:28px;
-    transition:box-shadow .3s var(--ease-out), transform .3s var(--ease-out), border-color .3s var(--ease-out)}
-  @media (hover:hover) and (pointer:fine){ .card:hover{box-shadow:var(--sombra-2); transform:translateY(-4px); border-color:var(--borde)} }
-  .card.ancha{grid-column:span 4; display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:center}
-  .card.entera{grid-column:1/-1}
-  .card .ico{width:48px; height:48px; border-radius:13px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px}
-  .ico.indigo{background:color-mix(in srgb,var(--acento) 16%,transparent); color:var(--acento)}
-  .ico.verde{background:color-mix(in srgb,var(--verde) 16%,transparent); color:var(--verde)}
-  .ico.azul{background:color-mix(in srgb,#5c86f7 16%,transparent); color:var(--acento)}
-  .ico.ambar{background:color-mix(in srgb,#f2a33a 18%,transparent); color:var(--naranja)}
-  .ico.rosa{background:color-mix(in srgb,#ec4899 16%,transparent); color:#db2777}
-  .card h3{font-size:1.2rem; font-weight:800; color:var(--tinta); margin:0 0 8px; letter-spacing:-.01em}
-  .card p{margin:0; color:var(--tenue)}
-  .card h3 .opc{font-weight:600; color:var(--tenue); font-size:.8rem}
-  .card a.mas{display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-weight:700; color:var(--acento)}
-  .card a.mas:hover{text-decoration:underline}
-  /* Mini-cuaderno ilustrativo (no son datos reales: solo enseña cómo se ve) */
-  .mini{background:var(--panel); border:1px solid var(--borde); border-radius:14px; padding:14px; box-shadow:var(--sombra-1); font-size:.85rem}
-  .mini .fila{display:grid; grid-template-columns:1fr repeat(3,40px); gap:6px; align-items:center; padding:6px 0; border-bottom:1px dashed var(--borde)}
-  .mini .fila:last-child{border-bottom:0}
-  .mini .cab{font-weight:700; color:var(--tenue); font-size:.74rem; text-transform:uppercase; letter-spacing:.04em}
-  .mini .nombre{height:9px; border-radius:6px; background:var(--borde)}
-  .mini .n{text-align:center; font-weight:700; border-radius:8px; padding:3px 0; font-variant-numeric:tabular-nums}
-  .n.a{background:color-mix(in srgb,var(--verde) 16%,transparent); color:var(--verde)}
-  .n.b{background:color-mix(in srgb,var(--acento) 16%,transparent); color:var(--acento)}
-  .n.c{background:color-mix(in srgb,#f2a33a 20%,transparent); color:var(--naranja)}
-  @media (prefers-color-scheme:dark){ .ico.rosa{color:#f472b6} }
-  @media (max-width:900px){
-    .bento{grid-template-columns:repeat(2,1fr)}
-    .card{grid-column:span 1}
-    .card.ancha{grid-column:span 2}
-  }
-  @media (max-width:640px){
-    .bento{grid-template-columns:1fr}
-    .card,.card.ancha{grid-column:span 1}
-    .card.ancha{grid-template-columns:1fr}
+  /* FUNCIONES — índice numerado con reglas, como un sumario */
+  .indice{list-style:none; margin:0; padding:0; counter-reset:f}
+  .indice li{display:grid; grid-template-columns:72px minmax(0,4fr) minmax(0,7fr); gap:24px; padding:28px 0; border-top:1px solid var(--regla); align-items:baseline}
+  .indice li:last-child{border-bottom:1px solid var(--regla)}
+  .indice .n{font-family:var(--serif); font-size:1.6rem; color:var(--tenue); font-variant-numeric:tabular-nums}
+  .indice h3{margin:0; font-size:1.3rem; font-weight:600; color:var(--tinta); letter-spacing:-.01em}
+  .indice p{margin:0; color:var(--texto); max-width:56ch}
+  .indice p a{color:var(--acento); font-weight:600; border-bottom:1px solid currentColor}
+  .indice .tag{display:inline-block; margin-left:8px; padding:1px 8px; border:1px solid var(--regla-fuerte); border-radius:999px; font-size:.72rem; font-weight:600; color:var(--tenue); vertical-align:middle}
+  @media (max-width:760px){
+    .indice li{grid-template-columns:44px 1fr; gap:6px 14px; padding:22px 0}
+    .indice p{grid-column:2}
   }
 
-  /* PREGUNTAS FRECUENTES */
-  .faq{max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:12px}
-  .faq details{background:var(--panel); border:1px solid var(--borde); border-radius:16px; transition:border-color .2s var(--ease-out), box-shadow .25s var(--ease-out)}
-  .faq details[open]{border-color:color-mix(in srgb,var(--acento) 45%,var(--borde)); box-shadow:var(--sombra-1)}
-  .faq summary{list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:18px 22px; font-weight:700; color:var(--tinta); font-size:1.04rem}
+  /* PRIVACIDAD — banda marina con el recorrido de los datos */
+  .privacidad{background:#14213d; color:#d5dbea; border-top:0}
+  .privacidad .cabecera h2{color:#fff}
+  .privacidad .etiqueta{color:#8f9bb8}
+  .privacidad .cabecera p{color:#c4cbe0}
+  .flujo{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; border:1px solid rgba(255,255,255,.14); border-radius:16px; overflow:hidden}
+  .flujo > div{padding:28px 30px}
+  .flujo > div + div{border-left:1px solid rgba(255,255,255,.14)}
+  .flujo .paso{font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:#8f9bb8; font-weight:600}
+  .flujo h3{margin:10px 0 6px; font-family:var(--serif); font-weight:400; font-size:1.9rem; color:#fff; line-height:1.05}
+  .flujo p{margin:0; color:#c4cbe0; font-size:.98rem}
+  .flujo i{display:block; width:28px; height:6px; border-radius:3px; margin-bottom:16px}
+  @media (max-width:860px){
+    .flujo{grid-template-columns:1fr}
+    .flujo > div + div{border-left:0; border-top:1px solid rgba(255,255,255,.14)}
+  }
+
+  /* PREGUNTAS */
+  .faq{border-top:1px solid var(--regla)}
+  .faq details{border-bottom:1px solid var(--regla)}
+  .faq summary{list-style:none; cursor:pointer; display:flex; justify-content:space-between; gap:20px; padding:22px 0; font-size:1.12rem; font-weight:600; color:var(--tinta)}
   .faq summary::-webkit-details-marker{display:none}
-  .faq summary::after{content:""; flex:none; width:10px; height:10px; border-right:2.5px solid var(--tenue); border-bottom:2.5px solid var(--tenue); transform:rotate(45deg) translateY(-3px); transition:transform .25s var(--ease-out)}
-  .faq details[open] summary::after{transform:rotate(-135deg) translateY(-3px)}
-  .faq .resp{padding:0 22px 20px; color:var(--tenue)}
+  .faq summary::after{content:"+"; font-family:var(--serif); font-size:1.8rem; line-height:.8; color:var(--tenue); transition:transform .25s var(--ease)}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq .resp{padding:0 0 22px; max-width:62ch; color:var(--texto)}
   .faq .resp p{margin:0}
-  .faq .resp a{color:var(--acento); font-weight:600}
-  .faq .resp a:hover{text-decoration:underline}
+  .faq .resp a{color:var(--acento); font-weight:600; border-bottom:1px solid currentColor}
 
-  /* DESARROLLADOR */
-  .dev{text-align:center; max-width:760px; margin:0 auto}
-  .dev img.avatar{width:112px; height:112px; border-radius:50%; object-fit:cover; border:4px solid var(--panel); box-shadow:var(--sombra-2); margin-bottom:22px}
-  .dev h2{font-size:clamp(1.6rem,4vw,2.1rem); font-weight:800; letter-spacing:-.02em; color:var(--tinta); margin:0 0 14px}
-  .dev h2 a{color:var(--acento)}
-  .dev h2 a:hover{color:var(--verde)}
-  .dev p{font-size:1.1rem; color:var(--texto); margin:0 auto 30px; max-width:60ch}
-  .apoyo{display:flex; flex-wrap:wrap; gap:16px; justify-content:center; align-items:center}
-  .btn-kofi{display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border-radius:13px; font-weight:800; color:#fff; background:#72a4f2; box-shadow:var(--sombra-1); transition:transform .2s var(--ease-out), box-shadow .25s var(--ease-out)}
-  @media (hover:hover) and (pointer:fine){ .btn-kofi:hover{transform:translateY(-2px); box-shadow:var(--sombra-2)} }
-  .btn-kofi:active{transform:scale(.97)}
-  .btn-x{display:inline-flex; align-items:center; gap:9px; padding:14px 24px; border-radius:13px; font-weight:700; color:var(--texto); background:var(--panel); border:1px solid var(--borde); transition:transform .2s var(--ease-out), color .2s var(--ease-out), border-color .2s var(--ease-out)}
-  @media (hover:hover) and (pointer:fine){ .btn-x:hover{color:var(--tinta); border-color:var(--acento); transform:translateY(-2px)} }
-  .btn-x:active{transform:scale(.97)}
+  /* AUTOR — nota firmada */
+  .nota{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:56px; align-items:start}
+  .nota blockquote{margin:0; font-family:var(--serif); font-size:clamp(1.7rem,3.4vw,2.5rem); line-height:1.15; color:var(--tinta); letter-spacing:-.01em}
+  .firma{display:flex; align-items:center; gap:14px; margin-top:28px}
+  .firma img{width:52px; height:52px; border-radius:50%; object-fit:cover}
+  .firma strong{display:block; color:var(--tinta)}
+  .firma span{font-size:.9rem; color:var(--tenue)}
+  .nota .enlaces-autor{display:flex; flex-wrap:wrap; gap:22px; margin-top:22px}
+  @media (max-width:960px){ .nota{grid-template-columns:1fr; gap:24px} }
 
-  /* CTA FINAL — banda con el degradado de marca */
-  .cta-final{padding:0 0 96px}
-  .banda{position:relative; overflow:hidden; border-radius:28px; padding:64px 32px; text-align:center; color:#fff; background:#14213d; border:1px solid var(--filo-logo); box-shadow:var(--sombra-marco)}
-  .banda .barras{display:inline-flex; flex-direction:column; gap:6px; margin-bottom:22px}
-  .banda .barras i{display:block; height:8px; border-radius:4px}
-  .banda .barras i:nth-child(1){width:44px; background:#43c59e}
-  .banda .barras i:nth-child(2){width:30px; background:#5c86f7}
-  .banda .barras i:nth-child(3){width:38px; background:#f2a33a}
-  .banda::before{content:""; position:absolute; inset:0; pointer-events:none;
-    background-image:radial-gradient(rgba(255,255,255,.18) 1.2px, transparent 1.2px); background-size:22px 22px;
-    -webkit-mask-image:linear-gradient(180deg,#000,transparent 85%); mask-image:linear-gradient(180deg,#000,transparent 85%)}
-  .banda > *{position:relative}
-  .banda h2{font-size:clamp(1.8rem,4.4vw,2.8rem); line-height:1.1; font-weight:800; letter-spacing:-.03em; margin:0}
-  .banda p{margin:14px auto 0; max-width:46ch; font-size:1.1rem; opacity:.92}
-  .banda .acciones{margin-top:30px}
-  .btn-blanco{background:#fff; color:#1f2937; box-shadow:0 10px 30px -8px rgba(0,0,0,.35)}
-  @media (hover:hover) and (pointer:fine){ .btn-blanco:hover{transform:translateY(-3px)} .btn-blanco:hover svg{transform:translateX(3px)} }
-  @media (max-width:640px){ .cta-final{padding-bottom:68px} .banda{padding:48px 22px; border-radius:22px} }
+  /* CIERRE */
+  .cierre{text-align:left}
+  .cierre .fila{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:28px}
+  .cierre h2{font-family:var(--serif); font-weight:400; color:var(--tinta); font-size:clamp(2.6rem,6vw,4.8rem); line-height:.98; letter-spacing:-.02em; margin:0; max-width:14ch}
+  .barras{display:flex; flex-direction:column; gap:7px; margin-bottom:26px}
+  .barras i{display:block; height:9px; border-radius:5px; width:52px}
+  .barras i.c-a{width:36px} .barras i.c-n{width:44px}
 
-  /* FOOTER */
-  footer{flex-shrink:0; background:var(--panel); border-top:1px solid var(--borde-suave)}
-  .pie{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:32px; padding:48px 0 28px}
-  .pie .marca-pie{display:flex; align-items:center; gap:10px; color:var(--tinta); font-weight:800; font-size:1.1rem}
-  .pie .marca-pie .logo-ico{width:28px; height:28px; border-radius:8px}
-  .pie .lema-pie{margin:12px 0 0; color:var(--tenue); font-size:.92rem; max-width:34ch}
-  .pie h4{margin:0 0 12px; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tenue)}
-  .pie ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
-  .pie ul a{color:var(--texto); font-weight:500; font-size:.95rem}
-  .pie ul a:hover{color:var(--acento)}
-  .legal{border-top:1px solid var(--borde-suave); padding:20px 0 28px; font-size:.88rem; color:var(--tenue)}
-  .legal a{color:var(--acento)}
-  .legal a:hover{text-decoration:underline}
-  @media (max-width:640px){ .pie{grid-template-columns:1fr 1fr; gap:28px} .pie .col-marca{grid-column:span 2} }
+  /* PIE */
+  footer{border-top:1px solid var(--regla); padding:28px 0 36px; font-size:.9rem; color:var(--tenue)}
+  .pie{display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px 28px}
+  .pie nav{display:flex; flex-wrap:wrap; gap:8px 22px}
+  .pie a:hover{color:var(--tinta)}
 
-  /* Animaciones de entrada: se activan al entrar en pantalla (solo transform/opacity) */
-  .reveal{opacity:0; transform:translateY(24px); transition:opacity .8s var(--ease-out), transform .9s var(--ease-out)}
+  /* Colores de las barras del logo */
+  .c-v{background:var(--verde)} .c-a{background:var(--azul)} .c-n{background:var(--naranja)}
+
+  /* Entrada suave al hacer scroll (solo opacidad y desplazamiento) */
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s var(--ease), transform .8s var(--ease)}
   .reveal.visible{opacity:1; transform:none}
-  .reveal.d1{transition-delay:.07s}.reveal.d2{transition-delay:.14s}.reveal.d3{transition-delay:.21s}
-  .fade{animation:subir .7s var(--ease-out) both}
-  .fade.d1{animation-delay:.07s}.fade.d2{animation-delay:.14s}.fade.d3{animation-delay:.21s}
-  @keyframes subir{from{opacity:0; transform:translateY(16px)}}
-  /* Sin JS o con movimiento reducido, todo visible y quieto */
-  html:not(.js) .reveal, html:not(.js) .chip, html:not(.js) .marco{opacity:1; transform:none}
-  @media (prefers-reduced-motion:reduce){
-    .reveal,.chip,.marco{opacity:1; transform:none; transition:none}
-    .fade{animation:none}
-  }
+  html:not(.js) .reveal{opacity:1; transform:none}
+  @media (prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none; transition:none} }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -416,50 +287,56 @@
     <div class="contenedor barra">
       <a class="marca" href="/" aria-label="Evaluanda, inicio">
         <span class="logo-ico" aria-hidden="true">
-          <svg width="100%" height="100%" viewBox="0 0 100 100" aria-hidden="true"><rect x="20" y="26" width="34" height="11" rx="5.5" fill="#43c59e"/><rect x="20" y="44.5" width="24" height="11" rx="5.5" fill="#5c86f7"/><rect x="20" y="63" width="30" height="11" rx="5.5" fill="#f2a33a"/><rect x="18" y="26" width="10" height="48" rx="5" fill="#fff"/><path d="M60 49l8 21 15-40" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="100%" height="100%" viewBox="0 0 100 100"><rect x="20" y="26" width="34" height="11" rx="5.5" fill="#43c59e"/><rect x="20" y="44.5" width="24" height="11" rx="5.5" fill="#5c86f7"/><rect x="20" y="63" width="30" height="11" rx="5.5" fill="#f2a33a"/><rect x="18" y="26" width="10" height="48" rx="5" fill="#fff"/><path d="M60 49l8 21 15-40" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
-        <span class="logo-txt">Evaluanda</span>
+        Evaluanda
       </a>
       <nav class="enlaces" aria-label="Principal">
         <a class="txt solo-ancho" href="#funciones">Funciones</a>
-        <a class="txt solo-ancho" href="#preguntas">Preguntas</a>
+        <a class="txt solo-ancho" href="#privacidad">Privacidad</a>
         <a class="txt" href="/guia-companeros.html">Guía</a>
-        <a class="btn-cta bg-marca" href="https://accounts.google.com/AccountChooser?continue=https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">
-          <span class="cta-full">Acceder a la App</span><span class="cta-short">Acceder</span>
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-        </a>
+        <a class="btn" href="https://accounts.google.com/AccountChooser?continue=https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">Entrar</a>
       </nav>
     </div>
   </header>
 
   <main>
     <div class="contenedor hero">
-      <div class="eyebrow fade">
-        <span class="dot"></span>
-        Gratis · con tu cuenta <strong>@g.educaand.es</strong>
-      </div>
-      <h1 class="fade d1">
-        <span>Evalúa por criterios</span>
-        <span class="l2"><span class="resalte">sin perder la tarde</span></span>
-      </h1>
-      <p class="lema fade d2">
-        El cuaderno del profesorado andaluz para <strong>evaluar por criterios (LOMLOE)</strong>:
-        las notas se calculan solas y quedan listas para Séneca. En el ordenador y en el móvil.
-      </p>
-      <div class="acciones fade d3">
-        <a class="btn-grande primario bg-marca" href="https://accounts.google.com/AccountChooser?continue=https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">
-          Entrar en Evaluanda
-          <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-        </a>
-        <a class="btn-grande secundario" href="#como-funciona">Cómo funciona</a>
-      </div>
-      <div class="confianza fade d3">
-        <span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Sin instalar nada</span>
-        <span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Datos cifrados en tu Drive</span>
-        <span><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Currículo LOMLOE ya cargado</span>
+      <div>
+        <div class="etiqueta">Cuaderno del profesorado · LOMLOE · Andalucía</div>
+        <h1>Las notas de criterio, <em>hechas</em> antes de salir del aula.</h1>
+        <p class="entrada">Pones la nota de la actividad y Evaluanda calcula la de cada criterio, la de la unidad y la final, lista para copiar en Séneca. Desde el móvil en clase o el ordenador en casa.</p>
+        <div class="acciones">
+          <a class="btn grande" href="https://accounts.google.com/AccountChooser?continue=https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">
+            Entrar con mi cuenta
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
+          <a class="enlace-flecha" href="/guia-companeros.html">Leer la guía</a>
+        </div>
+        <ul class="datos">
+          <li><i class="c-v"></i>Gratis</li>
+          <li><i class="c-a"></i>Solo cuentas @g.educaand.es</li>
+          <li><i class="c-n"></i>Datos cifrados en tu Drive</li>
+        </ul>
+
+        <div class="instalar ios-install">
+          <a class="btn-inst" href="/Evaluanda.mobileconfig">
+            <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.9c.02 2.2 1.93 2.94 1.95 2.95-.02.05-.31 1.05-1.02 2.09-.61.9-1.25 1.79-2.26 1.81-.99.02-1.31-.59-2.44-.59-1.13 0-1.48.57-2.42.61-.97.04-1.71-.97-2.33-1.86-1.27-1.84-2.24-5.2-.94-7.47.65-1.13 1.8-1.84 3.06-1.86.95-.02 1.85.64 2.43.64.58 0 1.67-.79 2.82-.68.48.02 1.83.19 2.69 1.46-.07.04-1.61.94-1.59 2.8M14.6 7.02c.51-.62.86-1.48.76-2.35-.74.03-1.64.49-2.17 1.11-.47.55-.89 1.43-.78 2.27.83.07 1.67-.42 2.19-1.03"/></svg></span>
+            <span><strong>Instálala en tu iPhone o iPad</strong><small>A pantalla completa, como una app</small></span>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+          </a>
+          <p class="ios-nota">Al abrir el archivo, iOS te llevará a <strong>Ajustes</strong> para instalar el perfil «Evaluanda». Es seguro y puedes quitarlo cuando quieras desde Ajustes → General → VPN y gestión de dispositivos.</p>
+        </div>
+        <div class="instalar pwa-install">
+          <button type="button" class="btn-inst" id="btn-instalar">
+            <span class="ico" aria-hidden="true"><img src="/icon-192.png" alt=""></span>
+            <span><strong>Instálala como app</strong><small>Con su icono, en su propia ventana</small></span>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+          </button>
+        </div>
       </div>
 
-      <div class="showcase reveal">
+      <figure class="captura reveal">
         <div class="marco">
           <picture>
             <source media="(max-width:640px)" type="image/webp" srcset="/app-preview-mobile.webp">
@@ -470,143 +347,87 @@
                  fetchpriority="high" decoding="async">
           </picture>
         </div>
-        <div class="chip c1" aria-hidden="true">
-          <span class="ci ico indigo"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 19h16M7 15V9m5 6V5m5 10v-4"/></svg></span>
-          <span><strong>Nota de criterio</strong><small>Calculada al momento</small></span>
-        </div>
-        <div class="chip c2" aria-hidden="true">
-          <span class="ci ico verde"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg></span>
-          <span><strong>Cifrado</strong><small>En tu propio Drive</small></span>
-        </div>
-        <div class="chip c3" aria-hidden="true">
-          <span class="ci ico azul"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
-          <span><strong>Listo para Séneca</strong><small>Copiar y pegar</small></span>
-        </div>
-      </div>
-
-      <div class="ios-install">
-        <a class="btn-ios" href="/Evaluanda.mobileconfig">
-          <span class="ios-mark" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.9c.02 2.2 1.93 2.94 1.95 2.95-.02.05-.31 1.05-1.02 2.09-.61.9-1.25 1.79-2.26 1.81-.99.02-1.31-.59-2.44-.59-1.13 0-1.48.57-2.42.61-.97.04-1.71-.97-2.33-1.86-1.27-1.84-2.24-5.2-.94-7.47.65-1.13 1.8-1.84 3.06-1.86.95-.02 1.85.64 2.43.64.58 0 1.67-.79 2.82-.68.48.02 1.83.19 2.69 1.46-.07.04-1.61.94-1.59 2.8M14.6 7.02c.51-.62.86-1.48.76-2.35-.74.03-1.64.49-2.17 1.11-.47.55-.89 1.43-.78 2.27.83.07 1.67-.42 2.19-1.03"/></svg>
-          </span>
-          <span class="ios-txt">
-            <strong>Instálala en tu iPhone o iPad</strong>
-            <small>Ábrela a pantalla completa, como una app</small>
-          </span>
-          <svg class="ios-dl" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
-        </a>
-        <p class="ios-nota">Al abrir el archivo, iOS te llevará a <strong>Ajustes</strong> para instalar el perfil «Evaluanda». Es seguro y puedes quitarlo cuando quieras desde Ajustes → General → VPN y gestión de dispositivos.</p>
-      </div>
-
-      <div class="pwa-install">
-        <button type="button" class="btn-ios" id="btn-instalar">
-          <span class="ios-mark" aria-hidden="true"><img src="/icon-192.png" alt=""></span>
-          <span class="ios-txt">
-            <strong>Instálala como app</strong>
-            <small>Con su icono en el escritorio o en el móvil, en su propia ventana</small>
-          </span>
-          <svg class="ios-dl" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
-        </button>
-      </div>
+        <figcaption>Cuaderno de una unidad: actividades a la izquierda, notas de criterio y nota final a la derecha.</figcaption>
+      </figure>
     </div>
   </main>
 
-  <section class="bloque fondo-panel" id="como-funciona">
+  <section class="seccion" id="antes">
     <div class="contenedor">
-      <div class="titular reveal">
-        <div class="sup">Cómo funciona</div>
-        <h2>De cero a evaluar en tres pasos</h2>
+      <div class="cabecera reveal">
+        <div>
+          <div class="etiqueta">El problema</div>
+          <h2>Evaluar por criterios no debería ser una hoja de cálculo.</h2>
+        </div>
+        <p>La LOMLOE pide calificar cada criterio de evaluación. Hacerlo a mano multiplica el trabajo: muchas actividades, cada una ligada a varios criterios, con su peso, y al final todo hay que pasarlo a Séneca.</p>
       </div>
-      <ol class="pasos">
-        <li class="reveal d1">
-          <span class="num">1</span>
-          <h3>Entra con tu cuenta</h3>
-          <p>Usa tu correo @g.educaand.es. Sin registros ni contraseñas nuevas.</p>
-        </li>
-        <li class="reveal d2">
-          <span class="num">2</span>
-          <h3>Crea tus clases</h3>
-          <p>Añade el alumnado y elige los criterios: el currículo LOMLOE ya está cargado.</p>
-        </li>
-        <li class="reveal d3">
-          <span class="num">3</span>
-          <h3>Evalúa y exporta</h3>
-          <p>Califica actividades y obtén al momento las notas de criterio, listas para Séneca.</p>
-        </li>
+      <div class="comparar reveal">
+        <div class="antes">
+          <h3>Sin Evaluanda</h3>
+          <ul>
+            <li>Fórmulas propias en una hoja de cálculo que nadie más entiende.</li>
+            <li>Buscar en el decreto qué criterios toca cada saber.</li>
+            <li>Recalcular a mano cuando cambia un peso o una nota.</li>
+            <li>Copiar nota a nota en Séneca al final del trimestre.</li>
+          </ul>
+        </div>
+        <div class="ahora">
+          <h3>Con Evaluanda</h3>
+          <ul>
+            <li>El cuaderno ya sabe cómo se calcula cada criterio.</li>
+            <li>El currículo LOMLOE de Andalucía viene cargado.</li>
+            <li>Cada nota se recalcula sola al momento.</li>
+            <li>Las notas salen en el formato listo para copiar en Séneca.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="funciones">
+    <div class="contenedor">
+      <div class="cabecera reveal">
+        <div>
+          <div class="etiqueta">Qué hace</div>
+          <h2>Lo justo para el día a día del aula.</h2>
+        </div>
+        <p>Hecho por un maestro, con lo que se usa de verdad en clase. Sin instalar nada: se abre en el navegador y las mejoras llegan solas.</p>
+      </div>
+      <ol class="indice reveal">
+        <li><span class="n">01</span><h3>Cuaderno por criterios</h3><p>Clases, unidades y actividades. Las notas de criterio, de unidad y final se calculan al momento.</p></li>
+        <li><span class="n">02</span><h3>Listo para Séneca</h3><p>Todas las notas en un formato que se copia y pega directamente en Séneca.</p></li>
+        <li><span class="n">03</span><h3>En el móvil, en clase</h3><p>Anota sobre la marcha desde el móvil y continúa en casa con el ordenador: es el mismo cuaderno.</p></li>
+        <li><span class="n">04</span><h3>Rejilla en PDF</h3><p>Exporta la rejilla de una unidad a PDF a color, en A4 apaisado, para imprimir o archivar.</p></li>
+        <li><span class="n">05</span><h3>Conectable con una IA <span class="tag">Opcional</span></h3><p>Si usas Claude, Codex u otra IA compatible con MCP, puedes conectarla para que te ayude a preparar tu trabajo. <a href="/conectar-ia.html">Ver cómo</a></p></li>
       </ol>
     </div>
   </section>
 
-  <section class="bloque" id="funciones">
+  <section class="seccion privacidad" id="privacidad">
     <div class="contenedor">
-      <div class="titular reveal">
-        <div class="sup">Por qué Evaluanda</div>
-        <h2>Todo lo que necesitas, en un solo lugar</h2>
-        <p>Pensado por un docente para el día a día del aula andaluza.</p>
+      <div class="cabecera reveal">
+        <div>
+          <div class="etiqueta">Privacidad</div>
+          <h2>Los datos de tu alumnado no salen de tu Drive.</h2>
+        </div>
+        <p>Evaluanda no guarda tus datos en un servidor propio. Todo se escribe en tu Google Drive corporativo, y lo sensible se cifra antes de guardarse.</p>
       </div>
-      <div class="bento">
-        <div class="card ancha reveal">
-          <div>
-            <span class="ico indigo">
-              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-            </span>
-            <h3>Evaluación por criterios</h3>
-            <p>Clases, unidades y actividades con las notas de criterio, de unidad y final calculadas al momento y listas para llevar a Séneca.</p>
-          </div>
-          <div class="mini" aria-hidden="true">
-            <div class="fila cab"><span>Alumnado</span><span class="n">CE1</span><span class="n">CE2</span><span class="n">CE3</span></div>
-            <div class="fila"><span class="nombre" style="width:78%"></span><span class="n a">8,5</span><span class="n b">7</span><span class="n a">9</span></div>
-            <div class="fila"><span class="nombre" style="width:62%"></span><span class="n b">6,5</span><span class="n c">5</span><span class="n b">7,5</span></div>
-            <div class="fila"><span class="nombre" style="width:70%"></span><span class="n a">9</span><span class="n a">8</span><span class="n b">7</span></div>
-          </div>
-        </div>
-        <div class="card reveal d1">
-          <span class="ico verde">
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-          </span>
-          <h3>Tus datos, tuyos y cifrados</h3>
-          <p>Todo vive en tu propio Drive, con los nombres del alumnado y las observaciones cifrados.</p>
-        </div>
-        <div class="card reveal">
-          <span class="ico azul">
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          </span>
-          <h3>Rápido y sin instalar</h3>
-          <p>Desde cualquier dispositivo. Las mejoras llegan solas: nunca tienes que actualizar nada.</p>
-        </div>
-        <div class="card reveal d1">
-          <span class="ico ambar">
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-          </span>
-          <h3>En el móvil, en clase</h3>
-          <p>Anota sobre la marcha desde el móvil y sigue en casa con el ordenador.</p>
-        </div>
-        <div class="card reveal d2">
-          <span class="ico rosa">
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2zM9 13h6m-6 4h4"/></svg>
-          </span>
-          <h3>Exporta a PDF</h3>
-          <p>Saca la rejilla de una unidad en PDF a color, lista para imprimir o archivar.</p>
-        </div>
-        <div class="card entera reveal">
-          <span class="ico indigo">
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
-          </span>
-          <h3>Conéctala con una IA <small class="opc">· opcional</small></h3>
-          <p>Si usas Claude, Codex u otra IA compatible con MCP, puedes conectarla a Evaluanda para que te ayude a preparar tu trabajo.</p>
-          <a class="mas" href="/conectar-ia.html">Ver la guía
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-          </a>
-        </div>
+      <div class="flujo reveal">
+        <div><i class="c-v"></i><div class="paso">Acceso</div><h3>Tu cuenta educaand</h3><p>Solo entran cuentas @g.educaand.es, con el inicio de sesión de Google de siempre.</p></div>
+        <div><i class="c-a"></i><div class="paso">Almacenamiento</div><h3>Tu propio Drive</h3><p>Clases, notas y actividades viven en tu Drive, no en el de otra persona.</p></div>
+        <div><i class="c-n"></i><div class="paso">Cifrado</div><h3>Nombres y observaciones</h3><p>Los nombres del alumnado y las observaciones se guardan cifrados.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="bloque fondo-panel" id="preguntas">
+  <section class="seccion" id="preguntas">
     <div class="contenedor">
-      <div class="titular reveal">
-        <div class="sup">Preguntas frecuentes</div>
-        <h2>Lo que suele preguntarse</h2>
+      <div class="cabecera reveal">
+        <div>
+          <div class="etiqueta">Preguntas</div>
+          <h2>Lo que suele preguntarse.</h2>
+        </div>
+        <p>¿Te falta alguna? Escríbeme en <a class="enlace-flecha" href="https://x.com/maestro_seb" target="_blank" rel="noopener noreferrer">X</a>.</p>
       </div>
       <div class="faq reveal">
         <details>
@@ -614,16 +435,12 @@
           <div class="resp"><p>Nada. Evaluanda es gratuita para el profesorado andaluz. Si te resulta útil, puedes apoyar el proyecto en Ko-fi, pero no es obligatorio.</p></div>
         </details>
         <details>
-          <summary>¿Dónde se guardan los datos de mi alumnado?</summary>
-          <div class="resp"><p>En tu propio Google Drive, no en un servidor ajeno. Los nombres del alumnado y las observaciones se guardan cifrados.</p></div>
-        </details>
-        <details>
           <summary>¿Quién puede usarla?</summary>
           <div class="resp"><p>Cualquier docente con una cuenta corporativa <strong>@g.educaand.es</strong>. El acceso está restringido a ese dominio.</p></div>
         </details>
         <details>
           <summary>¿Tengo que instalar algo?</summary>
-          <div class="resp"><p>No. Funciona desde el navegador del ordenador o del móvil. En iPhone o iPad puedes, además, añadirla a pantalla completa como si fuera una app.</p></div>
+          <div class="resp"><p>No. Funciona desde el navegador del ordenador o del móvil. Si quieres, puedes añadirla como app con su propio icono.</p></div>
         </details>
         <details>
           <summary>¿Por dónde empiezo?</summary>
@@ -633,72 +450,45 @@
     </div>
   </section>
 
-  <section class="bloque" id="desarrollador">
-    <div class="contenedor">
-      <div class="dev reveal">
-        <img class="avatar" src="/avatar.webp" width="112" height="112" alt="maestroSeb" decoding="async">
-        <h2>Desarrollado por <a href="https://x.com/maestro_seb" target="_blank" rel="noopener noreferrer">maestroSeb</a></h2>
-        <p>Evaluanda es una herramienta gratuita creada para facilitar y automatizar el trabajo diario del profesorado andaluz.</p>
-        <div class="apoyo">
-          <a class="btn-kofi" href="https://ko-fi.com/M4M4186OE8" target="_blank" rel="noopener noreferrer">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-            Apóyame en Ko-fi
-          </a>
-          <a class="btn-x" href="https://x.com/maestro_seb" target="_blank" rel="noopener noreferrer">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            Seguir en X
-          </a>
+  <section class="seccion" id="autor">
+    <div class="contenedor nota reveal">
+      <div class="etiqueta">Quién lo hace</div>
+      <div>
+        <blockquote>Una herramienta gratuita, hecha por un docente, para facilitar y automatizar el trabajo diario del profesorado andaluz.</blockquote>
+        <div class="firma">
+          <img src="/avatar.webp" width="52" height="52" alt="" decoding="async">
+          <div><strong>maestroSeb</strong><span>Docente y autor de Evaluanda</span></div>
+        </div>
+        <div class="enlaces-autor">
+          <a class="enlace-flecha" href="https://ko-fi.com/M4M4186OE8" target="_blank" rel="noopener noreferrer">Invítame a un café en Ko-fi</a>
+          <a class="enlace-flecha" href="https://x.com/maestro_seb" target="_blank" rel="noopener noreferrer">Sígueme en X</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="cta-final">
-    <div class="contenedor">
-      <div class="banda reveal">
-        <span class="barras" aria-hidden="true"><i></i><i></i><i></i></span>
-        <h2>Tu próxima evaluación, en minutos</h2>
-        <p>Entra con tu cuenta @g.educaand.es y empieza hoy. Gratis y sin instalar nada.</p>
-        <div class="acciones">
-          <a class="btn-grande btn-blanco" href="https://accounts.google.com/AccountChooser?continue=https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">
-            Entrar en Evaluanda
-            <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-          </a>
-        </div>
+  <section class="seccion cierre">
+    <div class="contenedor reveal">
+      <div class="barras" aria-hidden="true"><i class="c-v"></i><i class="c-a"></i><i class="c-n"></i></div>
+      <div class="fila">
+        <h2>Tu próxima evaluación, <em>en minutos</em>.</h2>
+        <a class="btn grande" href="https://accounts.google.com/AccountChooser?continue=https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">
+          Entrar con mi cuenta
+          <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
       </div>
     </div>
   </section>
 
   <footer>
     <div class="contenedor pie">
-      <div class="col-marca">
-        <div class="marca-pie">
-          <span class="logo-ico" aria-hidden="true">
-            <svg width="100%" height="100%" viewBox="0 0 100 100" aria-hidden="true"><rect x="20" y="26" width="34" height="11" rx="5.5" fill="#43c59e"/><rect x="20" y="44.5" width="24" height="11" rx="5.5" fill="#5c86f7"/><rect x="20" y="63" width="30" height="11" rx="5.5" fill="#f2a33a"/><rect x="18" y="26" width="10" height="48" rx="5" fill="#fff"/><path d="M60 49l8 21 15-40" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <span>Evaluanda</span>
-        </div>
-        <p class="lema-pie">Evaluación por criterios para docentes andaluces. Gratis, en tu Drive y cifrada.</p>
-      </div>
-      <div>
-        <h4>Producto</h4>
-        <ul>
-          <li><a href="#funciones">Funciones</a></li>
-          <li><a href="#como-funciona">Cómo funciona</a></li>
-          <li><a href="#preguntas">Preguntas</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Guías</h4>
-        <ul>
-          <li><a href="/guia-companeros.html">Guía de uso</a></li>
-          <li><a href="/conectar-ia.html">Conectar con una IA</a></li>
-          <li><a href="https://ko-fi.com/M4M4186OE8" target="_blank" rel="noopener noreferrer">Apoyar el proyecto</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="contenedor legal">
-      &copy; <span id="anio">2026</span> Evaluanda · Un proyecto de <a href="https://x.com/maestro_seb" target="_blank" rel="noopener noreferrer">maestroSeb</a>
+      <span>&copy; <span id="anio">2026</span> Evaluanda · Un proyecto de maestroSeb</span>
+      <nav aria-label="Pie">
+        <a href="/guia-companeros.html">Guía de uso</a>
+        <a href="/conectar-ia.html">Conectar con una IA</a>
+        <a href="https://ko-fi.com/M4M4186OE8" target="_blank" rel="noopener noreferrer">Ko-fi</a>
+        <a href="https://x.com/maestro_seb" target="_blank" rel="noopener noreferrer">X</a>
+      </nav>
     </div>
   </footer>
   <script>
