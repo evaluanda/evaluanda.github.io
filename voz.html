@@ -46,7 +46,6 @@
     if (!origen) { origen = e.origin; arrancar(); }
   });
   app.postMessage({ tipo: 'evaluanda-voz-lista' }, '*'); // sin datos: solo pide el saludo
-  window.addEventListener('pagehide', function () { enviar({ tipo: 'evaluanda-voz-fin' }); });
 
   function arrancar() {
     rec = new SR();
