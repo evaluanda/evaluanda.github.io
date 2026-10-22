@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Evaluanda · Dictado</title>
+<link rel="icon" href="/favicon.svg">
+<style>
+  :root { color-scheme: light dark; --fondo: #fbf7f1; --texto: #3a2f28; --suave: #8a7b70; --rojo: #d1453b; }
+  @media (prefers-color-scheme: dark) { :root { --fondo: #1f1b18; --texto: #efe6dc; --suave: #a3958a; --rojo: #f0776b; } }
+  body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; padding: 16px; box-sizing: border-box; background: var(--fondo); color: var(--texto);
+    font: 15px/1.4 system-ui, sans-serif; text-align: center; }
+  button { width: 84px; height: 84px; border-radius: 50%; border: 0; cursor: pointer; background: var(--suave); color: #fff; }
+  button.on { background: var(--rojo); animation: latido 1.4s ease-in-out infinite; }
+  button svg { width: 38px; height: 38px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  @keyframes latido { 50% { transform: scale(1.08); } }
+  #estado { color: var(--suave); }
+  #ultimo { min-height: 1.4em; font-weight: 600; }
+</style>
+</head>
+<body>
+<button id="mic" type="button" aria-label="Escuchar / parar">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><line x1="12" y1="18" x2="12" y2="22"/></svg>
+</button>
+<div id="estado">Conectando con Evaluanda…</div>
+<div id="ultimo"></div>
+<script>
+// Dictado de Evaluanda: la app vive en un iframe de Google sin permiso de
+// micrófono, así que abre esta ventana (fuera del iframe), que escucha y le
+// pasa cada frase reconocida por postMessage.
+(function () {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var btn = document.getElementById('mic'), est = document.getElementById('estado'), ult = document.getElementById('ultimo');
+  var app = window.opener, origen = null, rec = null, activo = false;
+  // Solo se habla con la app de Apps Script (origen *.googleusercontent.com),
+  // que responde al saludo; así otra web que abra esta página no recibe nada.
+  var ORIGEN_APP = /^https:\/\/[a-z0-9-]+\.googleusercontent\.com$/;
+  function enviar(msg) { if (app && origen) app.postMessage(msg, origen); }
+  function poner(txt) { est.textContent = txt; }
+  if (!SR) { poner('Este navegador no tiene reconocimiento de voz. Usa Chrome o Edge.'); btn.disabled = true; return; }
+  if (!app) { poner('Abre esta ventana desde el botón 🎙 de Evaluanda.'); btn.disabled = true; return; }
+  window.addEventListener('message', function (e) {
+    if (e.source !== app || !ORIGEN_APP.test(e.origin) || !e.data || e.data.tipo !== 'evaluanda-voz-hola') return;
+    if (!origen) { origen = e.origin; arrancar(); }
+  });
+  app.postMessage({ tipo: 'evaluanda-voz-lista' }, '*'); // sin datos: solo pide el saludo
+  window.addEventListener('pagehide', function () { enviar({ tipo: 'evaluanda-voz-fin' }); });
+
+  function arrancar() {
+    rec = new SR();
+    rec.lang = 'es-ES'; rec.continuous = true; rec.interimResults = false;
+    rec.onresult = function (e) {
+      for (var i = e.resultIndex; i < e.results.length; i++) {
+        if (!e.results[i].isFinal) continue;
+        var t = e.results[i][0].transcript.trim();
+        ult.textContent = '«' + t + '»';
+        enviar({ tipo: 'evaluanda-voz-texto', texto: t });
+      }
+    };
+    rec.onerror = function (e) {
+      if (e.error === 'no-speech' || e.error === 'aborted') return;
+      activo = false; btn.classList.remove('on');
+      poner(e.error === 'not-allowed' ? 'Permite el micrófono (candado de la barra de direcciones) y pulsa el botón.' : 'Error: ' + e.error);
+    };
+    // Chrome corta tras un silencio: se reanuda mientras siga activo.
+    rec.onend = function () { if (activo) try { rec.start(); } catch (x) {} };
+    btn.onclick = function () { activo ? parar() : escuchar(); };
+    escuchar();
+  }
+  function escuchar() { activo = true; btn.classList.add('on'); poner('Escuchando… (pulsa para parar)'); try { rec.start(); } catch (x) {} }
+  function parar() { activo = false; btn.classList.remove('on'); poner('En pausa (pulsa para seguir)'); rec.stop(); }
+})();
+</script>
+</body>
+</html>
