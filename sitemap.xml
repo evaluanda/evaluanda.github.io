@@ -13,6 +13,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://evaluanda.github.io/privacidad-extension.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://evaluanda.github.io/conectar-ia.html</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>

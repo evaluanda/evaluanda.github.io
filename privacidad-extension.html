@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacidad · Evaluanda → Séneca</title>
+<meta name="description" content="Política de privacidad de la extensión Evaluanda → Séneca para Chrome.">
+<link rel="canonical" href="https://evaluanda.github.io/privacidad-extension.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<meta name="theme-color" content="#f7f5ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1320" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --papel:#f7f5ef; --hoja:#fffefa; --tinta:#14213d; --texto:#3a4256; --tenue:#6b7285;
+    --regla:#e3dfd3; --acento:#2f5bd3;
+    --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+    --sans:'Outfit',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --papel:#0e1320; --hoja:#141a29; --tinta:#eef0f5; --texto:#c3c8d4; --tenue:#8b92a3; --regla:#232a3b; --acento:#8aa6ff; }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:var(--sans); color:var(--texto); background:var(--papel); line-height:1.65; -webkit-font-smoothing:antialiased; font-size:17px}
+  main{max-width:720px; margin:0 auto; padding:56px 16px 80px}
+  a{color:var(--acento)}
+  .volver{font-size:15px; text-decoration:none}
+  h1{font-family:var(--serif); font-weight:400; color:var(--tinta); font-size:clamp(34px,6vw,48px); line-height:1.1; margin:18px 0 6px}
+  .fecha{color:var(--tenue); font-size:15px; margin:0 0 32px}
+  h2{color:var(--tinta); font-size:20px; margin:36px 0 8px}
+  ul{padding-left:22px} li{margin:6px 0}
+  .caja{background:var(--hoja); border:1px solid var(--regla); border-radius:14px; padding:18px 20px; margin:24px 0}
+  .caja p{margin:0}
+</style>
+</head>
+<body>
+<main>
+  <a class="volver" href="/">← Evaluanda</a>
+  <h1>Privacidad de la extensión Evaluanda → Séneca</h1>
+  <p class="fecha">Última actualización: 22 de octubre de 2026</p>
+
+  <div class="caja"><p><strong>En resumen:</strong> la extensión lleva a Séneca las notas que tú le mandas desde Evaluanda. Los datos se guardan solo en tu navegador, no se envían a ningún servidor nuestro ni de terceros, y no se venden ni se usan para nada más.</p></div>
+
+  <h2>Qué hace la extensión</h2>
+  <p>Evaluanda → Séneca es una extensión de Chrome para profesorado. Toma las actividades evaluables y las notas por criterio que el docente prepara en Evaluanda y las registra en su cuaderno de Séneca (Junta de Andalucía), dentro de la sesión que el propio docente tiene abierta.</p>
+
+  <h2>Qué datos trata</h2>
+  <ul>
+    <li><strong>Datos que envías desde Evaluanda</strong> al pulsar «Enviar a Séneca»: nombre de la clase, evaluación, categoría, nombres del alumnado, actividades, criterios y notas.</li>
+    <li><strong>Contenido de las páginas de Séneca</strong> que la extensión necesita leer para hacer su trabajo: tus grupos, la lista de alumnado del grupo elegido, tus categorías y actividades y las notas del cuaderno (para no duplicar nada y comprobar lo guardado).</li>
+    <li><strong>Un registro técnico</strong> de lo que va haciendo (pasos, avisos y errores), visible en el propio panel.</li>
+  </ul>
+  <p>La extensión no lee tus contraseñas, no accede a otras webs, no registra tu navegación ni usa analítica o publicidad.</p>
+
+  <h2>Dónde se guardan</h2>
+  <p>Todo se guarda en el almacenamiento local de la extensión en tu navegador (<code>chrome.storage.local</code>). No hay servidores de la extensión: los datos solo viajan de Evaluanda a Séneca, en tu propio ordenador y con tu sesión. Puedes borrarlos cuando quieras con el botón «Descartar datos» del panel, o desinstalando la extensión.</p>
+
+  <h2>Con quién se comparten</h2>
+  <p>Con nadie. Las notas solo se envían a Séneca, que es el destino que tú eliges. No se venden ni se ceden a terceros, ni se usan para fines distintos de volcar tus notas en Séneca.</p>
+  <p>Si algo falla, el botón «Informar del fallo» abre un borrador de correo en tu Gmail con el registro técnico, dirigido al autor. Solo se envía si tú lo revisas y pulsas Enviar; puede contener nombres de alumnado que aparezcan en el registro.</p>
+
+  <h2>Permisos</h2>
+  <ul>
+    <li><strong>storage</strong>: guardar en tu navegador los datos enviados desde Evaluanda y el progreso del volcado.</li>
+    <li><strong>Acceso a seneca.juntadeandalucia.es</strong>: navegar por el cuaderno de Séneca y registrar en él las actividades y notas.</li>
+    <li><strong>Acceso a *.googleusercontent.com</strong>: es donde se ejecuta Evaluanda (Google Apps Script); la extensión solo actúa en la página de Evaluanda para recoger lo que el docente envía.</li>
+  </ul>
+
+  <h2>Responsable y contacto</h2>
+  <p>Evaluanda es un proyecto educativo independiente; esta extensión no es una herramienta oficial de la Junta de Andalucía. Para cualquier duda sobre privacidad: <a href="mailto:sgirjim495@g.educaand.es">sgirjim495@g.educaand.es</a>.</p>
+</main>
+</body>
+</html>
