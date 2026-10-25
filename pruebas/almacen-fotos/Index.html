@@ -3,38 +3,50 @@
 <head>
 <base target="_top">
 <meta charset="utf-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
   body { font: 15px/1.45 system-ui, sans-serif; margin: 16px; }
-  button, input { font: inherit; margin: 4px 4px 4px 0; }
+  button { font: inherit; margin: 4px 4px 4px 0; }
   iframe { width: 100%; height: 44px; border: 1px solid #ccc; border-radius: 6px; }
   pre { background: #f2f2f2; padding: 8px; border-radius: 6px; white-space: pre-wrap; }
-  #fotos img { width: 64px; height: 64px; object-fit: cover; border-radius: 50%; margin: 4px; }
+  #aviso { display: none; background: #fff4d6; border: 1px solid #e8c766; padding: 8px; border-radius: 6px; }
+  .alumnos { display: flex; gap: 16px; margin: 12px 0; }
+  .alumno { text-align: center; cursor: pointer; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; background: #8aa; color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 600;
+    background-size: cover; background-position: center; }
 </style>
 </head>
 <body>
 <h3>Prueba: fotos en el dispositivo</h3>
-<p>Las fotos se guardan en este dispositivo (no en Google). Vuelve dentro de unos días y
-comprueba que la <b>fecha de creación</b> y las fotos siguen aquí.</p>
+<p>Las fotos se guardan en este dispositivo (no en Google). Toca un alumno para ponerle foto.
+Si el almacén se ha borrado, al tocar cualquiera se te ofrece cargar tu <b>zip de fotos</b>.</p>
 
 <!-- El almacén: dirección fija en GitHub Pages -->
 <iframe id="almacen" src="https://evaluanda.github.io/pruebas/almacen-fotos/almacen.html"></iframe>
 
+<p id="aviso">No hay fotos en este dispositivo. Toca cualquier alumno para cargarlas desde tu zip.</p>
+<div class="alumnos" id="alumnos"></div>
+
 <p>
-  <input type="file" id="archivo" accept="image/*">
-  <button id="guardar">Guardar como alumno de prueba</button><br>
-  <button id="leer">Ver fotos guardadas</button>
+  <button id="exportar">Guardar zip de fotos</button>
+  <button id="importar">Cargar zip de fotos</button>
   <button id="info">Estado del almacén</button>
   <button id="borrar">Borrar todo</button>
 </p>
-<div id="fotos"></div>
+<!-- Selectores ocultos: uno para una foto suelta, otro para el zip -->
+<input type="file" id="selFoto" accept="image/*" hidden>
+<input type="file" id="selZip" accept=".zip,application/zip" hidden>
 <pre id="log">Cargando almacén…</pre>
 
 <script>
 (function () {
   var ALMACEN = 'https://evaluanda.github.io';
+  // En la app real: alumnoId opacos (el zip NO lleva nombres, solo ids).
+  var ALUMNOS = [{ id: 'a1', ini: 'AG' }, { id: 'a2', ini: 'LM' }, { id: 'a3', ini: 'PR' }];
   var frame = document.getElementById('almacen');
   var logEl = document.getElementById('log');
-  var pendientes = {}, rid = 0, ids = ['a1', 'a2', 'a3'], siguiente = 0;
+  var pendientes = {}, rid = 0, fotos = {}, destino = null;
 
   function log(t) { logEl.textContent = t; }
 
@@ -46,19 +58,48 @@ comprueba que la <b>fecha de creación</b> y las fotos siguen aquí.</p>
       frame.contentWindow.postMessage(m, ALMACEN);
       setTimeout(function () {
         if (pendientes[m.rid]) { delete pendientes[m.rid]; ko('Sin respuesta del almacén (¿bloqueado?)'); }
-      }, 5000);
+      }, 8000);
     });
   }
   window.addEventListener('message', function (e) {
     if (e.origin !== ALMACEN) return;
     var m = e.data || {};
-    if (m.evento === 'listo') { mostrarInfo(); return; }
+    if (m.evento === 'listo') { refrescar(); mostrarInfo(); return; }
     if (m.evento === 'persistencia') { mostrarInfo(); return; }
     var p = pendientes[m.rid];
     if (!p) return;
     delete pendientes[m.rid];
     m.ok ? p.ok(m.res) : p.ko(m.error);
   });
+
+  function pintar() {
+    var cont = document.getElementById('alumnos'); cont.innerHTML = '';
+    ALUMNOS.forEach(function (a) {
+      var d = document.createElement('div'); d.className = 'alumno';
+      var av = document.createElement('div'); av.className = 'avatar';
+      if (fotos[a.id]) av.style.backgroundImage = 'url("' + fotos[a.id] + '")';
+      else av.textContent = a.ini;
+      d.appendChild(av); d.appendChild(document.createTextNode(a.id));
+      d.onclick = function () { tocarAlumno(a.id); };
+      cont.appendChild(d);
+    });
+    document.getElementById('aviso').style.display = Object.keys(fotos).length ? 'none' : 'block';
+  }
+  function refrescar() {
+    return pedir('leer', { ids: ALUMNOS.map(function (a) { return a.id; }) })
+      .then(function (f) { fotos = f; pintar(); }, log);
+  }
+
+  // Almacén vacío → ofrecer el zip (lo más probable: Safari lo borró).
+  // Con fotos → poner/cambiar la de ese alumno.
+  function tocarAlumno(id) {
+    if (!Object.keys(fotos).length && confirm('No hay fotos en este dispositivo.\n¿Cargarlas desde tu zip?\n\n(Cancelar = poner solo la foto de este alumno)')) {
+      document.getElementById('selZip').click();
+      return;
+    }
+    destino = id;
+    document.getElementById('selFoto').click();
+  }
 
   function mostrarInfo() {
     pedir('info').then(function (i) {
@@ -86,26 +127,50 @@ comprueba que la <b>fecha de creación</b> y las fotos siguen aquí.</p>
     });
   }
 
-  document.getElementById('guardar').onclick = function () {
-    var f = document.getElementById('archivo').files[0];
-    if (!f) return log('Elige una imagen primero.');
-    var id = ids[siguiente++ % ids.length];
+  document.getElementById('selFoto').onchange = function () {
+    var f = this.files[0], id = destino; this.value = '';
+    if (!f || !id) return;
     miniatura(f).then(function (d) { return pedir('guardar', { id: id, dataUrl: d }); })
-      .then(function () { log('Guardada como ' + id); }, log);
+      .then(function () { log('Foto guardada para ' + id); return refrescar(); }, log);
   };
-  document.getElementById('leer').onclick = function () {
-    pedir('leer', { ids: ids }).then(function (fotos) {
-      var cont = document.getElementById('fotos'); cont.innerHTML = '';
-      Object.keys(fotos).forEach(function (id) {
-        var img = document.createElement('img'); img.src = fotos[id]; img.title = id; cont.appendChild(img);
+
+  // ZIP: un JPG por alumno, nombrado por su id (sin nombres: seudonimizado).
+  document.getElementById('exportar').onclick = function () {
+    pedir('todas').then(function (todas) {
+      var ids = Object.keys(todas);
+      if (!ids.length) return log('No hay fotos que guardar.');
+      var zip = new JSZip();
+      ids.forEach(function (id) { zip.file(id + '.jpg', todas[id].split(',')[1], { base64: true }); });
+      return zip.generateAsync({ type: 'blob' }).then(function (blob) {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'evaluanda-fotos-' + new Date().toISOString().slice(0, 10) + '.zip';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 10000);
+        log('Zip generado con ' + ids.length + ' foto(s). Guárdalo en «En mi iPad», no en iCloud.');
       });
-      log(Object.keys(fotos).length + ' foto(s) encontradas.');
-    }, log);
+    }).catch(log);
   };
+  document.getElementById('importar').onclick = function () { document.getElementById('selZip').click(); };
+  document.getElementById('selZip').onchange = function () {
+    var f = this.files[0]; this.value = '';
+    if (!f) return;
+    JSZip.loadAsync(f).then(function (zip) {
+      var lote = {}, tareas = [];
+      zip.forEach(function (ruta, ent) {
+        var m = /^([^\/]+)\.jpe?g$/i.exec(ruta);
+        if (ent.dir || !m) return;
+        tareas.push(ent.async('base64').then(function (b64) { lote[m[1]] = 'data:image/jpeg;base64,' + b64; }));
+      });
+      return Promise.all(tareas).then(function () { return pedir('guardarVarias', { fotos: lote }); });
+    }).then(function (n) { log(n + ' foto(s) cargadas del zip.'); return refrescar(); }, function (e) { log('Zip no válido: ' + e); });
+  };
+
   document.getElementById('info').onclick = mostrarInfo;
   document.getElementById('borrar').onclick = function () {
-    pedir('borrarTodo').then(function () { document.getElementById('fotos').innerHTML = ''; mostrarInfo(); }, log);
+    pedir('borrarTodo').then(function () { return refrescar(); }).then(mostrarInfo, log);
   };
+  pintar();
 })();
 </script>
 </body>
