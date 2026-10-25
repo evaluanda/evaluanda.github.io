@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Almacén local de fotos (prototipo)</title>
+<style>
+  body { margin: 0; font: 13px/1.4 system-ui, sans-serif; background: #f6f6f6; color: #222; }
+  .caja { padding: 6px 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  button { font: inherit; padding: 4px 8px; }
+  @media (prefers-color-scheme: dark) { body { background: #222; color: #eee; } }
+</style>
+</head>
+<body>
+<!--
+  PROTOTIPO. Almacén de fotos en el DISPOSITIVO (IndexedDB) con dirección fija
+  (evaluanda.github.io). La app de Apps Script lo carga en un iframe y le habla
+  por postMessage. Las fotos nunca salen del dispositivo ni llegan a Google.
+  Solo responde a páginas servidas por Apps Script (*-script.googleusercontent.com).
+-->
+<div class="caja">
+  <span id="estado">Almacén listo</span>
+  <!-- persist() necesita un gesto del usuario DENTRO de este documento -->
+  <button id="persistir" type="button">Pedir almacenamiento persistente</button>
+</div>
+<script>
+(function () {
+  'use strict';
+  var ORIGEN_OK = /^https:\/\/[a-z0-9-]+-script\.googleusercontent\.com$/;
+  var DB = 'evaluanda-fotos', STORE = 'fotos', META = 'meta';
+  var padre = null; // origen de quien nos habla (para responder solo a él)
+
+  function abrir() {
+    return new Promise(function (ok, ko) {
+      var r = indexedDB.open(DB, 1);
+      r.onupgradeneeded = function () {
+        r.result.createObjectStore(STORE);
+        r.result.createObjectStore(META);
+      };
+      r.onsuccess = function () { ok(r.result); };
+      r.onerror = function () { ko(r.error); };
+    });
+  }
+  function tx(store, modo, fn) {
+    return abrir().then(function (db) {
+      return new Promise(function (ok, ko) {
+        var t = db.transaction(store, modo), s = t.objectStore(store), res;
+        res = fn(s);
+        t.oncomplete = function () { ok(res instanceof IDBRequest ? res.result : res); };
+        t.onerror = function () { ko(t.error); };
+      });
+    });
+  }
+  function todas() {
+    return tx(STORE, 'readonly', function (s) { return s.getAllKeys(); });
+  }
+
+  // Fecha de la primera escritura: si al volver días después sigue igual,
+  // el almacén ha sobrevivido.
+  function asegurarCreado() {
+    return tx(META, 'readonly', function (s) { return s.get('creado'); }).then(function (f) {
+      if (f) return f;
+      var ahora = new Date().toISOString();
+      return tx(META, 'readwrite', function (s) { s.put(ahora, 'creado'); }).then(function () { return ahora; });
+    });
+  }
+
+  function info() {
+    var est = navigator.storage && navigator.storage.estimate ? navigator.storage.estimate() : Promise.resolve({});
+    var per = navigator.storage && navigator.storage.persisted ? navigator.storage.persisted() : Promise.resolve(null);
+    return Promise.all([asegurarCreado(), todas(), est, per]).then(function (r) {
+      return { creado: r[0], numFotos: r[1].length, usado: r[2].usage || null,
+        cuota: r[2].quota || null, persistente: r[3], origen: location.origin };
+    });
+  }
+
+  var ops = {
+    info: function () { return info(); },
+    guardar: function (m) {
+      return asegurarCreado().then(function () {
+        return tx(STORE, 'readwrite', function (s) { s.put(String(m.dataUrl), String(m.id)); });
+      }).then(function () { return true; });
+    },
+    leer: function (m) {
+      var ids = (m.ids || []).map(String), out = {};
+      return tx(STORE, 'readonly', function (s) {
+        ids.forEach(function (id) { s.get(id).onsuccess = function (e) { if (e.target.result) out[id] = e.target.result; }; });
+      }).then(function () { return out; });
+    },
+    borrar: function (m) {
+      return tx(STORE, 'readwrite', function (s) { s.delete(String(m.id)); }).then(function () { return true; });
+    },
+    borrarTodo: function () {
+      return tx(STORE, 'readwrite', function (s) { s.clear(); }).then(function () { return true; });
+    }
+  };
+
+  window.addEventListener('message', function (e) {
+    if (!ORIGEN_OK.test(e.origin)) return;           // solo Apps Script
+    var m = e.data || {};
+    if (!m || typeof m.op !== 'string' || !ops[m.op]) return;
+    padre = e.origin;
+    ops[m.op](m).then(function (res) {
+      e.source.postMessage({ rid: m.rid, ok: true, res: res }, e.origin);
+    }, function (err) {
+      e.source.postMessage({ rid: m.rid, ok: false, error: String(err) }, e.origin);
+    });
+  });
+
+  document.getElementById('persistir').addEventListener('click', function () {
+    var el = document.getElementById('estado');
+    if (!navigator.storage || !navigator.storage.persist) { el.textContent = 'persist() no disponible'; return; }
+    navigator.storage.persist().then(function (si) {
+      el.textContent = si ? 'Persistente: CONCEDIDO' : 'Persistente: denegado';
+      if (padre && window.parent !== window) window.parent.postMessage({ evento: 'persistencia', concedida: si }, padre);
+    });
+  });
+
+  // Aviso al padre de que el almacén está cargado (cualquier origen: no lleva datos).
+  if (window.parent !== window) window.parent.postMessage({ evento: 'listo' }, '*');
+})();
+</script>
+</body>
+</html>

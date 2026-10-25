@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<style>
+  body { font: 15px/1.45 system-ui, sans-serif; margin: 16px; }
+  button, input { font: inherit; margin: 4px 4px 4px 0; }
+  iframe { width: 100%; height: 44px; border: 1px solid #ccc; border-radius: 6px; }
+  pre { background: #f2f2f2; padding: 8px; border-radius: 6px; white-space: pre-wrap; }
+  #fotos img { width: 64px; height: 64px; object-fit: cover; border-radius: 50%; margin: 4px; }
+</style>
+</head>
+<body>
+<h3>Prueba: fotos en el dispositivo</h3>
+<p>Las fotos se guardan en este dispositivo (no en Google). Vuelve dentro de unos días y
+comprueba que la <b>fecha de creación</b> y las fotos siguen aquí.</p>
+
+<!-- El almacén: dirección fija en GitHub Pages -->
+<iframe id="almacen" src="https://evaluanda.github.io/pruebas/almacen-fotos/almacen.html"></iframe>
+
+<p>
+  <input type="file" id="archivo" accept="image/*">
+  <button id="guardar">Guardar como alumno de prueba</button><br>
+  <button id="leer">Ver fotos guardadas</button>
+  <button id="info">Estado del almacén</button>
+  <button id="borrar">Borrar todo</button>
+</p>
+<div id="fotos"></div>
+<pre id="log">Cargando almacén…</pre>
+
+<script>
+(function () {
+  var ALMACEN = 'https://evaluanda.github.io';
+  var frame = document.getElementById('almacen');
+  var logEl = document.getElementById('log');
+  var pendientes = {}, rid = 0, ids = ['a1', 'a2', 'a3'], siguiente = 0;
+
+  function log(t) { logEl.textContent = t; }
+
+  // Petición al almacén → Promise con la respuesta.
+  function pedir(op, datos) {
+    return new Promise(function (ok, ko) {
+      var m = Object.assign({ op: op, rid: ++rid }, datos || {});
+      pendientes[m.rid] = { ok: ok, ko: ko };
+      frame.contentWindow.postMessage(m, ALMACEN);
+      setTimeout(function () {
+        if (pendientes[m.rid]) { delete pendientes[m.rid]; ko('Sin respuesta del almacén (¿bloqueado?)'); }
+      }, 5000);
+    });
+  }
+  window.addEventListener('message', function (e) {
+    if (e.origin !== ALMACEN) return;
+    var m = e.data || {};
+    if (m.evento === 'listo') { mostrarInfo(); return; }
+    if (m.evento === 'persistencia') { mostrarInfo(); return; }
+    var p = pendientes[m.rid];
+    if (!p) return;
+    delete pendientes[m.rid];
+    m.ok ? p.ok(m.res) : p.ko(m.error);
+  });
+
+  function mostrarInfo() {
+    pedir('info').then(function (i) {
+      log('Creado: ' + i.creado + '\nFotos: ' + i.numFotos +
+        '\nPersistente: ' + i.persistente +
+        '\nUsado/cuota: ' + i.usado + ' / ' + i.cuota +
+        '\nPantalla de inicio: ' + (navigator.standalone === true || matchMedia('(display-mode: standalone)').matches) +
+        '\nNavegador: ' + navigator.userAgent);
+    }, log);
+  }
+
+  // Reduce la imagen a 96×96 (miniatura, como la app) antes de guardarla.
+  function miniatura(file) {
+    return new Promise(function (ok, ko) {
+      var img = new Image();
+      img.onload = function () {
+        var c = document.createElement('canvas'), l = 96, s = Math.min(img.width, img.height);
+        c.width = c.height = l;
+        c.getContext('2d').drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, l, l);
+        URL.revokeObjectURL(img.src);
+        ok(c.toDataURL('image/jpeg', 0.8));
+      };
+      img.onerror = ko;
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  document.getElementById('guardar').onclick = function () {
+    var f = document.getElementById('archivo').files[0];
+    if (!f) return log('Elige una imagen primero.');
+    var id = ids[siguiente++ % ids.length];
+    miniatura(f).then(function (d) { return pedir('guardar', { id: id, dataUrl: d }); })
+      .then(function () { log('Guardada como ' + id); }, log);
+  };
+  document.getElementById('leer').onclick = function () {
+    pedir('leer', { ids: ids }).then(function (fotos) {
+      var cont = document.getElementById('fotos'); cont.innerHTML = '';
+      Object.keys(fotos).forEach(function (id) {
+        var img = document.createElement('img'); img.src = fotos[id]; img.title = id; cont.appendChild(img);
+      });
+      log(Object.keys(fotos).length + ' foto(s) encontradas.');
+    }, log);
+  };
+  document.getElementById('info').onclick = mostrarInfo;
+  document.getElementById('borrar').onclick = function () {
+    pedir('borrarTodo').then(function () { document.getElementById('fotos').innerHTML = ''; mostrarInfo(); }, log);
+  };
+})();
+</script>
+</body>
+</html>
