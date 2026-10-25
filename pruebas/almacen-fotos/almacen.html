@@ -88,6 +88,25 @@
         ids.forEach(function (id) { s.get(id).onsuccess = function (e) { if (e.target.result) out[id] = e.target.result; }; });
       }).then(function () { return out; });
     },
+    // Todas las fotos { id: dataUrl } (para exportar el zip de respaldo).
+    todas: function () {
+      var out = {};
+      return tx(STORE, 'readonly', function (s) {
+        s.openCursor().onsuccess = function (e) {
+          var c = e.target.result;
+          if (c) { out[c.key] = c.value; c.continue(); }
+        };
+      }).then(function () { return out; });
+    },
+    // Varias de golpe { id: dataUrl } (al importar el zip), en UNA transacción.
+    guardarVarias: function (m) {
+      var fotos = m.fotos || {};
+      return asegurarCreado().then(function () {
+        return tx(STORE, 'readwrite', function (s) {
+          Object.keys(fotos).forEach(function (id) { s.put(String(fotos[id]), String(id)); });
+        });
+      }).then(function () { return Object.keys(fotos).length; });
+    },
     borrar: function (m) {
       return tx(STORE, 'readwrite', function (s) { s.delete(String(m.id)); }).then(function () { return true; });
     },
