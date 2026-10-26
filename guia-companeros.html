@@ -39,6 +39,8 @@
   html,body{margin:0}
   body{font-family:var(--sans); color:var(--texto); background:var(--papel); line-height:1.65; -webkit-font-smoothing:antialiased; font-size:17px}
   a{color:inherit; text-decoration:none}
+  /* Enlaces dentro del texto: en el azul de la app, subrayados */
+  article p a, .cabecera .intro a{color:var(--acento); font-weight:600; border-bottom:1px solid currentColor}
   :focus-visible{outline:2px solid var(--acento); outline-offset:3px; border-radius:6px}
   strong{color:var(--tinta); font-weight:600}
   .contenedor{max-width:1180px; margin:0 auto; padding:0 28px}
@@ -128,8 +130,9 @@
     <div class="etiqueta">Guía de uso</div>
     <h1>Guía rápida para el profesorado.</h1>
     <p class="intro"><strong>Evaluanda</strong> sirve para <strong>evaluar por criterios</strong>
-    (estilo iDoceo) desde el navegador, con tu cuenta de <strong>g.educaand.es</strong>. No tienes
-    que instalar nada ni hacer copias: solo entrar con tu enlace.</p>
+    (estilo iDoceo) desde el navegador, con tu cuenta de <strong>g.educaand.es</strong>. Para usarla no
+    tienes que instalar nada ni hacer copias: solo entrar con tu enlace. Para enviar las notas a Séneca,
+    instala una vez la extensión de Chrome (ver <a href="#seneca">Llevar las notas a Séneca</a>).</p>
   </div>
 
   <div class="contenedor cuerpo">
