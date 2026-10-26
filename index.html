@@ -74,7 +74,7 @@
       "featureList": [
         "Evaluación por criterios LOMLOE",
         "Notas de criterio calculadas al momento",
-        "Exportación lista para Séneca",
+        "Envío de notas a Séneca con su extensión",
         "Exportación de la rejilla a PDF",
         "Datos cifrados en tu propio Google Drive"
       ],
@@ -92,26 +92,43 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Outfit:wght@800&display=swap">
 
 <style>
-  /* Dirección: cuaderno del profesorado. Papel, tinta marina, reglas finas
-     y las tres barras del logo como único color. Sin brillos ni degradados. */
+  /* Dirección: cuaderno del profesorado. Titulares en serif; el resto, como la app
+     (Inter, neutros y su azul de acción). Las tres barras del logo, como acento. */
   :root{
-    --papel:#f7f5ef; --hoja:#fffefa; --tinta:#14213d; --texto:#3a4256; --tenue:#6b7285;
-    --regla:#e3dfd3; --regla-fuerte:#cfc9b8;
-    --acento:#2f5bd3; --verde:#43c59e; --azul:#5c86f7; --naranja:#f2a33a;
-    --btn:#14213d; --btn-txt:#fff; --filo-logo:transparent;
+    --papel:#f6f6f6; --hoja:#fff; --tinta:#1c1e24; --texto:#3f4552; --tenue:#6b7280;
+    --regla:#e9eaee; --regla-fuerte:#dcdee3;
+    --acento:#3a63d8; --acento-hover:#2f52bd; --acento-vivo:#9db4ff; --enlace:#3a63d8;
+    --verde:#43c59e; --azul:#5c86f7; --naranja:#f2a33a; --filo-logo:transparent;
     --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
-    --sans:'Outfit',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --marca:'Outfit','Inter',sans-serif;
     --ease:cubic-bezier(.23,1,.32,1);
-    --noche:#0c1328;
+    --noche:#0c1328; --noche-2:#121b36; --claro:#fff; --tx:#c9d0e2; --tenue-noche:#8f9bb8; --filo:rgba(255,255,255,.12);
+    /* App (tokens reales de estilos.html, tema claro) */
+    --a-bg:#f6f6f6; --a-surface:#ffffff; --a-borde:#e9eaee; --a-borde-f:#dcdee3;
+    --a-texto:#1c1e24; --a-texto-2:#6b7280; --a-texto-3:#7b8290;
+    --a-acento:#3a63d8; --a-acento-suave:#eaf0fc; --a-hover:#f3f4fd; --a-th:#f3f4f7;
+    --a-cab-1:#dbe5fd; --a-cab-2:#f6f6f6; --a-seneca:#1f5fae;
+    --g-top-bg:#d8e6fe; --g-top-tx:#1c56b0; --g-alta-bg:#e3f6dd; --g-alta-tx:#2e6b1f;
+    --g-media-bg:#fdf4d3; --g-media-tx:#7a5f00; --g-baja-bg:#fde7cf; --g-baja-tx:#9a5410;
+    --g-susp-bg:#fbdcd6; --g-susp-tx:#b23227;
+    --sombra-ventana:0 50px 100px -30px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.14);
   }
   @media (prefers-color-scheme:dark){
     :root{
-      --papel:#0e1320; --hoja:#141a29; --tinta:#eef0f5; --texto:#c3c8d4; --tenue:#8b92a3;
-      --regla:#232a3b; --regla-fuerte:#323a4e;
-      --acento:#8aa6ff; --btn:#eef0f5; --btn-txt:#14213d; --filo-logo:rgba(255,255,255,.16);
+      --papel:#14161b; --hoja:#1b1e25; --tinta:#e6e8ee; --texto:#b9bfcb; --tenue:#8e95a3;
+      --regla:#262a33; --regla-fuerte:#2f3440; --enlace:#7ba0ff; --filo-logo:rgba(255,255,255,.16);
+
+    --a-bg:#14161b; --a-surface:#1b1e25; --a-borde:#262a33; --a-borde-f:#2f3440;
+    --a-texto:#e6e8ee; --a-texto-2:#a4aab6; --a-texto-3:#8e95a3;
+    --a-acento:#5c86f7; --a-acento-suave:rgba(92,134,247,.16); --a-hover:rgba(92,134,247,.08); --a-th:#1f232b;
+    --a-cab-1:#1d2a4d; --a-cab-2:#14161b; --a-seneca:#3b7fd4;
+    --g-top-bg:#122f4f; --g-top-tx:#6fb2f7; --g-alta-bg:#17351b; --g-alta-tx:#93d67c;
+    --g-media-bg:#38310f; --g-media-tx:#e3c45f; --g-baja-bg:#3b2712; --g-baja-tx:#e6a463;
+    --g-susp-bg:#3b1b16; --g-susp-tx:#ef8578;
     }
   }
   *{box-sizing:border-box}
@@ -120,7 +137,7 @@
   html,body{margin:0}
   body{font-family:var(--sans); color:var(--texto); background:var(--papel); line-height:1.6; -webkit-font-smoothing:antialiased; font-size:17px}
   a{color:inherit; text-decoration:none}
-  :focus-visible{outline:2px solid var(--acento); outline-offset:3px; border-radius:6px}
+  :focus-visible{outline:2px solid var(--enlace); outline-offset:3px; border-radius:6px}
   .contenedor{max-width:1180px; margin:0 auto; padding:0 28px}
   @media (max-width:640px){ .contenedor{padding:0 18px} body{font-size:16px} }
   .etiqueta{font-size:.78rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--tenue)}
@@ -131,32 +148,30 @@
   header .marca{color:#fff}
   header nav.enlaces a.txt{color:#c9d0e2}
   header nav.enlaces a.txt:hover{color:#fff}
-  header .btn{background:#fff; color:#14213d}
   .barra{display:flex; align-items:center; justify-content:space-between; gap:16px; height:64px}
-  .marca{display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.2rem; letter-spacing:-.01em; color:var(--tinta)}
+  .marca{display:flex; align-items:center; gap:10px; font-family:var(--marca); font-weight:800; font-size:1.22rem; letter-spacing:-.01em; color:var(--tinta)}
   .logo-ico{width:30px; height:30px; border-radius:8px; display:inline-flex; background:#14213d; box-shadow:0 0 0 1px var(--filo-logo); flex:none}
   nav.enlaces{display:flex; align-items:center; gap:26px; font-size:.95rem}
   nav.enlaces a.txt{color:var(--texto)}
   nav.enlaces a.txt:hover{color:var(--tinta); text-decoration:underline; text-underline-offset:4px}
-  .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:999px; font-weight:600; background:var(--btn); color:var(--btn-txt);
-    transition:transform .15s var(--ease), opacity .15s}
-  .btn:hover{opacity:.9}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:9px 16px; border-radius:10px; font-weight:600; background:var(--acento); color:#fff;
+    box-shadow:0 1px 2px rgba(58,99,216,.3), 0 6px 20px -6px rgba(58,99,216,.55); transition:transform .15s var(--ease), background .15s}
+  .btn:hover{background:var(--acento-hover)}
   .btn:active{transform:scale(.97)}
   .btn svg{transition:transform .2s var(--ease)}
   .btn:hover svg{transform:translateX(3px)}
-  .btn.grande{padding:15px 26px; font-size:1.05rem}
+  .btn.grande{padding:14px 24px; font-size:1.02rem; border-radius:12px}
   .enlace-flecha{display:inline-flex; align-items:center; gap:6px; font-weight:600; color:var(--tinta); border-bottom:1px solid var(--regla-fuerte); padding-bottom:2px}
   .enlace-flecha:hover{border-color:var(--tinta)}
   @media (max-width:760px){ nav.enlaces a.solo-ancho{display:none} nav.enlaces{gap:16px} }
 
-  /* HERO — escenario marino con renglones de cuaderno; texto claro y la captura real */
+  /* HERO — escenario marino con renglones de cuaderno; texto claro y la rejilla de la app, en vivo */
   main.escenario{background:var(--noche); color:#c9d0e2; overflow-x:clip;
     background-image:linear-gradient(transparent calc(100% - 1px),rgba(255,255,255,.05) 0); background-size:100% 44px}
   .escenario .etiqueta{color:#8f9bb8}
   .escenario .hero h1{color:#fff}
-  .escenario .hero h1 em{color:var(--verde)}
+  .escenario .hero h1 em{color:var(--acento-vivo)}
   .escenario .hero .entrada{color:#c9d0e2}
-  .escenario .btn{background:var(--verde); color:#0c1328}
   .escenario .enlace-flecha{color:#fff; border-color:rgba(255,255,255,.35)}
   .escenario .enlace-flecha:hover{border-color:#fff}
   .escenario .datos{border-color:rgba(255,255,255,.1); color:#8f9bb8}
@@ -165,34 +180,121 @@
   .escenario .btn-inst strong{color:#fff}
   .escenario .btn-inst small, .escenario .btn-inst > svg, .escenario .ios-nota{color:#8f9bb8}
   .escenario .ios-nota strong{color:#fff}
-  .escenario .captura .marco{border-color:rgba(255,255,255,.1); box-shadow:0 40px 80px -30px rgba(0,0,0,.65)}
-  .escenario .captura figcaption{color:#8f9bb8}
-  /* Aviso «Copiado» que aparece sobre la captura: el último paso, llevar las notas a Séneca */
-  .aviso-copiado{position:absolute; right:24px; bottom:22px; display:inline-flex; align-items:center; gap:8px; padding:9px 14px; border-radius:10px;
-    background:#14213d; color:#fff; font-size:.85rem; font-weight:600; line-height:1.2; box-shadow:0 12px 30px -10px rgba(0,0,0,.5);
-    opacity:0; transform:translateY(8px); transition:opacity .45s var(--ease) 1s, transform .5s var(--ease) 1s}
-  .aviso-copiado svg{color:var(--verde)}
-  .captura.visible .aviso-copiado{opacity:1; transform:none}
-  html:not(.js) .aviso-copiado{opacity:1; transform:none}
-  @media (max-width:640px){ .aviso-copiado{display:none} }
   /* HERO — partido 5/7, alineado a la izquierda */
-  .hero{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:56px; align-items:center; padding-top:72px; padding-bottom:88px}
-  .hero h1{font-family:var(--serif); font-weight:400; color:var(--tinta); font-size:clamp(2.9rem,5.6vw,4.7rem); line-height:.98; letter-spacing:-.02em; margin:18px 0 0}
+  .hero{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:64px; align-items:center; padding-top:76px; padding-bottom:92px}
+  .hero h1{font-family:var(--serif); font-weight:400; color:var(--tinta); font-size:clamp(2.7rem,4.3vw,4.2rem); line-height:.97; letter-spacing:-.022em; margin:18px 0 0; text-wrap:balance}
   .hero h1 em{font-style:italic}
   .hero .entrada{margin:24px 0 0; max-width:42ch; font-size:1.12rem; color:var(--texto)}
   .hero .acciones{display:flex; flex-wrap:wrap; align-items:center; gap:22px; margin-top:32px}
   .datos{display:flex; flex-wrap:wrap; gap:6px 18px; margin:34px 0 0; padding:16px 0 0; border-top:1px solid var(--regla); list-style:none; font-size:.9rem; color:var(--tenue)}
   .datos li{display:inline-flex; align-items:center; gap:8px}
   .datos i{width:14px; height:5px; border-radius:3px; display:inline-block}
-  .captura{position:relative; margin:0 -28px 0 0}
-  .captura .marco{border:1px solid var(--regla-fuerte); border-radius:14px; overflow:hidden; background:var(--hoja); line-height:0;
-    box-shadow:0 1px 0 var(--regla), 0 30px 60px -30px rgba(20,33,61,.35)}
-  .captura img{display:block; width:100%; height:auto}
-  .captura figcaption{margin-top:12px; font-size:.82rem; color:var(--tenue)}
-  @media (max-width:640px){ .captura figcaption{display:none} }
+  /* MAQUETA DE LA APP — todo en em: escala con su contenedor */
+  .escena{container-type:inline-size; min-width:0; position:relative; margin:0 -28px 0 0}
+  @media (max-width:960px){ .escena{margin-right:0} }
+  /* Halo azul bajo la ventana: la separa del escenario, sobre todo con la app en oscuro */
+  .escena::before{content:""; position:absolute; inset:8% 6% 14%; z-index:-1; border-radius:50%; background:radial-gradient(closest-side,rgba(58,99,216,.38),transparent); filter:blur(40px)}
+  .ventana{font-family:var(--sans); font-size:calc(100cqw / 74); border-radius:1.1em; overflow:hidden; background:var(--a-bg); color:var(--a-texto);
+    box-shadow:var(--sombra-ventana); display:grid; grid-template-columns:3.6em minmax(0,1fr); line-height:1.35; user-select:none}
+  .rail{background:var(--a-bg); border-right:1px solid var(--a-borde); display:flex; flex-direction:column; align-items:center; gap:.9em; padding:1em 0}
+  .rail .logo-app{width:2.1em; height:2.1em; border-radius:.55em; background:#14213d; display:flex}
+  .rail svg.i{width:1.35em; height:1.35em; fill:none; stroke:var(--a-texto-2); stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+  .rail .act{position:relative; padding:.4em; border-radius:.5em; background:var(--a-surface); box-shadow:0 1px 2px rgba(16,18,24,.06)}
+  .rail .act svg.i{stroke:var(--a-acento)}
+  .rail .act::before{content:""; position:absolute; left:-.75em; top:.3em; bottom:.3em; width:.25em; border-radius:0 .2em .2em 0; background:var(--a-acento)}
+  .rail .sep{flex:1}
+  .rail .av{width:1.9em; height:1.9em; border-radius:50%; background:linear-gradient(135deg,#5c86f7,#3a63d8); color:#fff; font-size:.85em; font-weight:600; display:grid; place-items:center}
+  .zona{min-width:0; display:flex; flex-direction:column}
+  .pestanas{display:flex; align-items:flex-end; gap:.2em; padding:.5em .9em 0; height:2.7em}
+  .pest{font-size:.92em; padding:.45em 1em; border-radius:.6em .6em 0 0; color:var(--a-texto-2); background:color-mix(in srgb,var(--a-acento-suave) 60%,transparent)}
+  .pest.on{background:var(--a-cab-1); color:var(--a-texto); font-weight:600; display:flex; gap:.5em; align-items:center}
+  .pest.on::before{content:""; width:.5em; height:.5em; border-radius:2px; background:var(--a-acento)}
+  .cab{background:linear-gradient(100deg,var(--a-cab-1),color-mix(in srgb,var(--a-cab-1) 55%,var(--a-cab-2)) 60%,var(--a-cab-2)); padding:1.1em 1.4em .9em; display:flex; align-items:center; gap:.9em}
+  .volver{width:2.4em; height:2.4em; border-radius:.6em; background:var(--a-surface); display:grid; place-items:center; box-shadow:0 1px 2px rgba(16,18,24,.08)}
+  .volver svg{width:1.2em; height:1.2em; fill:none; stroke:var(--a-acento); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round}
+  .clase{width:2.9em; height:2.9em; border-radius:.7em; background:var(--a-acento); color:#fff; font-weight:700; font-size:1.05em; display:grid; place-items:center}
+  .titulo{min-width:0}
+  .titulo small{display:block; font-size:.82em; color:var(--a-texto-2); font-weight:500}
+  .titulo b{display:block; font-size:1.45em; letter-spacing:-.015em; line-height:1.15; white-space:nowrap}
+  .cab .hueco{flex:1}
+  .grupo{display:flex; border-radius:.6em; overflow:hidden; background:color-mix(in srgb,var(--a-surface) 55%,transparent)}
+  .grupo span{width:2.5em; height:2.4em; display:grid; place-items:center; border-left:1px solid var(--a-borde)}
+  .grupo span:first-child{border-left:0}
+  .grupo svg{width:1.1em; height:1.1em; fill:none; stroke:var(--a-texto-2); stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+  .b-seneca{position:relative; display:flex; align-items:center; gap:.45em; height:2.4em; padding:0 .9em; border-radius:.6em; font-weight:500; font-size:.95em; white-space:nowrap;
+    color:var(--a-seneca); background:color-mix(in srgb,var(--a-surface) 45%,transparent); border:1px solid color-mix(in srgb,var(--a-seneca) 30%,transparent); transition:box-shadow .4s, transform .4s var(--ease)}
+  .b-seneca svg{width:1.15em; height:1.15em}
+  .b-seneca i{position:absolute; top:-.55em; right:-.55em; width:1.25em; height:1.25em; border-radius:50%; display:grid; place-items:center; font-style:normal; font-size:.7em; font-weight:600;
+    background:var(--a-surface); color:var(--a-texto-2); border:1px solid color-mix(in srgb,var(--a-seneca) 30%,transparent)}
+  .b-seneca.listo{box-shadow:0 0 0 .3em color-mix(in srgb,var(--a-seneca) 22%,transparent); transform:translateY(-1px)}
+  .b-nueva{height:2.4em; padding:0 1em; border-radius:.6em; background:var(--a-acento); color:#fff; font-weight:600; font-size:.95em; display:flex; align-items:center}
+  .tarjeta{margin:.4em 1.4em 1.4em; background:var(--a-surface); border-radius:1em; border:1px solid var(--a-borde); overflow:hidden; position:relative; box-shadow:0 1px 3px rgba(16,18,24,.05)}
+  table{border-collapse:collapse; width:100%; table-layout:fixed; font-variant-numeric:tabular-nums}
+  th,td{border-right:1px solid var(--a-borde); border-bottom:1px solid var(--a-borde); padding:0; text-align:center; transition:background-color .25s}
+  thead th{font-weight:600; vertical-align:bottom; padding:.9em .4em .6em; font-size:.92em}
+  thead th small{display:block; font-weight:400; color:var(--a-texto-3); font-size:.88em; margin-top:.15em}
+  .chip{display:inline-block; margin-top:.35em; padding:.05em .5em; border-radius:.4em; background:var(--a-acento-suave); color:var(--a-acento); font-size:.82em; font-weight:600}
+  th.n-col,td.n-col{width:2.4em; color:var(--a-texto-3); font-size:.9em}
+  th.alu{width:11.5em; text-align:left; padding-left:.6em}
+  td.alu{text-align:left; padding:0 .6em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  td.alu .ini{display:inline-grid; place-items:center; width:1.75em; height:1.75em; border-radius:50%; color:#fff; font-size:.72em; font-weight:700; margin-right:.6em; vertical-align:middle}
+  td{height:2.75em; font-size:1em}
+  td.act{font-size:1.08em; position:relative}
+  th.nfin,td.nfin{width:4.6em; border-left:2px solid var(--a-acento)}
+  th.nfin{color:var(--a-acento); font-weight:700}
+  td.nfin{font-weight:700; font-size:1.08em}
+  th.cri{width:6.9em; color:var(--a-texto-3); font-weight:600; font-size:.72em; padding-inline:.2em; letter-spacing:.01em}
+  td.cri{font-size:.95em; font-weight:500}
+  tr:last-child td{border-bottom:0}
+  th:last-child,td:last-child{border-right:0}
+  /* Multinota desplegada (como la app): media sobria y una subcolumna por criterio,
+     con la línea de color arriba y borde discontinuo */
+  th.multi,th.sub{box-shadow:inset 0 3px 0 var(--a-acento)}
+  th.sub{width:4.4em; background:color-mix(in srgb,var(--a-acento) 12%,var(--a-surface)); color:var(--a-acento); font-size:.8em; padding-inline:.2em}
+  td.sub{border-left:1px dashed var(--a-borde-f)}
+  td.media{color:var(--a-texto-2); font-size:.98em}
+  .g-top{background:var(--g-top-bg); color:var(--g-top-tx)} .g-alta{background:var(--g-alta-bg); color:var(--g-alta-tx)}
+  .g-media{background:var(--g-media-bg); color:var(--g-media-tx)} .g-baja{background:var(--g-baja-bg); color:var(--g-baja-tx)}
+  .g-susp{background:var(--g-susp-bg); color:var(--g-susp-tx)}
+  /* Foco en cruz (como la app): fila y columna teñidas, celda con anillo */
+  .cruz{background-color:var(--a-hover)}
+  td.cruz.g-top,td.cruz.g-alta,td.cruz.g-media,td.cruz.g-baja,td.cruz.g-susp{filter:saturate(1.15)}
+  .anillo{position:absolute; pointer-events:none; border:2px solid var(--a-acento); border-radius:.35em; box-shadow:0 0 0 .25em color-mix(in srgb,var(--a-acento) 18%,transparent);
+    transition:left .32s var(--ease), top .32s var(--ease), width .32s var(--ease), height .32s var(--ease), opacity .3s; opacity:0}
+  .anillo.on{opacity:1}
+  .escribe{color:var(--a-acento); font-weight:700}
+  .escribe::after{content:""; display:inline-block; width:1px; height:1em; margin-left:1px; background:var(--a-acento); vertical-align:-.12em; animation:parpadeo .8s steps(1) infinite}
+  @keyframes parpadeo{50%{opacity:0}}
+  .recalc{animation:recalc .9s var(--ease)}
+  @keyframes recalc{0%{box-shadow:inset 0 0 0 2px currentColor} 100%{box-shadow:inset 0 0 0 2px transparent}}
+  .delta{position:absolute; right:.25em; top:.15em; font-size:.62em; font-weight:700; opacity:0; animation:delta 1.6s var(--ease) forwards; pointer-events:none}
+  @keyframes delta{0%{opacity:0; transform:translateY(.4em)} 20%{opacity:1; transform:none} 75%{opacity:1} 100%{opacity:0; transform:translateY(-.3em)}}
+  .teclas{display:flex; gap:4px; flex:none; min-width:58px}
+  .tecla{min-width:24px; height:24px; padding:0 6px; border-radius:6px; display:grid; place-items:center; font-size:.78rem; font-weight:600;
+    background:var(--noche-2); color:var(--claro); border:1px solid var(--filo); box-shadow:0 2px 0 var(--filo); animation:tecla .9s var(--ease) forwards}
+  @keyframes tecla{0%{opacity:0; transform:translateY(.4em)} 15%{opacity:1; transform:none} 70%{opacity:1} 100%{opacity:0}}
+
+  /* Pie de la maqueta: el cálculo, contado */
+  .lectura{display:flex; align-items:center; gap:14px; margin-top:16px; font-size:.84rem; color:var(--tenue); min-height:1.6em}
+  .lectura output{flex:1; font-variant-numeric:tabular-nums; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .lectura output b{color:var(--claro); font-weight:600}
+  .lectura output .flecha{color:var(--acento-vivo)}
+  .pausa{flex:none; font:inherit; font-size:.8rem; color:var(--tenue-noche); background:transparent; border:1px solid var(--filo); border-radius:999px; padding:3px 12px; cursor:pointer}
+  .pausa:hover{color:var(--claro); border-color:rgba(255,255,255,.4)}
+
+  /* Móvil: sin raíl ni criterios; dos actividades y la NOTA, a tamaño legible */
+  @container (max-width:560px){
+    .ventana{font-family:var(--sans); font-size:calc(100cqw / 33); grid-template-columns:minmax(0,1fr)}
+    .rail,.pestanas,.grupo,.b-seneca,.n-col,.cri,.a0,.a1,.cab .volver{display:none}
+    .cab{padding:.9em 1em .8em} .tarjeta{margin:.3em .8em .9em}
+    .titulo b{font-size:1.25em}
+    th.alu{width:12.5em}
+    .teclas{display:none}
+  }
+  @media (max-width:560px){ .lectura output{white-space:normal} }
+  .lectura{color:var(--tenue-noche)}
   @media (max-width:960px){
     .hero{grid-template-columns:1fr; gap:44px; padding-top:48px; padding-bottom:64px}
-    .captura{margin-right:0}
   }
 
   /* Instalación como app (iOS / Chrome) */
@@ -243,7 +345,7 @@
   .indice .n{font-family:var(--serif); font-size:1.6rem; color:var(--tenue); font-variant-numeric:tabular-nums}
   .indice h3{margin:0; font-size:1.3rem; font-weight:600; color:var(--tinta); letter-spacing:-.01em}
   .indice p{margin:0; color:var(--texto); max-width:56ch}
-  .indice p a{color:var(--acento); font-weight:600; border-bottom:1px solid currentColor}
+  .indice p a{color:var(--enlace); font-weight:600; border-bottom:1px solid currentColor}
   .indice .tag{display:inline-block; margin-left:8px; padding:1px 8px; border:1px solid var(--regla-fuerte); border-radius:999px; font-size:.72rem; font-weight:600; color:var(--tenue); vertical-align:middle}
   @media (max-width:760px){
     .indice li{grid-template-columns:44px 1fr; gap:6px 14px; padding:22px 0}
@@ -276,7 +378,7 @@
   .faq details[open] summary::after{transform:rotate(45deg)}
   .faq .resp{padding:0 0 22px; max-width:62ch; color:var(--texto)}
   .faq .resp p{margin:0}
-  .faq .resp a{color:var(--acento); font-weight:600; border-bottom:1px solid currentColor}
+  .faq .resp a{color:var(--enlace); font-weight:600; border-bottom:1px solid currentColor}
 
   /* AUTOR — nota firmada */
   .nota{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:56px; align-items:start}
@@ -309,7 +411,7 @@
   .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s var(--ease), transform .8s var(--ease)}
   .reveal.visible{opacity:1; transform:none}
   html:not(.js) .reveal{opacity:1; transform:none}
-  @media (prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none; transition:none} .aviso-copiado{transition:none} }
+  @media (prefers-reduced-motion:reduce){ .reveal{opacity:1; transform:none; transition:none} .anillo,.ventana th,.ventana td{transition:none} }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -336,7 +438,7 @@
       <div>
         <div class="etiqueta">Cuaderno del profesorado · LOMLOE · Andalucía</div>
         <h1>Tú pones la nota.<br><em>El resto</em> se calcula solo.</h1>
-        <p class="entrada">Cada nota de actividad actualiza al instante la de sus criterios, la de la unidad y la final. Cuando acabas, un clic y está lista para Séneca. En el móvil en clase o en el ordenador en casa.</p>
+        <p class="entrada">Cada nota de actividad actualiza al instante la de sus criterios, la de la unidad y la final. Cuando acabas, la extensión la lleva a Séneca. En el móvil en clase o en el ordenador en casa.</p>
         <div class="acciones">
           <a class="btn grande" href="https://accounts.google.com/AccountChooser?continue=https://script.google.com/a/macros/g.educaand.es/s/AKfycbzxaJeZYN5C86hqnO5ceQtVlIRu71vHE5WT6VtTkQvHpkao2Mo2AUFioi-obuQUyEXQ/exec">
             Entrar con mi cuenta
@@ -367,19 +469,40 @@
         </div>
       </div>
 
-      <figure class="captura reveal">
-        <div class="marco">
-          <picture>
-            <source media="(max-width:640px)" type="image/webp" srcset="/app-preview-mobile.webp">
-            <source media="(max-width:640px)" srcset="/app-preview-mobile.jpg">
-            <source type="image/webp" srcset="/app-preview.webp">
-            <img src="/app-preview.jpg" width="2160" height="1350"
-                 alt="Evaluanda: cuaderno de una unidad con la nota de cada actividad, la nota final y las notas por criterio (en el móvil, la lista de clases)"
-                 fetchpriority="high" decoding="async">
-          </picture>
+      <figure class="escena">
+        <div class="ventana" aria-hidden="true">
+          <aside class="rail">
+            <span class="logo-app"><svg width="100%" height="100%" viewBox="0 0 100 100"><rect x="20" y="26" width="34" height="11" rx="5.5" fill="#43c59e"/><rect x="20" y="44.5" width="24" height="11" rx="5.5" fill="#5c86f7"/><rect x="20" y="63" width="30" height="11" rx="5.5" fill="#f2a33a"/><rect x="18" y="26" width="10" height="48" rx="5" fill="#fff"/><path d="M60 49l8 21 15-40" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="act"><svg class="i" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></span>
+            <svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg>
+            <svg class="i" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+            <span class="sep"></span>
+            <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span class="av">M</span>
+          </aside>
+          <div class="zona">
+            <div class="pestanas"><span class="pest">⌂ Todas</span><span class="pest on">Lengua 3.º B</span></div>
+            <div class="cab">
+              <span class="volver"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span>
+              <span class="clase">L</span>
+              <span class="titulo"><small>Lengua Castellana y Literatura · 3.º B</small><b>UD02 · Leer el mundo</b></span>
+              <span class="hueco"></span>
+              <span class="grupo"><span><svg viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></svg></span><span><svg viewBox="0 0 24 24"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 15-6.7L21 13"/></svg></span></span>
+              <span class="b-seneca" id="seneca"><svg viewBox="72 92 392 318"><path fill="currentColor" d="M210 112H405V138L318 188H132C118 188 108 197 108 212V268C108 280 116 288 130 290V296C100 296 84 280 84 255V215C84 192 96 175 118 163Z"/><path fill="currentColor" opacity=".55" d="M145 210H221V352L183 330L145 352Z"/><path fill="currentColor" d="M238 268H318L405 210C440 222 458 260 455 297C450 355 405 398 345 398H107V371H333V295H238Z"/></svg>Enviar a Séneca<i>i</i></span>
+              <span class="b-nueva">+ Nueva</span>
+            </div>
+            <div class="tarjeta" id="tarjeta">
+              <table id="rejilla"></table>
+              <div class="anillo" id="anillo"></div>
+            </div>
+          </div>
         </div>
-        <span class="aviso-copiado" aria-hidden="true"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Copiado. Pégalo en Séneca</span>
-        <figcaption>Cuaderno de una unidad: actividades a la izquierda, notas de criterio y nota final a la derecha.</figcaption>
+        <figcaption class="lectura">
+          <span class="teclas" id="teclas" aria-hidden="true"></span>
+          <output id="lectura">Cuaderno de una unidad: actividades, nota final y notas de criterio.</output>
+          <button class="pausa" id="pausa" type="button" aria-pressed="false">Pausar</button>
+        </figcaption>
       </figure>
     </div>
   </main>
@@ -409,7 +532,7 @@
             <li>El cuaderno ya sabe cómo se calcula cada criterio.</li>
             <li>El currículo LOMLOE de Andalucía viene cargado.</li>
             <li>Cada nota se recalcula sola al momento.</li>
-            <li>Las notas salen en el formato listo para copiar en Séneca.</li>
+            <li>Las notas llegan a Séneca con «Enviar a Séneca».</li>
           </ul>
         </div>
       </div>
@@ -427,7 +550,7 @@
       </div>
       <ol class="indice reveal">
         <li><span class="n">01</span><h3>Cuaderno por criterios</h3><p>Clases, unidades y actividades. Las notas de criterio, de unidad y final se calculan al momento.</p></li>
-        <li><span class="n">02</span><h3>Listo para Séneca</h3><p>Todas las notas en un formato que se copia y pega directamente en Séneca.</p></li>
+        <li><span class="n">02</span><h3>Enviar a Séneca</h3><p>Con la extensión <a href="https://chromewebstore.google.com/detail/coeokhclgpcgleiekbilnkdhoohkfpco" target="_blank" rel="noopener noreferrer">Evaluanda → Séneca</a>, las actividades y las notas por criterio pasan a tu cuaderno de Séneca sin copiar nada a mano.</p></li>
         <li><span class="n">03</span><h3>En el móvil, en clase</h3><p>Anota sobre la marcha desde el móvil y continúa en casa con el ordenador: es el mismo cuaderno.</p></li>
         <li><span class="n">04</span><h3>Rejilla en PDF</h3><p>Exporta la rejilla de una unidad a PDF a color, en A4 apaisado, para imprimir o archivar.</p></li>
         <li><span class="n">05</span><h3>Conectable con una IA <span class="tag">Opcional</span></h3><p>Si usas Claude, Codex u otra IA compatible con MCP, puedes conectarla para que te ayude a preparar tu trabajo. <a href="/conectar-ia.html">Ver cómo</a></p></li>
@@ -523,6 +646,144 @@
       </nav>
     </div>
   </footer>
+  <script>
+(function(){
+  // Mismo modelo que la app. Cada actividad evalúa UN criterio, salvo la multinota
+  // (Expresión escrita): una nota por criterio, y su media solo como referencia.
+  // Criterio = media de sus notas; NOTA = media de criterios.
+  var ACT = [
+    {t:'Lectura en voz alta', f:'29/09', c:[0]},
+    {t:'Comprensión lectora', f:'03/10', c:[1]},
+    {t:'Expresión escrita', f:'14/10', sub:[2,3]},
+    {t:'Trabajo en equipo', f:'22/10', c:[3]}
+  ];
+  var CRI = ['LCL.3.1.1','LCL.3.1.2','LCL.3.1.3','LCL.3.2.1'];
+  var COL = ['#2e9b6b','#c2410c','#7c3aed','#0e7490','#be185d','#4d7c0f','#1d4ed8','#a16207'];
+  // Notas: [lectura, comprensión, [escrita→3.1.3, escrita→3.2.1], equipo]
+  var AL = [
+    ['Aitana Alcaraz',[9,8,[10,9],9]], ['Marco Benítez',[6,5,[6,7],7]],
+    ['Lucía Castillo',[8,9,[9,8],8]],  ['Iker Domínguez',[4,3,[5,4],4]],
+    ['Valeria Escobar',[10,9,[9,10],10]],['Hugo Fuentes',[7,6,[5,6],6]],
+    ['Noa Gallardo',[8,7,[7,8],8]],    ['Daniel Herrera',[5,6,[3,5],5]]
+  ];
+  // Celdas de la fila: 0 nº · 1 alumno · 2 lectura · 3 comprensión · 4 media escrita ·
+  // 5 escrita 3.1.3 · 6 escrita 3.2.1 · 7 equipo · 8 NOTA · 9-12 criterios
+  var C_NOTA = 8, C_CRI = 9;
+  // Ediciones de la demo (columnas visibles también en móvil). Alternan entre dos valores.
+  var ED = [{r:7,c:5,v:[3,6]},{r:5,c:7,v:[6,8]},{r:3,c:6,v:[4,6]},{r:1,c:5,v:[6,8]}];
+
+  function r2(x){ return Math.round(x*100+1e-9)/100; }
+  function fmt(x){ return String(r2(x)).replace('.',','); }
+  function g(n){ return n<5?'g-susp':n<6?'g-baja':n<7?'g-media':n<8.5?'g-alta':'g-top'; }
+  function crit(n){ return [n[0], n[1], n[2][0], (n[2][1]+n[3])/2]; }
+  function nota(cr){ return cr.reduce(function(s,x){return s+x;},0)/cr.length; }
+  function media(n){ return (n[2][0]+n[2][1])/2; }
+  function ini(nm){ var p=nm.split(' '); return (p[0][0]+p[1][0]).toUpperCase(); }
+  function leer(n,c){ return c===5?n[2][0]:c===6?n[2][1]:n[c===7?3:c-2]; }
+  function poner(n,c,v){ if(c===5) n[2][0]=v; else if(c===6) n[2][1]=v; else n[c===7?3:c-2]=v; }
+  function cod(k){ return CRI[k].slice(4); }
+
+  var tb = document.getElementById('rejilla');
+  var h = '<thead><tr><th class="n-col"></th><th class="alu">Alumno/a</th>';
+  ACT.forEach(function(a,i){
+    if (a.sub){
+      h+='<th class="a'+i+' multi">'+a.t+'<small>'+a.f+'</small><small>media</small></th>';
+      a.sub.forEach(function(k){ h+='<th class="sub">'+cod(k)+'</th>'; });
+    } else h+='<th class="a'+i+'">'+a.t+'<small>'+a.f+'</small><span class="chip">'+cod(a.c[0])+'</span></th>';
+  });
+  h+='<th class="nfin">NOTA</th>';
+  CRI.forEach(function(c){ h+='<th class="cri">'+c+'</th>'; });
+  h+='</tr></thead><tbody>';
+  AL.forEach(function(al,r){
+    var n=al[1], cr=crit(n), nt=nota(cr);
+    h+='<tr><td class="n-col">'+(r+1)+'</td><td class="alu"><span class="ini" style="background:'+COL[r]+'">'+ini(al[0])+'</span>'+al[0]+'</td>'+
+      '<td class="act a0">'+n[0]+'</td><td class="act a1">'+n[1]+'</td><td class="act media">'+fmt(media(n))+'</td>'+
+      '<td class="act sub">'+n[2][0]+'</td><td class="act sub">'+n[2][1]+'</td><td class="act">'+n[3]+'</td>'+
+      '<td class="nfin '+g(nt)+'">'+fmt(nt)+'</td>';
+    cr.forEach(function(x){ h+='<td class="cri '+g(x)+'">'+fmt(x)+'</td>'; });
+    h+='</tr>';
+  });
+  tb.innerHTML = h+'</tbody>';
+
+  var filas = tb.tBodies[0].rows, tarjeta = document.getElementById('tarjeta'),
+      anillo = document.getElementById('anillo'), teclas = document.getElementById('teclas'),
+      lectura = document.getElementById('lectura'), seneca = document.getElementById('seneca'),
+      btnPausa = document.getElementById('pausa'), cabs = tb.tHead.rows[0].cells;
+
+  var foco = {r:0,c:5}, paso = 0, vuelta = 0, pausado = false, timers = [];
+  function tras(ms,fn){ timers.push(setTimeout(fn,ms)); }
+  function limpiar(){ timers.forEach(clearTimeout); timers=[]; }
+  function celda(r,c){ return filas[r].cells[c]; }
+
+  function cruz(on){
+    Array.prototype.forEach.call(tb.rows, function(tr){ tr.cells[foco.c].classList.toggle('cruz',on); });
+    Array.prototype.forEach.call(filas[foco.r].cells, function(td){ td.classList.toggle('cruz',on); });
+  }
+  function ponerAnillo(){
+    var a = celda(foco.r,foco.c).getBoundingClientRect(), b = tarjeta.getBoundingClientRect();
+    anillo.style.left=(a.left-b.left+2)+'px'; anillo.style.top=(a.top-b.top+2)+'px';
+    anillo.style.width=(a.width-4)+'px'; anillo.style.height=(a.height-4)+'px';
+  }
+  function tecla(t){
+    var k=document.createElement('span'); k.className='tecla'; k.textContent=t; teclas.appendChild(k);
+    setTimeout(function(){ k.remove(); },900);
+  }
+  function mover(r,c){ cruz(false); foco={r:r,c:c}; cruz(true); ponerAnillo(); }
+
+  // Contador suave de una celda calculada; con semáforo (criterios, NOTA) o sobria (media)
+  function animarCelda(td,de,a,color){
+    if (color) td.className = td.className.replace(/g-\w+/,'')+' '+g(a);
+    td.classList.remove('recalc'); void td.offsetWidth; td.classList.add('recalc');
+    var t0=performance.now();
+    (function f(t){ var p=Math.min(1,(t-t0)/650), e=1-Math.pow(1-p,3); td.textContent=fmt(de+(a-de)*e); if(p<1) requestAnimationFrame(f); })(t0);
+    var d=r2(a)-r2(de); if(!d || !color) return;
+    var s=document.createElement('span'); s.className='delta'; s.textContent=(d>0?'+':'−')+fmt(Math.abs(d));
+    td.appendChild(s);
+  }
+  // Qué se evalúa en cada columna editable, para el pie
+  function etiqueta(c){ return c===7 ? ACT[3].t+' ('+cod(3)+')' : ACT[2].t+' ('+cod(c===5?2:3)+')'; }
+
+  function edicion(){
+    if (pausado) return;
+    var e = ED[paso], al = AL[e.r], n = al[1], nuevo = e.v[(vuelta+1)%2], viejo = leer(n,e.c);
+    // 1) Navegar con flechas hasta la celda
+    var ruta=[], r=foco.r, c=foco.c;
+    while(c!==e.c){ var dc = c<e.c?1:-1; c+=dc; ruta.push([r,c,dc>0?'→':'←']); }
+    while(r!==e.r){ var dr = r<e.r?1:-1; r+=dr; ruta.push([r,c,dr>0?'↓':'↑']); }
+    var t=0;
+    ruta.forEach(function(p){ tras(t+=230,function(){ tecla(p[2]); mover(p[0],p[1]); }); });
+    // 2) Escribir la nota
+    tras(t+=520,function(){ tecla(String(nuevo)); celda(e.r,e.c).innerHTML='<span class="escribe">'+nuevo+'</span>'; });
+    tras(t+=620,function(){
+      tecla('↵');
+      var crA=crit(n), ntA=nota(crA), mA=media(n);
+      poner(n,e.c,nuevo); celda(e.r,e.c).textContent=nuevo;
+      var crB=crit(n), ntB=nota(crB), mB=media(n);
+      if (e.c!==7) animarCelda(celda(e.r,4),mA,mB,false);
+      // 3) Solo el criterio que evalúa esa casilla y, tras él, la NOTA
+      var k = e.c===5?2:3;
+      tras(180,function(){ animarCelda(celda(e.r,C_CRI+k),crA[k],crB[k],true); });
+      tras(480,function(){
+        animarCelda(celda(e.r,C_NOTA),ntA,ntB,true);
+        lectura.innerHTML='<b>'+al[0]+'</b> · '+etiqueta(e.c)+' '+viejo+' <span class="flecha">→</span> '+nuevo+
+          ' · NOTA '+fmt(ntA)+' <span class="flecha">→</span> <b>'+fmt(ntB)+'</b>';
+      });
+      paso=(paso+1)%ED.length; if(!paso){ vuelta++; tras(900,function(){ seneca.classList.add('listo'); }); tras(2600,function(){ seneca.classList.remove('listo'); }); }
+      tras(paso?2600:3800,edicion);
+    });
+  }
+
+  function iniciar(){ anillo.classList.add('on'); mover(foco.r,foco.c); tras(1400,edicion); }
+  addEventListener('resize',function(){ ponerAnillo(); });
+  btnPausa.addEventListener('click',function(){
+    pausado=!pausado; btnPausa.setAttribute('aria-pressed',pausado); btnPausa.textContent=pausado?'Reanudar':'Pausar';
+    limpiar(); if(!pausado) tras(300,edicion);
+  });
+  // Movimiento reducido: estado final quieto, sin bucle
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches){ btnPausa.hidden=true; return; }
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function(){ setTimeout(iniciar,900); });
+})();
+  </script>
   <script>
     document.getElementById('anio').textContent=new Date().getFullYear();
     // Mostrar el botón de instalación solo en iPhone/iPad (el perfil .mobileconfig solo sirve en iOS)
