@@ -14,22 +14,23 @@
 <meta name="theme-color" content="#0e1320" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Outfit:wght@800&display=swap">
 <style>
-  /* Mismo sistema que la portada: papel, tinta marina, reglas finas y las tres barras del logo */
+  /* Mismo sistema que la portada: titulares en serif y el resto como la app (Inter, neutros y su azul) */
   :root{
-    --papel:#f7f5ef; --hoja:#fffefa; --tinta:#14213d; --texto:#3a4256; --tenue:#6b7285;
-    --regla:#e3dfd3; --regla-fuerte:#cfc9b8;
-    --acento:#2f5bd3; --verde:#43c59e; --azul:#5c86f7; --naranja:#f2a33a;
-    --btn:#14213d; --btn-txt:#fff; --filo-logo:transparent;
+    --papel:#f6f6f6; --hoja:#fff; --tinta:#1c1e24; --texto:#3f4552; --tenue:#6b7280;
+    --regla:#e9eaee; --regla-fuerte:#dcdee3;
+    --acento:#3a63d8; --verde:#43c59e; --azul:#5c86f7; --naranja:#f2a33a;
+    --filo-logo:transparent;
     --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
-    --sans:'Outfit',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --marca:'Outfit','Inter',sans-serif;
   }
   @media (prefers-color-scheme:dark){
     :root{
-      --papel:#0e1320; --hoja:#141a29; --tinta:#eef0f5; --texto:#c3c8d4; --tenue:#8b92a3;
-      --regla:#232a3b; --regla-fuerte:#323a4e;
-      --acento:#8aa6ff; --btn:#eef0f5; --btn-txt:#14213d; --filo-logo:rgba(255,255,255,.16);
+      --papel:#14161b; --hoja:#1b1e25; --tinta:#e6e8ee; --texto:#b9bfcb; --tenue:#8e95a3;
+      --regla:#262a33; --regla-fuerte:#2f3440;
+      --acento:#7ba0ff; --filo-logo:rgba(255,255,255,.16);
     }
   }
   *{box-sizing:border-box}
@@ -48,12 +49,13 @@
   header{position:sticky; top:0; z-index:50; background:color-mix(in srgb,var(--papel) 88%,transparent);
     -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-bottom:1px solid var(--regla)}
   .barra{display:flex; align-items:center; justify-content:space-between; gap:16px; height:64px}
-  .marca{display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.2rem; letter-spacing:-.01em; color:var(--tinta)}
+  .marca{display:flex; align-items:center; gap:10px; font-family:var(--marca); font-weight:800; font-size:1.22rem; letter-spacing:-.01em; color:var(--tinta)}
   .logo-ico{width:30px; height:30px; border-radius:8px; display:inline-flex; background:#14213d; box-shadow:0 0 0 1px var(--filo-logo); flex:none}
   nav.enlaces{display:flex; align-items:center; gap:24px; font-size:.95rem}
   nav.enlaces a.txt:hover{color:var(--tinta); text-decoration:underline; text-underline-offset:4px}
-  .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:999px; font-weight:600; background:var(--btn); color:var(--btn-txt); transition:opacity .15s}
-  .btn:hover{opacity:.9}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:9px 16px; border-radius:10px; font-weight:600; background:#3a63d8; color:#fff;
+    box-shadow:0 1px 2px rgba(58,99,216,.3), 0 6px 20px -6px rgba(58,99,216,.55); transition:background .15s}
+  .btn:hover{background:#2f52bd}
   @media (max-width:520px){ nav.enlaces a.txt{display:none} }
 
   /* CABECERA */
@@ -189,11 +191,11 @@
 
       <section id="seneca">
         <h2><span class="n">04</span> Llevar las notas a Séneca</h2>
-        <p>En una unidad o en el Resumen, pulsa <strong>Copiar para Séneca</strong>. Pega el
-        resultado en una hoja o, mejor, usa la extensión de Chrome <strong>Autonotas Séneca</strong>
-        (de Dani García, <em>@elprofedelabata</em>) para volcarlas directamente en la actividad
-        criterial de Séneca.</p>
-        <p class="aviso">La <strong>ⓘ</strong> junto al botón «Copiar para Séneca» lo explica paso a paso dentro de la app.</p>
+        <p>Instala una vez la extensión de Chrome <a href="https://chromewebstore.google.com/detail/coeokhclgpcgleiekbilnkdhoohkfpco" target="_blank" rel="noopener noreferrer"><strong>Evaluanda → Séneca</strong></a>.
+        Después, en una unidad o en el Resumen, pulsa <strong>Enviar a Séneca</strong> y elige qué columnas se envían.
+        Abre Séneca y pulsa <strong>Empezar</strong> en el panel de la extensión: crea la categoría y las actividades
+        que falten y pone las notas, comprobando cada una. Si vuelves a enviar, solo actualiza lo que haya cambiado.</p>
+        <p class="aviso">La <strong>ⓘ</strong> junto al botón «Enviar a Séneca» lo explica paso a paso dentro de la app. Los datos no salen de tu navegador (<a href="/privacidad-extension.html">privacidad</a>).</p>
       </section>
 
       <section id="dudas">
