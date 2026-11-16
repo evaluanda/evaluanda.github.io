@@ -18,6 +18,7 @@
   @keyframes latido { 50% { transform: scale(1.08); } }
   #estado { color: var(--suave); }
   #ultimo { min-height: 1.4em; font-weight: 600; }
+  #ultimo.oyendo { font-weight: 400; color: var(--suave); }
 </style>
 </head>
 <body>
@@ -33,7 +34,11 @@
 (function () {
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   var btn = document.getElementById('mic'), est = document.getElementById('estado'), ult = document.getElementById('ultimo');
-  var app = window.opener, origen = null, rec = null, activo = false;
+  var app = window.opener, origen = null, rec = null, activo = false, inicio = 0;
+  var ERRORES = { 'not-allowed': 'Permite el micrófono (candado de la barra de direcciones) y pulsa el botón.',
+    'service-not-allowed': 'Permite el micrófono (candado de la barra de direcciones) y pulsa el botón.',
+    'audio-capture': 'No encuentro ningún micrófono: conéctalo y pulsa el botón.',
+    'network': 'Sin conexión con el servicio de voz: revisa internet y pulsa el botón.' };
   // Solo se habla con la app de Apps Script (origen *.googleusercontent.com),
   // que responde al saludo; así otra web que abra esta página no recibe nada.
   var ORIGEN_APP = /^https:\/\/[a-z0-9-]+\.googleusercontent\.com$/;
@@ -49,26 +54,38 @@
 
   function arrancar() {
     rec = new SR();
-    rec.lang = 'es-ES'; rec.continuous = true; rec.interimResults = false;
+    // Provisionales: se ve al momento lo que va oyendo. Alternativas: la app
+    // elige la que casa con el nombre de alguien de la clase.
+    rec.lang = 'es-ES'; rec.continuous = true; rec.interimResults = true; rec.maxAlternatives = 5;
     rec.onresult = function (e) {
+      var oyendo = '';
       for (var i = e.resultIndex; i < e.results.length; i++) {
-        if (!e.results[i].isFinal) continue;
-        var t = e.results[i][0].transcript.trim();
-        ult.textContent = '«' + t + '»';
-        enviar({ tipo: 'evaluanda-voz-texto', texto: t });
+        var r = e.results[i];
+        if (!r.isFinal) { oyendo += r[0].transcript; continue; }
+        var alts = [];
+        for (var k = 0; k < r.length; k++) {
+          var t = r[k].transcript.trim();
+          if (t && alts.indexOf(t) < 0) alts.push(t);
+        }
+        if (!alts.length) continue;
+        ult.className = ''; ult.textContent = '«' + alts[0] + '»';
+        enviar({ tipo: 'evaluanda-voz-texto', texto: alts[0], alts: alts });
       }
+      if (oyendo.trim()) { ult.className = 'oyendo'; ult.textContent = oyendo.trim() + '…'; }
     };
     rec.onerror = function (e) {
       if (e.error === 'no-speech' || e.error === 'aborted') return;
       activo = false; btn.classList.remove('on');
-      poner(e.error === 'not-allowed' ? 'Permite el micrófono (candado de la barra de direcciones) y pulsa el botón.' : 'Error: ' + e.error);
+      poner(ERRORES[e.error] || 'Error: ' + e.error);
     };
-    // Chrome corta tras un silencio: se reanuda mientras siga activo.
-    rec.onend = function () { if (activo) try { rec.start(); } catch (x) {} };
+    // Chrome corta tras un silencio: se reanuda al instante mientras siga activo
+    // (con una pausa si acaba de arrancar, para no entrar en bucle si falla).
+    rec.onend = function () { if (activo) setTimeout(iniciar, Date.now() - inicio < 1000 ? 500 : 0); };
     btn.onclick = function () { activo ? parar() : escuchar(); };
     escuchar();
   }
-  function escuchar() { activo = true; btn.classList.add('on'); poner('Escuchando… (pulsa para parar)'); try { rec.start(); } catch (x) {} }
+  function iniciar() { if (!activo) return; inicio = Date.now(); try { rec.start(); } catch (x) {} }
+  function escuchar() { activo = true; btn.classList.add('on'); poner('Escuchando… (pulsa para parar)'); iniciar(); }
   function parar() { activo = false; btn.classList.remove('on'); poner('En pausa (pulsa para seguir)'); rec.stop(); }
 })();
 </script>
