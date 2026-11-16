@@ -5656,6 +5656,15 @@
   "area": "Inglés",
   "areaRef": "ING.6",
   "competencia": "ING.1",
+  "codigo": "ING.6.1.1",
+  "texto": "Sentido global",
+  "descripcion": "Reconocer, interpretar y analizar el sentido global, así como palabras y frases específicas de textos orales, escritos y multimodales breves y sencillos sobre temas frecuentes y cotidianos de relevancia personal y ámbitos próximos a su experiencia, así como de textos literarios adecuados al nivel de desarrollo del alumnado, expresados de forma comprensible, clara y en lengua estándar a través de distintos soportes."
+ },
+ {
+  "curso": "6º Primaria",
+  "area": "Inglés",
+  "areaRef": "ING.6",
+  "competencia": "ING.1",
   "codigo": "ING.6.1.2",
   "texto": "Estrategias comunicativas",
   "descripcion": "Seleccionar, organizar y aplicar, de forma guiada, estrategias y conocimientos adecuados en situaciones comunicativas cotidianas y de relevancia para el alumnado, con el fin de captar el sentido global y procesar informaciones explícitas en textos diversos."
