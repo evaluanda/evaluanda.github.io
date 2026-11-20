@@ -32,7 +32,7 @@
   "areaRef": "CA",
   "competencia": "CA.1",
   "codigo": "CA.02.1.4",
-  "texto": "Juego adaptado",
+  "texto": "Juego dirigido y espontáneo",
   "descripcion": "Participar en contextos de juego dirigido y espontáneo, ajustándose a sus posibilidades personales."
  },
  {
@@ -59,7 +59,7 @@
   "areaRef": "CA",
   "competencia": "CA.2",
   "codigo": "CA.02.2.3",
-  "texto": "Autoconfianza y preferencias",
+  "texto": "Expresión de gustos",
   "descripcion": "Expresar inquietudes, gustos y preferencias, mostrando satisfacción y seguridad sobre los logros conseguidos."
  },
  {
@@ -68,7 +68,7 @@
   "areaRef": "CA",
   "competencia": "CA.2",
   "codigo": "CA.02.2.4",
-  "texto": "Valoración logros",
+  "texto": "Valoración de logros",
   "descripcion": "Mostrar satisfacción y seguridad sobre los logros conseguidos, valorando los beneficios de la cooperación."
  },
  {
@@ -77,7 +77,7 @@
   "areaRef": "CA",
   "competencia": "CA.3",
   "codigo": "CA.02.3.1",
-  "texto": "Respeto ambiental",
+  "texto": "Autocuidado y entorno",
   "descripcion": "Realizar actividades relacionadas con el autocuidado y el cuidado del entorno con una actitud respetuosa, mostrando autoconfianza e iniciativa."
  },
  {
@@ -86,7 +86,7 @@
   "areaRef": "CA",
   "competencia": "CA.3",
   "codigo": "CA.02.3.2",
-  "texto": "Rutinas y respeto grupal",
+  "texto": "Rutinas del grupo",
   "descripcion": "Respetar la secuencia temporal asociada a los acontecimientos y actividades cotidianas, adaptándose a las rutinas establecidas para el grupo y desarrollando comportamientos respetuosos hacia las demás personas."
  },
  {
@@ -104,7 +104,7 @@
   "areaRef": "CA",
   "competencia": "CA.3",
   "codigo": "CA.02.3.4",
-  "texto": "Responsable recursos",
+  "texto": "Cuidado de recursos",
   "descripcion": "Cuidar y valorar los recursos materiales, ajustando su uso a las necesidades reales."
  },
  {
@@ -140,7 +140,7 @@
   "areaRef": "CA",
   "competencia": "CA.4",
   "codigo": "CA.02.4.4",
-  "texto": "Gestión conflictos",
+  "texto": "Gestión de conflictos",
   "descripcion": "Desarrollar destrezas y habilidades para la gestión de conflictos de forma positiva, proponiendo alternativas creativas y teniendo en cuenta el criterio de otras personas."
  },
  {
@@ -149,7 +149,7 @@
   "areaRef": "CA",
   "competencia": "CA.4",
   "codigo": "CA.02.4.5",
-  "texto": "Interés cultural",
+  "texto": "Tradiciones del entorno",
   "descripcion": "Participar, desde una actitud de respeto, en actividades relacionadas con costumbres y tradiciones étnicas y culturales presentes en su entorno, mostrando interés por conocerlas."
  },
  {
@@ -167,7 +167,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.1",
   "codigo": "DEE.02.1.1",
-  "texto": "Relaciones objetos",
+  "texto": "Cualidades de objetos",
   "descripcion": "Establecer distintas relaciones entre los objetos a partir de sus cualidades o atributos, mostrando curiosidad e interés."
  },
  {
@@ -176,7 +176,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.1",
   "codigo": "DEE.02.1.2",
-  "texto": "Uso cuantificadores",
+  "texto": "Cuantificadores básicos",
   "descripcion": "Emplear los cuantificadores básicos más significativos en el contexto del juego y en la interacción con los demás."
  },
  {
@@ -212,7 +212,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.1",
   "codigo": "DEE.02.1.6",
-  "texto": "Relaciones espaciales",
+  "texto": "Representación del espacio",
   "descripcion": "Representar el espacio y los objetos a través de relaciones espaciales y geométricas."
  },
  {
@@ -230,7 +230,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.1",
   "codigo": "DEE.02.1.8",
-  "texto": "Funciones los números",
+  "texto": "Funciones de los números",
   "descripcion": "Construir con sentido las principales funciones de los números, aplicándolos a la vida cotidiana: medir, marcar, ordenar, etc."
  },
  {
@@ -239,7 +239,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.2",
   "codigo": "DEE.02.2.1",
-  "texto": "Resolución problemas",
+  "texto": "Resolución de problemas",
   "descripcion": "Gestionar situaciones, dificultades, retos o problemas mediante la planificación de secuencias de actividades, la manifestación de interés e iniciativa y la cooperación con sus iguales."
  },
  {
@@ -248,7 +248,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.2",
   "codigo": "DEE.02.2.2",
-  "texto": "Gestión frustración",
+  "texto": "Gestión de la frustración",
   "descripcion": "Canalizar progresivamente la frustración ante las dificultades o problemas mediante la aplicación de diferentes estrategias."
  },
  {
@@ -257,7 +257,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.2",
   "codigo": "DEE.02.2.3",
-  "texto": "Formulación hipótesis",
+  "texto": "Hipótesis y comprobación",
   "descripcion": "Plantear hipótesis acerca del comportamiento de ciertos elementos o materiales, verificándolas a través de la manipulación y la actuación sobre ellos."
  },
  {
@@ -266,7 +266,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.2",
   "codigo": "DEE.02.2.4",
-  "texto": "Toma decisiones",
+  "texto": "Toma de decisiones",
   "descripcion": "Utilizar diferentes estrategias para la toma de decisiones con progresiva autonomía, afrontando el proceso de creación de soluciones originales en respuesta a los retos que se le planteen."
  },
  {
@@ -302,7 +302,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.3",
   "codigo": "DEE.02.3.2",
-  "texto": "Vivos e inertes",
+  "texto": "Seres vivos e inertes",
   "descripcion": "Identificar rasgos comunes y diferentes entre seres vivos e inertes."
  },
  {
@@ -311,7 +311,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.3",
   "codigo": "DEE.02.3.3",
-  "texto": "Relaciones natural-social",
+  "texto": "Medio natural y social",
   "descripcion": "Establecer relaciones entre el medio natural y el social a partir del conocimiento y la observación de algunos fenómenos naturales y de los elementos patrimoniales presentes en el medio físico."
  },
  {
@@ -320,7 +320,7 @@
   "areaRef": "DEE",
   "competencia": "DEE.3",
   "codigo": "DEE.02.3.4",
-  "texto": "Patrimonio natural",
+  "texto": "Componentes del medio natural",
   "descripcion": "Conocer los componentes básicos del medio natural y establecer relaciones entre el medio natural y social a partir de conocimiento y observación de algunos fenómenos naturales y de los elementos patrimoniales presentes en el medio físico."
  },
  {
@@ -374,7 +374,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.1",
   "codigo": "CRR.02.1.5",
-  "texto": "Diversidad cultural",
+  "texto": "Convivencia democrática",
   "descripcion": "Respetar la diversidad cultural, adecuando la conducta en base a valores y normas de convivencia democráticas."
  },
  {
@@ -383,7 +383,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.2",
   "codigo": "CRR.02.2.1",
-  "texto": "Interpretación comunicativa",
+  "texto": "Comprensión de mensajes",
   "descripcion": "Interpretar de forma eficaz los mensajes e intenciones comunicativas de los demás."
  },
  {
@@ -401,7 +401,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.2",
   "codigo": "CRR.02.2.3",
-  "texto": "Oral andaluza",
+  "texto": "Tradición oral andaluza",
   "descripcion": "Reproducir textos orales sencillos de la literatura infantil andaluza o tradición oral con actitud respetuosa."
  },
  {
@@ -419,7 +419,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.3",
   "codigo": "CRR.02.3.1",
-  "texto": "Lenguaje funcional",
+  "texto": "Discurso oral coherente",
   "descripcion": "Hacer un uso funcional del lenguaje oral, aumentando su repertorio lingüístico y construyendo progresivamente un discurso más eficaz, organizado y coherente en contextos formales e informales."
  },
  {
@@ -428,7 +428,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.3",
   "codigo": "CRR.02.3.2",
-  "texto": "Lenguaje interacción",
+  "texto": "Lenguaje oral regulador",
   "descripcion": "Utilizar el lenguaje oral como instrumento regulador de la acción en las interacciones con los demás con seguridad y confianza."
  },
  {
@@ -455,7 +455,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.3",
   "codigo": "CRR.02.3.5",
-  "texto": "Interpretación musical",
+  "texto": "Dramatización y música",
   "descripcion": "Interpretar propuestas dramáticas y musicales, utilizando y explorando diferentes instrumentos, recursos o técnicas."
  },
  {
@@ -482,7 +482,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.3",
   "codigo": "CRR.02.3.8",
-  "texto": "Audición folklore",
+  "texto": "Folklore musical andaluz",
   "descripcion": "Disfrutar con actitud participativa de la audición de diferentes composiciones, juegos musicales, ritmos, cantes y bailes del folklore andaluz."
  },
  {
@@ -500,7 +500,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.4",
   "codigo": "CRR.02.4.2",
-  "texto": "Análisis textual",
+  "texto": "Características textuales",
   "descripcion": "Identificar, de manera acompañada, alguna de las características textuales y paratextuales mediante la indagación en textos de uso social libres de prejuicios y estereotipos sexistas."
  },
  {
@@ -509,7 +509,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.4",
   "codigo": "CRR.02.4.3",
-  "texto": "Uso biblioteca",
+  "texto": "Uso de la biblioteca",
   "descripcion": "Recurrir a la biblioteca como fuente de información y disfrute, respetando sus normas de uso."
  },
  {
@@ -527,7 +527,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.4",
   "codigo": "CRR.02.4.5",
-  "texto": "Literatura infantil",
+  "texto": "Literatura infantil andaluza",
   "descripcion": "Mostrar interés en textos escritos de la literatura infantil andaluza de manera respetuosa."
  },
  {
@@ -545,7 +545,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.5",
   "codigo": "CRR.02.5.2",
-  "texto": "Interacción ING",
+  "texto": "Lengua extranjera",
   "descripcion": "Participar en interacciones comunicativas en lengua extranjera relacionadas con rutinas y situaciones cotidianas."
  },
  {
@@ -581,7 +581,7 @@
   "areaRef": "CRR",
   "competencia": "CRR.5",
   "codigo": "CRR.02.5.6",
-  "texto": "Diversidad cultural",
+  "texto": "Pluralidad en Andalucía",
   "descripcion": "Percibir y respetar gradualmente la pluralidad cultural y lingüística presente en la Comunidad Andaluza."
  },
  {
