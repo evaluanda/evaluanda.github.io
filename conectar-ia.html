@@ -92,16 +92,17 @@
 
     <div class="contenedor cabecera">
     <h1>Conectar Evaluanda con una IA</h1>
-    <p class="intro">Planifica <strong>conversando</strong>: pídele a tu IA que revise una unidad, que
-    proponga sesiones, que mueva tus tareas al lunes… y ella lee y escribe en <strong>tu</strong>
-    cuaderno. Vale con <strong>Claude</strong>, <strong>Codex</strong> o cualquier IA compatible con
+    <p class="intro">Planifica y prepara la evaluación <strong>conversando</strong>: pídele a tu IA que
+    revise una unidad, que cree sus actividades con los criterios que faltan, que monte una rúbrica, que
+    clone la unidad en tus otras clases o que mueva tus tareas al lunes… y ella lee y escribe en
+    <strong>tu</strong> cuaderno. Vale con <strong>Claude</strong>, <strong>Codex</strong> o cualquier IA compatible con
     <strong>MCP</strong> (el estándar para conectar herramientas a una IA).</p>
   </div>
 
   <main class="contenedor">
     <div class="nota"><strong>Cada profe monta la suya.</strong> La conexión es personal: tu IA solo ve
-    <em>tu</em> planificación y <em>tus</em> tareas. <strong>Nunca ve a tu alumnado ni sus notas</strong>:
-    no existe ninguna herramienta que los exponga. Y <strong>no puede borrar</strong>: crea y edita;
+    <em>tu</em> planificación, <em>tus</em> unidades y actividades, <em>tus</em> rúbricas y <em>tus</em> tareas. <strong>Nunca ve a tu alumnado ni sus notas</strong>:
+    no existe ninguna herramienta que los exponga. Y <strong>no puede borrar</strong>: crea, edita y clona;
     borrar se hace desde la app.</div>
 
     <h3>Cómo funciona</h3>
@@ -111,7 +112,7 @@
 servidor Node (en tu ordenador)
    │  HTTPS + token secreto
    ▼
-Apps Script «Evaluanda — API» (se ejecuta como TÚ)
+Apps Script «Evaluanda — API» (se ejecuta como TÚ, con el código de la app)
    ▼
 tu cuaderno, en tu Drive</code></pre>
 
@@ -122,29 +123,31 @@ tu cuaderno, en tu Drive</code></pre>
       <li>Haber entrado alguna vez en Evaluanda (para que exista tu cuaderno).</li>
     </ul>
 
-    <h2><span class="num">1</span> Copia tus dos datos desde Evaluanda</h2>
+    <h2><span class="num">1</span> Descarga tu código desde Evaluanda</h2>
     <p>En la app: <strong>Ajustes › Conector de IA (MCP)</strong>.</p>
     <ul>
-      <li><strong>Copiar id del cuaderno</strong> → lo usarás como <code>CUADERNO_ID</code>.</li>
-      <li><strong>Copiar clave de cifrado</strong> → lo usarás como <code>CIF_KEY</code>. Es lo que permite a
-      la IA leer y escribir el <em>texto</em> de tus tareas (va cifrado porque puede nombrar alumnado).
-      <strong>Es privada</strong>: pégala solo en tu propio proyecto. Si no quieres que la IA toque el texto
-      de tus tareas, no la pongas (seguirá viendo fechas, clases y estado).</li>
+      <li><strong>Código (Api.gs)</strong> y <strong>Manifiesto</strong>: dos archivos. El código ya lleva tu
+      cuaderno y tu curso activo: no hay que copiar ids.</li>
+      <li><strong>Clave de cifrado</strong> → la usarás como <code>CIF_KEY</code>. Con ella la API lee y escribe
+      lo que el cuaderno guarda cifrado (por ejemplo, el texto de tus tareas). <strong>Es privada</strong>:
+      pégala solo en tu propio proyecto.</li>
     </ul>
 
     <h2><span class="num">2</span> Crea tu API en Apps Script (10 min)</h2>
     <ol>
       <li>Entra en <a href="https://script.google.com" target="_blank" rel="noopener">script.google.com</a> con tu
       cuenta de g.educaand.es → <strong>Nuevo proyecto</strong>. Llámalo «Evaluanda — API».</li>
-      <li>Descarga <a href="descargas/conectar-ia/Api.gs" download><code>Api.gs</code></a>, ábrelo con cualquier editor de texto
-      y pega todo su contenido en el archivo <code>Código.gs</code> del proyecto (sustituye todo lo que haya).</li>
+      <li>Abre <code>Api.gs</code> con cualquier editor de texto y pega todo su contenido en el archivo
+      <code>Código.gs</code> del proyecto (sustituye todo lo que haya).</li>
+      <li>⚙ <strong>Configuración del proyecto</strong> → marca <em>Mostrar el archivo de manifiesto
+      «appsscript.json» en el editor</em>. Vuelve al editor y sustituye el contenido de
+      <code>appsscript.json</code> por el del manifiesto descargado: así la API pide solo los permisos que usa.</li>
       <li><strong>Inventa un token</strong>: una cadena larga y aleatoria (32 caracteres o más). Guárdala.</li>
       <li>⚙ <strong>Configuración del proyecto › Propiedades de la secuencia de comandos</strong> → añade:
         <table>
           <tr><th>Propiedad</th><th>Valor</th></tr>
           <tr><td><code>API_TOKEN</code></td><td>el token que te has inventado</td></tr>
-          <tr><td><code>CUADERNO_ID</code></td><td>el id copiado en el paso 1</td></tr>
-          <tr><td><code>CIF_KEY</code></td><td>(opcional) la clave copiada en el paso 1</td></tr>
+          <tr><td><code>CIF_KEY</code></td><td>la clave copiada en el paso 1</td></tr>
         </table>
       </li>
       <li><strong>Implementar › Nueva implementación › Aplicación web</strong>, con <em>Ejecutar como</em>:
@@ -199,6 +202,10 @@ env = { EVALUANDA_URL = "https://script.google.com/macros/s/…/exec", EVALUANDA
 
     <h2><span class="num">5</span> Qué le puedes pedir</h2>
     <ul class="conceptos">
+      <li><strong>Unidades y actividades</strong>: «¿Qué criterios de 5ºA no evalúa aún la unidad 3? Propón
+      actividades que los cubran y créalas en una carpeta “Proyecto”» · «Clona la unidad de fracciones en 6ºA y 6ºB».</li>
+      <li><strong>Rúbricas</strong>: «Hazme una rúbrica de exposición oral con cuatro indicadores y úsala en una
+      actividad nueva de la unidad de ecosistemas, un criterio por indicador».</li>
       <li><strong>Sesiones</strong>: «Mira mi unidad de ecosistemas de 5º. ¿Está muy cargada?» · «Añade una
       sesión de repaso antes del examen con los criterios que ya trabaja la unidad».</li>
       <li><strong>Tareas</strong>: «Apúntame corregir los exámenes de 5ºA para el viernes, en esa clase» ·
@@ -216,20 +223,22 @@ env = { EVALUANDA_URL = "https://script.google.com/macros/s/…/exec", EVALUANDA
       </details>
       <details>
         <summary>¿Y si alguien consigue mi token?</summary>
-        <p>Podría leer y editar tu planificación (y el texto de tus tareas si pusiste <code>CIF_KEY</code>).
+        <p>Podría leer y editar tu planificación, tus unidades, actividades y rúbricas, y el texto de tus tareas (nunca alumnado ni notas, ni borrar).
         Guárdalo como una contraseña. Si se filtra, cambia <code>API_TOKEN</code> en las propiedades del
         script y en la configuración de tu IA.</p>
       </details>
       <details>
         <summary>Hay una versión nueva: ¿cómo actualizo?</summary>
-        <p>Vuelve a pegar <code>Api.gs</code> y publícalo en la <strong>misma</strong> implementación
+        <p>Vuelve a descargar el código desde la app (también si cambias de curso académico), pégalo encima y publícalo en la <strong>misma</strong> implementación
         (<em>Implementar › Gestionar implementaciones › ✏️ › Versión: nueva</em>; así la URL no cambia), y
         sustituye <code>index.js</code>. Reinicia la IA.</p>
       </details>
       <details>
         <summary>Algo no funciona</summary>
         <p>«La API no devolvió JSON»: la URL no acaba en <code>/exec</code> o el despliegue no es «Yo /
-        Cualquier usuario». «Token incorrecto»: no coincide con <code>API_TOKEN</code>. La IA no ve las
+        Cualquier usuario». «Token incorrecto»: no coincide con <code>API_TOKEN</code>.
+        «Falta CIF_KEY»: añade la clave del paso 1. «Acción desconocida»: tu código de la API es anterior al
+        servidor; descárgalo de nuevo. Si al autorizar te pide permisos de Drive o Calendar, no pegaste el manifiesto. La IA no ve las
         herramientas: la ruta no es absoluta o falta reiniciarla. <code>npm run comprobar</code> te dice
         si el fallo está antes o después del servidor.</p>
       </details>
