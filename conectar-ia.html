@@ -127,7 +127,7 @@ tu cuaderno, en tu Drive</code></pre>
     <p>En la app: <strong>Ajustes › Conector de IA (MCP)</strong>.</p>
     <ul>
       <li><strong>Código (Api.gs)</strong> y <strong>Manifiesto</strong>: dos archivos. El código ya lleva tu
-      cuaderno y tu curso activo: no hay que copiar ids.</li>
+      cuaderno: no hay que copiar ids. Si cambias de curso académico en la app, la API lo sigue sola.</li>
       <li><strong>Clave de cifrado</strong> → la usarás como <code>CIF_KEY</code>. Con ella la API lee y escribe
       lo que el cuaderno guarda cifrado (por ejemplo, el texto de tus tareas). <strong>Es privada</strong>:
       pégala solo en tu propio proyecto.</li>
@@ -229,7 +229,7 @@ env = { EVALUANDA_URL = "https://script.google.com/macros/s/…/exec", EVALUANDA
       </details>
       <details>
         <summary>Hay una versión nueva: ¿cómo actualizo?</summary>
-        <p>Vuelve a descargar el código desde la app (también si cambias de curso académico), pégalo encima y publícalo en la <strong>misma</strong> implementación
+        <p>Vuelve a descargar el código desde la app, pégalo encima y publícalo en la <strong>misma</strong> implementación
         (<em>Implementar › Gestionar implementaciones › ✏️ › Versión: nueva</em>; así la URL no cambia), y
         sustituye <code>index.js</code>. Reinicia la IA.</p>
       </details>
