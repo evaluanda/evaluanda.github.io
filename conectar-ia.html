@@ -75,6 +75,19 @@
   table{border-collapse:collapse; width:100%; margin:10px 0; font-size:.95rem}
   th,td{border:1px solid var(--borde); padding:8px 10px; text-align:left; vertical-align:top}
   th{background:var(--panel); color:var(--tinta)}
+  .dest{display:inline-flex; align-items:center; gap:6px; font-size:.78rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; padding:3px 10px; border-radius:999px; vertical-align:middle}
+  .dest-gas{background:color-mix(in srgb,var(--acento) 14%,transparent); color:var(--acento)}
+  .dest-pc{background:color-mix(in srgb,var(--naranja) 16%,transparent); color:var(--naranja)}
+  .dest-ia{background:color-mix(in srgb,var(--verde) 16%,transparent); color:var(--verde)}
+  h2 .dest{margin-left:auto; font-size:.72rem}
+  .mapa{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin:14px 0}
+  .mapa div{background:var(--panel); border:1px solid var(--borde-suave); border-top:4px solid var(--acento); border-radius:12px; padding:12px 16px}
+  .mapa .pc{border-top-color:var(--naranja)} .mapa .ia{border-top-color:var(--verde)}
+  .mapa h4{margin:4px 0 6px; color:var(--tinta); font-size:1rem}
+  .mapa ul{margin:0; padding-left:18px; font-size:.93rem} .mapa li{margin:4px 0}
+  .boton{display:inline-flex; align-items:center; gap:8px; background:var(--acento); color:#fff; font-weight:600; padding:9px 16px; border-radius:10px; margin:6px 0}
+  .boton:hover{filter:brightness(1.08)}
+  @media (max-width:520px){ h2{flex-wrap:wrap} h2 .dest{margin-left:44px} }
   footer{background:var(--panel); border-top:1px solid var(--borde-suave)}
   .pie{text-align:center; padding:28px 0; color:var(--tenue); font-size:.9rem}
 </style>
@@ -123,17 +136,36 @@ tu cuaderno, en tu Drive</code></pre>
       <li>Haber entrado alguna vez en Evaluanda (para que exista tu cuaderno).</li>
     </ul>
 
-    <h2><span class="num">1</span> Descarga tu código desde Evaluanda</h2>
-    <p>En la app: <strong>Ajustes › Conector de IA (MCP)</strong>.</p>
+    <h3>Qué va dónde</h3>
+    <p>Todo sale de <strong>Ajustes › Conexiones › Conector de IA (MCP)</strong> en Evaluanda. Cada pieza va a un
+    sitio distinto; no las mezcles:</p>
+    <div class="mapa">
+      <div><span class="dest dest-gas">☁ Apps Script</span><h4>Tu API, en Google</h4><ul>
+        <li><strong>Código (Api.gs)</strong> → dentro de <code>Código.gs</code></li>
+        <li><strong>Manifiesto (appsscript.json)</strong> → dentro de <code>appsscript.json</code></li>
+        <li><strong>Clave de cifrado (CIF_KEY)</strong> → propiedad <code>CIF_KEY</code></li>
+        <li>Tu token → propiedad <code>API_TOKEN</code></li></ul></div>
+      <div class="pc"><span class="dest dest-pc">💻 Tu ordenador</span><h4>El servidor</h4><ul>
+        <li><strong>Servidor (evaluanda-mcp.zip)</strong> → descomprímelo en una carpeta</li>
+        <li><code>npm install</code> dentro de esa carpeta</li></ul></div>
+      <div class="ia"><span class="dest dest-ia">🤖 Tu IA</span><h4>La configuración</h4><ul>
+        <li>La ruta a <code>index.js</code></li>
+        <li>La URL <code>/exec</code> y tu token</li></ul></div>
+    </div>
+    <p>La clave de cifrado (<code>CIF_KEY</code>) <strong>solo va en Apps Script</strong>: nunca en tu ordenador
+    ni en la configuración de la IA. El token sí va en los dos sitios (Apps Script y tu IA): es lo que los une.</p>
+
+    <h2><span class="num">1</span> Descarga lo de Evaluanda <span class="dest dest-gas">☁ Para Apps Script</span></h2>
+    <p>En la app: <strong>Ajustes › Conexiones › Conector de IA (MCP)</strong>, grupo <strong>«1 · En Apps Script»</strong>.</p>
     <ul>
-      <li><strong>Código (Api.gs)</strong> y <strong>Manifiesto</strong>: dos archivos. El código ya lleva tu
-      cuaderno: no hay que copiar ids. Si cambias de curso académico en la app, la API lo sigue sola.</li>
-      <li><strong>Clave de cifrado</strong> → la usarás como <code>CIF_KEY</code>. Con ella la API lee y escribe
-      lo que el cuaderno guarda cifrado (por ejemplo, el texto de tus tareas). <strong>Es privada</strong>:
-      pégala solo en tu propio proyecto.</li>
+      <li><strong>Código (Api.gs)</strong> y <strong>Manifiesto (appsscript.json)</strong>: dos archivos. El código ya
+      lleva tu cuaderno: no hay que copiar ids. Si cambias de curso académico en la app, la API lo sigue sola.</li>
+      <li><strong>Clave de cifrado (CIF_KEY)</strong>: se copia al portapapeles; la pegarás en el paso 2 como
+      propiedad <code>CIF_KEY</code>. Con ella la API lee y escribe lo que el cuaderno guarda cifrado (por ejemplo,
+      el texto de tus tareas). <strong>Es privada</strong>: pégala solo en tu propio proyecto.</li>
     </ul>
 
-    <h2><span class="num">2</span> Crea tu API en Apps Script (10 min)</h2>
+    <h2><span class="num">2</span> Crea tu API (10 min) <span class="dest dest-gas">☁ Apps Script</span></h2>
     <ol>
       <li>Entra en <a href="https://script.google.com" target="_blank" rel="noopener">script.google.com</a> con tu
       cuenta de g.educaand.es → <strong>Nuevo proyecto</strong>. Llámalo «Evaluanda — API».</li>
@@ -147,8 +179,9 @@ tu cuaderno, en tu Drive</code></pre>
         <table>
           <tr><th>Propiedad</th><th>Valor</th></tr>
           <tr><td><code>API_TOKEN</code></td><td>el token que te has inventado</td></tr>
-          <tr><td><code>CIF_KEY</code></td><td>la clave copiada en el paso 1</td></tr>
+          <tr><td><code>CIF_KEY</code></td><td>la <strong>Clave de cifrado (CIF_KEY)</strong> copiada en el paso 1</td></tr>
         </table>
+        Son dos propiedades, no van en el código: así no acaban en ningún archivo y no se pierden al actualizar.
       </li>
       <li><strong>Implementar › Nueva implementación › Aplicación web</strong>, con <em>Ejecutar como</em>:
       <strong>Yo</strong> y <em>Quién tiene acceso</em>: <strong>Cualquier usuario</strong>. Autoriza y
@@ -157,16 +190,18 @@ tu cuaderno, en tu Drive</code></pre>
     <p>«Cualquier usuario» suena abierto, pero sin tu token no se puede hacer nada. Comprobación: abre esa URL
     en el navegador; debe decir «El despliegue funciona».</p>
 
-    <h2><span class="num">3</span> Instala el servidor en tu ordenador (5 min)</h2>
+    <h2><span class="num">3</span> Instala el servidor (5 min) <span class="dest dest-pc">💻 Tu ordenador</span></h2>
+    <p><a class="boton" href="descargas/evaluanda-mcp.zip" download>⬇ Descargar evaluanda-mcp.zip</a><br>
+    También está en Ajustes › Conector de IA, grupo <strong>«2 · En tu ordenador»</strong>. Esto <strong>no</strong>
+    se sube a Apps Script.</p>
     <ol>
-      <li>Descarga <a href="descargas/evaluanda-mcp.zip" download><code>evaluanda-mcp.zip</code></a> y descomprímelo
-      (por ejemplo en tu carpeta de usuario: queda <code>~/evaluanda-mcp</code>).</li>
+      <li>Descomprime el zip (por ejemplo en tu carpeta de usuario: queda <code>~/evaluanda-mcp</code>).</li>
       <li>En una terminal, dentro de esa carpeta: <code>npm install</code></li>
       <li>Para probarlo, copia <code>config.ejemplo.json</code> a <code>config.json</code>, pon tu URL y tu token,
       y ejecuta <code>npm run comprobar</code>. Debe salir «✓ Conexión correcta».</li>
     </ol>
 
-    <h2><span class="num">4</span> Conéctalo a tu IA (3 min)</h2>
+    <h2><span class="num">4</span> Conéctalo a tu IA (3 min) <span class="dest dest-ia">🤖 Tu IA</span></h2>
     <p>En todos los casos la ruta a <code>index.js</code> debe ser <strong>absoluta</strong>. Después,
     reinicia la aplicación de la IA.</p>
 
@@ -242,7 +277,7 @@ env = { EVALUANDA_URL = "https://script.google.com/macros/s/…/exec", EVALUANDA
         <summary>Algo no funciona</summary>
         <p>«La API no devolvió JSON»: la URL no acaba en <code>/exec</code> o el despliegue no es «Yo /
         Cualquier usuario». «Token incorrecto»: no coincide con <code>API_TOKEN</code>.
-        «Falta CIF_KEY»: añade la clave del paso 1. «Abre la app una vez»: tu cuaderno aún no tiene los últimos cambios. «Acción desconocida» o «anterior al servidor 3.0»: tu código de la API es antiguo, descárgalo de nuevo.
+        «Falta CIF_KEY»: en Apps Script, añade la propiedad <code>CIF_KEY</code> con la Clave de cifrado del paso 1. «Abre la app una vez»: tu cuaderno aún no tiene los últimos cambios. «Acción desconocida» o «anterior al servidor 3.0»: tu código de la API es antiguo, descárgalo de nuevo.
         «Descárgalo de nuevo»: tu código de la API
         ya no entiende tu cuaderno. Si al autorizar te pide permisos de Drive o Calendar, no pegaste el manifiesto. La IA no ve las
         herramientas: la ruta no es absoluta o falta reiniciarla. <code>npm run comprobar</code> te dice
