@@ -228,17 +228,23 @@ env = { EVALUANDA_URL = "https://script.google.com/macros/s/…/exec", EVALUANDA
         script y en la configuración de tu IA.</p>
       </details>
       <details>
-        <summary>Hay una versión nueva: ¿cómo actualizo?</summary>
-        <p>Vuelve a descargar el código desde la app, pégalo encima y publícalo en la <strong>misma</strong> implementación
-        (<em>Implementar › Gestionar implementaciones › ✏️ › Versión: nueva</em>; así la URL no cambia), y
-        sustituye <code>index.js</code>. Reinicia la IA.</p>
+        <summary>¿Cuándo tengo que actualizar?</summary>
+        <p>Casi nunca. Tu API sigue funcionando aunque Evaluanda se actualice, y el servidor de tu ordenador
+        recoge solo las herramientas nuevas. En <strong>Ajustes › Conector de IA</strong> verás si hay una versión
+        nueva con mejoras o, rara vez, si la tuya ya no puede trabajar con tu cuaderno. Entonces: descarga el código,
+        pégalo encima y publícalo en la <strong>misma</strong> implementación (<em>Implementar › Gestionar
+        implementaciones › ✏️ › Versión: nueva</em>; así la URL no cambia).
+        <strong>Si tu servidor es anterior a la 3.0</strong> (lo instalaste antes de que se recogieran solas las
+        herramientas), sustituye una vez <code>index.js</code>, <code>comprobar.js</code> y <code>package.json</code>
+        por los del zip, ejecuta <code>npm install</code> y reinicia la IA.</p>
       </details>
       <details>
         <summary>Algo no funciona</summary>
         <p>«La API no devolvió JSON»: la URL no acaba en <code>/exec</code> o el despliegue no es «Yo /
         Cualquier usuario». «Token incorrecto»: no coincide con <code>API_TOKEN</code>.
-        «Falta CIF_KEY»: añade la clave del paso 1. «Acción desconocida»: tu código de la API es anterior al
-        servidor; descárgalo de nuevo. Si al autorizar te pide permisos de Drive o Calendar, no pegaste el manifiesto. La IA no ve las
+        «Falta CIF_KEY»: añade la clave del paso 1. «Abre la app una vez»: tu cuaderno aún no tiene los últimos cambios. «Acción desconocida» o «anterior al servidor 3.0»: tu código de la API es antiguo, descárgalo de nuevo.
+        «Descárgalo de nuevo»: tu código de la API
+        ya no entiende tu cuaderno. Si al autorizar te pide permisos de Drive o Calendar, no pegaste el manifiesto. La IA no ve las
         herramientas: la ruta no es absoluta o falta reiniciarla. <code>npm run comprobar</code> te dice
         si el fallo está antes o después del servidor.</p>
       </details>
